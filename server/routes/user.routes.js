@@ -24,21 +24,20 @@ userController.post("/signup", async(req, res) => {
     else{
         bcrypt.hash(password, 5, async function(err, hash) {
           if(err){
-            console.log(err)
              res.status(400).send("Something wentwrong, plz try again later")
           }
-          const user = new UserModel({
-              email,
-              fullName,
-              password : hash,
-              userRole: role
-          })
           try{
+            const user = new UserModel({
+                email,
+                fullName,
+                password : hash,
+                userRole: role
+            })
              await user.save();
              const token = generateToken({
                 email: user.email,
                 fullName: user.fullName,
-                mobile: user.mob,
+                role:role
               })
              res.status(200).json({msg : "Signup successful",token})
           }
