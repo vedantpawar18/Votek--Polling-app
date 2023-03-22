@@ -24,7 +24,6 @@ userController.post("/signup", async(req, res) => {
     else{
         bcrypt.hash(password, 5, async function(err, hash) {
           if(err){
-            console.log(err)
              res.status(400).send("Something wentwrong, plz try again later")
           }
           const user = new UserModel({
