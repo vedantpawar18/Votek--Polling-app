@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     password : {type : String},
     userRole: {type:String},
     pollsCreated: {type:Array},
-    pollsAttended:{type:Array}, //[{pollId:641a7fa9670444ee3901c3e5, responseId:641a7fa9670444ee3901c3f8}]
+    pollsAttended:{type:Array}
 });
 
 const  UserModel = mongoose.model("User", userSchema);
