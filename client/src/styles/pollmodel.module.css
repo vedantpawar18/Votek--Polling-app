@@ -1,0 +1,37 @@
+.container{
+    font-family: 'Poppins';
+    padding: 5px;
+}
+
+.choiceDiv{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.choice{
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    padding: 15px;
+    gap: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.choice > div:nth-child(1){
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.choice > div:nth-child(2){
+   font-family: 'Poppins';
+   font-size: 14px;
+}

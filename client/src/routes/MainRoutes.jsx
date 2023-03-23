@@ -3,11 +3,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Poll from '../components/Poll'
+import LandingPage from './../pages/LandingPage';
 
 function MainRoutes() {
   return (
     <Routes>
-        <Route path="/" element={<Poll/>}/>
+        <Route path="/pole" element={<Poll/>}/>
+        <Route path='/' element={<LandingPage />} />
     </Routes>
   )
 }
