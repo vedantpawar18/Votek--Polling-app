@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require('cors');
 const {userController}= require("./routes/user.routes")
-
+const authController=require("./routes/signin.routes")
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   });
 
 app.use("/user", userController);
+app.use("/auth", authController);
 
 app.listen(PORT, async () => {
     try {
