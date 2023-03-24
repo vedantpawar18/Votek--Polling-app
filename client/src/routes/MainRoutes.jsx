@@ -8,7 +8,7 @@ import LandingPage from './../pages/LandingPage';
 function MainRoutes() {
   return (
     <Routes>
-        <Route path="/pole" element={<Poll/>}/>
+        <Route path="/poll" element={<Poll/>}/>
         <Route path='/' element={<LandingPage />} />
     </Routes>
   )
