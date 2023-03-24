@@ -1,0 +1,18 @@
+.navContainer {
+  height: 74px;
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom: 2px solid rgb(232, 231, 231);
+  font-family: 'Open Sans';
+  font-weight: 500;
+}
+
+.logo {
+  background-image: url("https://user-images.githubusercontent.com/97525465/226943245-2d818b81-d5aa-4f1d-bc89-e82c3dbde51d.png");
+  width: 100px;
+  height: 40px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
