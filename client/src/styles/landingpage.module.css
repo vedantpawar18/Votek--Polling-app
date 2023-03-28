@@ -1,0 +1,130 @@
+.container {
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f7ff;
+}
+
+.cont1 {
+  height: 50vh;
+}
+
+.cont1 > div {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.cont1 > div:nth-child(1) {
+  justify-content: flex-start;
+  padding-left: 110px;
+}
+
+.text {
+  position: absolute;
+  text-align: start;
+  font-weight: 700;
+  font-family: "Open Sans";
+  width: 20%;
+}
+
+.text > p:nth-child(1) {
+  font-size: 24px;
+}
+
+.text > p:nth-child(2) {
+  font-size: 34px;
+}
+
+.btn {
+  color: #ffffff;
+  background-color: #D71a20;
+  padding: 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+.pollimg {
+  background-image: url("https://user-images.githubusercontent.com/97525465/226953232-5d8095fc-6364-4ac4-8003-bb8fa4d355b3.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.cont2 {
+  height: 40vh;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+
+.featureBox {
+  text-align: start;
+  padding: 30px 100px;
+  height: fit-content;
+}
+
+.featureBox > div {
+  gap: 20px;
+  font-family: "Poppins";
+  font-size: 20px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.sign {
+  background-image: url("https://user-images.githubusercontent.com/97525465/226958273-4cf4a62d-f034-4180-9bfd-260d3a4e74ac.png");
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+::-webkit-scrollbar{
+  width: 0px;
+}
+
+@media screen and (max-width: 767px) {
+  .cont1 {
+    width: 100%;
+  }
+
+  .cont1 > div:nth-child(1) {
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  .text {
+    width: 30%;
+  }
+
+  .text > p:nth-child(1) {
+    font-size: 16px;
+  }
+
+  .text > p:nth-child(2) {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 12px;
+    height: 30px;
+    margin-top: 20px;
+  }
+
+  .featureBox {
+    padding: 30px;
+  }
+
+  .featureBox > div {
+    font-size: 14px;
+    line-height: 20px;
+    gap: 10px;
+  }
+  .sign {
+    width: 20px;
+    height: 20px;
+  }
+}
