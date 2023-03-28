@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     fullName : {type : String },
     password : {type : String},
     userRole: {type:String},
-    pollsCreated: {type:Array},
+    pollsCreated: {type:Array}, 
+    templateCreated: {type:Array}, 
     pollsAttended:{type:Array}
 });
 
