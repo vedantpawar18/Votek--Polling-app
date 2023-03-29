@@ -18,13 +18,14 @@ authController.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   const validEmail = validateEmail(email);
   if (validEmail) {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({email: email });
     if (user) {
       const hash = user.password;
       if (user && hash) {
         const verification = await bcrypt.compare(password, hash);
         if (verification) {
           const token = generateToken({
+            userId:user.userId,
             email: user.email,
             fullName: user.fullName,
             role: user.userRole,

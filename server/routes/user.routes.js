@@ -4,7 +4,7 @@ const userController = Router();
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken"); 
 require("dotenv").config();
-const {validateEmail,generateToken}= require("../utils/utils");
+const {validateEmail,generateToken, decryptToken}= require("../utils/utils");
 
 // User signup api
 
@@ -49,6 +49,22 @@ userController.post("/signup", async(req, res) => {
       }
 
 });
+
+// <----------------------------// API for fetching details of the user   --------------------->
+userController.get("/userdetails",async(req,res)=>
+{
+    if(!req.headers.authorization){
+        return res.send("Please login again")
+    }
+    const token = req.headers.authorization.split(" ")[1]
+
+    const userToken=decryptToken(token);
+    const userDetails= await UserModel.find({userId:userToken.userId});
+    if(userDetails)
+    res.status(200).send({msg:"success",userDetails});
+    else
+    res.status(400).send({msg:"Something went wrong while getting user details"});
+})
 
 
 module.exports = {
