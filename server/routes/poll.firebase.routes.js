@@ -99,7 +99,6 @@ firebaseController.post('/create-poll', async(req, res) => {
       });
       res.json(pollsArray);
     } catch (error) {
-      console.error(error);
       res.status(500).send('Failed to retrieve poll data.');
     }
   });
