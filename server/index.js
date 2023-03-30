@@ -5,6 +5,7 @@ const {firebaseController}= require("./routes/poll.firebase.routes")
 const {Connection, firebase} = require("./config/db");
 const authController=require("./routes/signin.routes");
 const {convertPollData}= require("./utils/utils");
+const {pollController}=require("./routes/poll.routes")
 const app = express();
 const PORT = process.env.PORT || 8080;
 const http = require('http');
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 app.use("/user", userController);
 app.use("/firebase", firebaseController);
 app.use("/auth", authController);
+app.use("/poll",pollController);
 
 // ---------------Socket.io setup to get live changes ------->
 const io = new Server(server);
