@@ -21,8 +21,8 @@ const questionSchema= new mongoose.Schema({
 })
 
 const pollSchema = new mongoose.Schema({
-    pollId : {type : Number},
-    adminId : {type : Number},
+    pollId : {type : String},
+    adminId : {type : String},
     pollName:{type:String},
     templateName:{type:String},
     questions: [questionSchema],

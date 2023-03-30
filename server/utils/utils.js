@@ -7,16 +7,16 @@ const validateEmail = (email) => {
     else return false;
   };
 
-const generateToken = ({ email=null ,fullName=null,role=null  }) => {
+const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => {
     const primaryToken = jwt.sign(
-      { email: email, fullName:fullName, role:role  },
+      {userId:userId, email: email, fullName:fullName, role:role  },
       process.env.PRIMARY_SECRET_KEY,
       {
         expiresIn: "1h",
       }
     );
     const refreshToken = jwt.sign(
-      { email: email, fullName:fullName, role:role },
+      {userId:userId, email: email, fullName:fullName, role:role },
       process.env.REFRESH_SECRET_KEY,
       {
         expiresIn: "7days",
@@ -29,4 +29,12 @@ const generateToken = ({ email=null ,fullName=null,role=null  }) => {
   };
 
 
-  module.exports = { validateEmail,  generateToken };
+  // function for decrypting token
+const decryptToken =(token) =>{
+  const tokenDecodablePart = token.split('.')[1];
+  const decoded = JSON.parse(Buffer.from(tokenDecodablePart, 'base64').toString());
+  return(decoded)
+}
+
+
+  module.exports = { validateEmail,  generateToken, decryptToken };
