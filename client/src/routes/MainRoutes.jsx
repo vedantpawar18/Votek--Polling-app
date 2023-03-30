@@ -1,17 +1,37 @@
-
-
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Poll from '../components/Poll'
-import LandingPage from './../pages/LandingPage';
+import SignIn from '../pages/SignIn'
+import SignUp from '../pages/SignUp'
+import Dashboard from '../pages/Dashboard'
+
+import LandingPage from '../pages/LandingPage'
+
+import AdminPrivateRoute from './AdminPrivateRoute'
+import UserPrivateRoute from './UserPrivateRoute'
+
+
+import Template from '../pages/Template'
+import CreatePoll from '../pages/CreatePoll'
+
 
 function MainRoutes() {
   return (
     <Routes>
-        <Route path="/poll" element={<Poll/>}/>
-        <Route path='/' element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route element={<UserPrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+      <Route element={<AdminPrivateRoute />}>
+        <Route path="/create" element={<CreatePoll />}/>
+        <Route path="/template" element={<Template />}/>
+      </Route>
     </Routes>
   )
 }
 
 export default MainRoutes
+
+
+

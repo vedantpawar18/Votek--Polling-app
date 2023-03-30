@@ -1,47 +1,106 @@
 import axios from "axios";
 
 
-export const GET_AUTH_REQUEST = "GET_AUTH_REQUEST";
-export const GET_AUTH_SUCCESS = "GET_AUTH_SUCCESS";
-export const GET_AUTH_FAILURE = "GET_AUTH_FAILURE";
+export const SIGNIN_AUTH_REQUEST = "SIGNIN_AUTH_REQUEST";
+export const SIGNIN_AUTH_SUCCESS = "SIGNIN_AUTH_SUCCESS";
+export const SIGNIN_AUTH_FAILURE = "SIGNIN_AUTH_FAILURE";
+
+
+export const SIGNUP_AUTH_REQUEST = "SIGNUP_AUTH_REQUEST";
+export const SIGNUP_AUTH_SUCCESS = "SIGNUP_AUTH_SUCCESS";
+export const SIGNUP_AUTH_FAILURE = "SIGNUP_AUTH_FAILURE";
 
 
 
-export const getAuthRequest = ()=>{
+export const signInAuthRequest = ()=>{
     return({
-        type:GET_AUTH_REQUEST
+        type:SIGNIN_AUTH_REQUEST
     })
 }
 
 
-export const getAuthSuccess = (auth)=>{
+export const signInAuthSuccess = (auth)=>{
     return({
-        type:GET_AUTH_SUCCESS,
+        type:SIGNIN_AUTH_SUCCESS,
         payload:auth
     })
 }
 
 
-export const getAuthFailure = ()=>{
+export const signInAuthFailure = ()=>{
     return({
-        type:GET_AUTH_FAILURE
+        type:SIGNIN_AUTH_FAILURE
+    })
+}
+
+export const signUpRequest = ()=>{
+    return({
+        type:SIGNUP_AUTH_REQUEST
     })
 }
 
 
+export const signUpSuccess = (auth)=>{
+    return({
+        type:SIGNUP_AUTH_SUCCESS,
+        payload:auth
+    })
+}
 
-export const getAuth = ()=>(dispatch)=>{
-dispatch(getAuthRequest())
+
+export const signUpFailure = ()=>{
+    return({
+        type:SIGNUP_AUTH_FAILURE
+    })
+}
+
+
+export const signInAuth = (data)=>(dispatch)=>{
+    
+dispatch(signInAuthRequest())
     return axios({
         method:"POST",
-        url:""
+        url:"http://localhost:8080/auth/signin",
+        data
     })
     .then((res)=>{
-        dispatch(getAuthRequest(res.data))
+        dispatch(signInAuthSuccess(res.data))
+      
+        if(res.data.role!=="admin"){
+            localStorage.setItem("userToken",res.data.token.primaryToken);
+            localStorage.setItem("userName",res.data.fullName);
+            localStorage.setItem("userEmail",res.data.email);
+        }else{
+            localStorage.setItem("adminToken",res.data.token.primaryToken);
+            localStorage.setItem("userName","Admin");
+            localStorage.setItem("adminEmail",res.data.email);
+        }
+        
     })
     .catch((error)=>{
-     dispatch(getAuthFailure(error))
+     dispatch(signInAuthFailure(error))
+     
     })
 } 
 
+
+
+export const signUp = (data)=>(dispatch)=>{
+    dispatch(signUpRequest())
+        return axios({
+            method:"POST",
+            url:"http://localhost:8080/user/signup",
+            data
+        })
+        .then((res)=>{
+            dispatch(signUpRequest(res.data));
+          
+            localStorage.setItem("userToken",res.data.token.primaryToken);
+            localStorage.setItem("userName",res.data.fullName);
+            localStorage.setItem("userEmail",res.data.email);
+        })
+        .catch((error)=>{
+         dispatch(signUpFailure(error))
+        })
+    } 
 

@@ -45,6 +45,17 @@
   border-radius: 5px;
   font-weight: 500;
   margin-top: 30px;
+  margin-left: 10px;
+}
+
+.btnTemp {
+  color: #ffffff;
+  margin-left: 10px;
+  background-color: #D71a20;
+  padding: 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-top: 30px;
 }
 
 .pollimg {
