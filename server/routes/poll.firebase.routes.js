@@ -61,7 +61,6 @@ firebaseController.post('/create-poll', async(req, res) => {
       });
     })
     .catch((error) => {
-      console.error(error);
       res.status(500).json({ message: 'Failed to create poll' });
     });
   });
@@ -118,7 +117,6 @@ firebaseController.post('/create-poll', async(req, res) => {
       const filteredPolls = newPoll.filter(poll => poll.adminId === adminId);
       res.send(filteredPolls);
     } catch (error) {
-      console.error(error);
       res.status(500).send('Failed to retrieve poll data.');
     }
   });
