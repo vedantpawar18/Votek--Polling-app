@@ -2,6 +2,8 @@
 const {Router} = require("express")
 const firebaseController = Router();
 const {firebase} = require('../config/db');
+const {jsonToArray,convertPollData, pollToArray} = require("../utils/utils");
+const {UserModel} = require("../models/User.model")
 const fireDb = firebase.database(); 
 const bodyParser = require('body-parser');
 const express = require("express")
@@ -12,8 +14,8 @@ firebaseController.post('/create-poll', async(req, res) => {
 
   const pollRef = fireDb.ref('polls').push();
   const pollId = pollRef.key;
-  const { pollName, questions, pollStatus, adminId,pollCreatedAt,pollEndsAt  } = req.body;
-
+  const { pollName, questions, pollStatus, adminId, pollCreatedAt, pollEndsAt } = req.body;
+  const pollUrl=`http://localhost:8080/firebase/live-poll/${pollId}`
   const formattedQuestions = questions.map((question) => {
   const questionRef = pollRef.child('questions').push();
   const questionId = questionRef.key;
@@ -46,14 +48,16 @@ firebaseController.post('/create-poll', async(req, res) => {
     pollStatus,
     adminId,
     pollCreatedAt,
-    pollEndsAt
+    pollEndsAt,
+    pollUrl
   };
 
   pollRef.set(pollData)
     .then(() => {
       res.status(201).json({
         message: 'Poll created successfully',
-        pollData
+        pollData,
+        url:pollUrl
       });
     })
     .catch((error) => {
@@ -61,20 +65,36 @@ firebaseController.post('/create-poll', async(req, res) => {
     });
   });
 
-  firebaseController.post('/vote', (req, res) => {
-    const pollId = req.body.pollId;
-    const questionId = req.body.questionId;
-    const optionId = req.body.optionId;
-  
+
+
+  firebaseController.post('/vote', async(req, res) => {
+   
+    const { pollId, selectedAnswers, userId } = req.body;
     const pollRef = fireDb.ref(`polls/${pollId}`);
+    const usersAttended= pollRef.usersAttended || []
+
+    const user = await UserModel.find({_id:userId});
+    const usersId =((user[0]._id))
+    if(!usersId){
+      res.status(400).send("User not found");
+    }
+
+    pollRef.child('usersAttended').push(userId)
+
+    usersAttended.push(userId)
+
+    await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollId:pollId, selectedAnswers:selectedAnswers} } });
 
     pollRef.once('value', (snapshot) => {
-    const pollData = snapshot.val();
-    const question = pollData.questions[questionId];
-    const option = question.options[optionId];
+      const pollData = snapshot.val();
 
-    option.votes++;
-    question.totalVotes++;
+      for (const selectedAnswer of selectedAnswers) {
+      const { questionId, optionId } = selectedAnswer;
+      const question = pollData.questions[questionId];
+      const option = question.options[optionId];
+      option.votes++;
+      question.totalVotes++;
+    }
 
     pollRef.update(pollData)
         .then(() => {
@@ -83,21 +103,19 @@ firebaseController.post('/create-poll', async(req, res) => {
         .catch((error) => {
           res.status(500).send(`Error recording vote: ${error}`);
         });
-    });
+  });
   });
 
 
-  firebaseController.get('/polls',async(req, res) => {
+  firebaseController.get('/live-polls',async(req, res) => {
     try {
       const snapshot = await fireDb.ref('polls').once('value');
       const pollsObject = snapshot.val();
-      const pollsArray = Object.keys(pollsObject).map((key) => {
-        return {
-          pollId: key,
-          ...pollsObject[key]
-        };
-      });
-      res.json(pollsArray);
+      const newPoll= pollToArray(pollsObject)
+     
+      const adminId = "xyz";
+      const filteredPolls = newPoll.filter(poll => poll.adminId === adminId);
+      res.send(filteredPolls);
     } catch (error) {
       res.status(500).send('Failed to retrieve poll data.');
     }

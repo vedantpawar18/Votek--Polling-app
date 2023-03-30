@@ -3,7 +3,8 @@ const cors = require('cors');
 const {userController}= require("./routes/user.routes")
 const {firebaseController}= require("./routes/poll.firebase.routes")
 const {Connection, firebase} = require("./config/db");
-const authController=require("./routes/signin.routes")
+const authController=require("./routes/signin.routes");
+const {convertPollData}= require("./utils/utils");
 const {pollController}=require("./routes/poll.routes")
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -27,10 +28,25 @@ app.use("/auth", authController);
 app.use("/poll",pollController);
 
 // ---------------Socket.io setup to get live changes ------->
+const io = new Server(server);
 ref.on("value", (snapshot) => { 
   io.emit("data", snapshot.val());
 });
-const io = new Server(server);
+
+
+io.on('connection', (socket) => {
+  socket.on('getPollData', (pollId) => {
+    const pollRef = fireDb.ref(`polls/${pollId}`);
+    pollRef.on('value',async (snapshot) => {
+      const pollData = snapshot.val();
+      const newPollData=await convertPollData(pollData)
+      socket.emit('pollData', newPollData);
+    }, (error) => {
+      console.error(`Error getting poll data with ID ${pollId}: `, error);
+    });
+  });
+});
+
 // ----------------------------------------------------------->
 
 server.listen(PORT, async () => {
