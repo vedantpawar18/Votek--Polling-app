@@ -39,7 +39,7 @@ userController.post("/signup", async(req, res) => {
                 fullName: user.fullName,
                 role:role
               })
-             res.status(200).json({msg : "Signup successful",token})
+             res.status(200).json({msg : "Signup successful",token, email:user.email, fullName:user.fullName, role:user.role})
           }
           catch(err){ 
            res.status(400).send("Something went wrong, plz try again")

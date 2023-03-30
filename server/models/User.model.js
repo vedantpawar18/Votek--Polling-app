@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     userRole: {type:String},
     pollsCreated: {type:Array}, 
     templateCreated: {type:Array}, 
-    pollsAttended:{type:Array}
+    pollsAttended:{type:Array} 
 });
 
 const  UserModel = mongoose.model("User", userSchema);
