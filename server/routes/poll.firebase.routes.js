@@ -141,6 +141,30 @@ firebaseController.post('/create-poll', async(req, res) => {
 
 
 
+  firebaseController.get('/live-poll/:pollId', async(req, res) => {
+    const pollId = req.params.pollId;
+    if(!req.headers.authorization){
+      return res.send("Please login again")
+    }
+    else {
+    fireDb.ref(`polls/${pollId}`).once('value', (snapshot) => {
+      const pollData = snapshot.val();
+  
+      if (!pollData) {
+        res.status(404).send('Poll not found');
+        return;
+      }
+      const newPoll=convertPollData((pollData))
+      res.json(newPoll);
+    }, (error) => {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    });
+  }
+  });
+
+
+
 
   module.exports = {
     firebaseController
