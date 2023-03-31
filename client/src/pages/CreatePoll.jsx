@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Input, Stack, Button} from '@chakra-ui/react'
+import { Box, Flex, Image, Input, Stack, Button, useToast} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { DeleteIcon } from '@chakra-ui/icons';
 import image_4 from '../images/image_4.png';
@@ -8,16 +8,28 @@ import image_1 from '../images/image_1.png';
 import StarsRating from 'stars-rating'
 import { useNavigate } from 'react-router-dom';
 import PollModal from '../components/PollModal';
+import { useDispatch } from 'react-redux';
+import { postPollData } from '../redux/data/action';
+import { v4 as uuidv4 } from 'uuid';
+
 
 function CreatePoll() {
-
 const [questions, setQuestions] = useState([]);
   const [rating, setRating] = useState(0)
   const [pollName, setPollName] = useState("");
   const [template, setTemplate] = useState("")
   const navigate = useNavigate()
+  const toast = useToast()
   let temp = JSON.parse(localStorage.getItem("template")) || []
   var today = new Date(), time = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() +' '+ today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  var today2 = new Date(), time2 = today2.getFullYear() + '-' + (today2.getMonth() + 1) + '-' + today2.getDate() +' '+ today2.getHours() + ':' + today2.getMinutes() + ':' + today2.getSeconds();
+  today2.setHours(today2.getHours() + 1)
+  // let token = localStorage.getItem("adminToken");
+  let id = uuidv4()
+ 
+  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOm51bGwsImVtYWlsIjoidmVkYW50cGF3YXIxOEBnbWFpbC5jb20iLCJmdWxsTmFtZSI6IlZlZGFudCBQYXdhciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjgwMTc3MjYwLCJleHAiOjE2ODAxODA4NjB9.RHwjDDdf36a7i6gV_jh7vCPyyfDF46-BKf9pE37ZB8g"
+  const dispatch = useDispatch()
+
 
   const handleQuestionCreate = (e) => {
     let type = e.target.value
@@ -70,9 +82,8 @@ const [questions, setQuestions] = useState([]);
   const handleOptionRatingChange = (event, questionIndex, optionIndex) => {
     setRating(event)
     const newQuestions = [...questions];
-    newQuestions[questionIndex].options[optionIndex] =event;
+    newQuestions[questionIndex].options[optionIndex] = event;
     setQuestions(newQuestions);
-    
   };
 
 
@@ -84,27 +95,34 @@ const [questions, setQuestions] = useState([]);
 
 
   const handleSubmit = () => {
-    const poll = {
-      pollName:pollName,
+    const data = {
+        pollName:pollName,
         questions: questions.map((question) => ({
         question: question.question,
         type: question.type,
         maxSelections: question.maxSelections,
         options: question.options
       })),
-      pollId:72673,
-      adminId:"xyz1234",
-      pollStatus:"true",
-      pollCreatedAt:time,
-      pollEndsAt:"time2" 
+      pollStatus:true,
+      pollCreatedAt:Date.now(),
+      pollEndsAt:Date.now() + 2 * 60 * 30 * 1000 
     };
+    dispatch(postPollData(data,token))
 
+    toast({
+      title: 'Poll created.',
+      description: "We've created your poll.",
+      status: 'success',
+      duration: 9000,
+      isClosable: true
+    })
   };
 
 const handleCreateTemplate = ()=>{
 
   const templates = {
-    templateId:"tmpid1234",
+    pollName:pollName,
+    templateId:id,
     adminId:"adid1234",
     templateName:template,
     questions: questions.map((question) => ({
@@ -113,16 +131,23 @@ const handleCreateTemplate = ()=>{
     maxSelections: question.maxSelections,
     options: question.options
   }))
+ 
 }
+
 temp.push(templates)
 
 localStorage.setItem("template", JSON.stringify(temp))
 
+
+toast({
+  title: 'Templated created.',
+  description: "We've saved your template.",
+  status: 'success',
+  duration: 8000,
+  isClosable: true
+})
+navigate('/template-page')
 }
-      
-
-
-
 
 
 
@@ -139,9 +164,7 @@ localStorage.setItem("template", JSON.stringify(temp))
            
     
     <Stack marginLeft={'10%'} marginRight={'10%'}>
-<Flex  justifyContent={'end'}>
-     
-      </Flex>
+
        <PollModal handleQuestionCreate={handleQuestionCreate} />
       <Box >
       {questions.length>0?
