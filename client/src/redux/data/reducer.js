@@ -5,12 +5,13 @@ import { GET_DATA_FAILURE, GET_DATA_REQUEST, GET_DATA_SUCCESS } from "./action"
 const initState = {
     isError:false,
     isLoading:false,
-    data:[]
+    data:[],
 }
 
 
 
 export const dataReducer = (state=initState, action)=>{
+    const {payload } = action;
 switch(action.type){
     case GET_DATA_REQUEST:
         return({
@@ -31,6 +32,7 @@ switch(action.type){
                     isLoading:false,
                     isError:false
                 })
+
 
       default:
         return({

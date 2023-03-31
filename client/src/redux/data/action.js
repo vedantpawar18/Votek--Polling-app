@@ -7,6 +7,8 @@ export const GET_DATA_FAILURE = "GET_DATA_FAILURE";
 
 
 
+
+
 export const getDataRequest = ()=>{
     return({
         type:GET_DATA_REQUEST
@@ -27,6 +29,8 @@ export const getDataFailure = ()=>{
         type:GET_DATA_FAILURE
     })
 }
+
+
 
 
 
