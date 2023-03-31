@@ -3,7 +3,7 @@ const pollController=Router();
 const {PollModel}=require("../models/Polls.model");
 
 // <----------------------------// API for storing ended poll inot MongoDB----------------->
-pollController.post("/savepoll",async(req,res)=>
+pollController.post("/save-poll",async(req,res)=>
 {
     const {pollId,adminId,pollName,templateName,questions,pollStatus,usersAttended,pollCreatedAt,pollEndsAt} = req.body;
     try{
