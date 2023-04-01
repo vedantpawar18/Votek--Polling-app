@@ -192,7 +192,6 @@ firebaseController.post('/create-poll', async(req, res) => {
       const newPoll= pollDataToUser((pollData))
       res.json(newPoll);
     }, (error) => {
-      console.error(error);
       res.status(500).send('Internal Server Error');
     });
   }
