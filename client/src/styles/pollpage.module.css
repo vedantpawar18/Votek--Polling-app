@@ -2,29 +2,40 @@
     width: 100%;
     min-height: 100vh;
     background-color: #F2F7FF;
+    border: 1px solid #F2F7FF;
 }
 
 .heading{
     font-family: 'Open Sans';
     font-size: 20px;
     font-weight: 700;
+    margin-top: 20px;
 }
 
 .heading2{
-    font-family: 'Open Sans';
-    font-size: 16px;
+    font-family: 'Poppins';
+    font-size: 18px;
     font-weight: 500;
     text-transform: capitalize;
 }
 
 .pollContainer{
-    border: 1px solid red;
-    margin-top: 30px;
-    padding: 30px;
+    padding: 30px ;
     text-align: start;
 }
 
 .questionCont{
-    border: 1px solid red;
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 767px){
+    .questionCont{
+        display: inline;
+    }
+
+    
 }

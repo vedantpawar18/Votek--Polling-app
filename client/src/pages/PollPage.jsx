@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "../styles/pollpage.module.css";
-import {Box, Text} from "@chakra-ui/react"
+import {Box, Button, Flex, Text} from "@chakra-ui/react"
 import axios from 'axios';
 import QuestionCard from '../components/QuestionCard';
 // import {useDispatch, useSelector} from "react-redux"
@@ -29,18 +29,21 @@ const PollPage = () => {
 
   return (
     <Box className={styles.container}>
-      <Text mt={'20px'} className={styles.heading}>VOTEK POLL</Text>
+      <Text className={styles.heading}>VOTEK POLL</Text>
 
-      <Box className={styles.pollContainer}>
-        <Text className={styles.heading2} >{pollName}</Text>
+<Box className={styles.pollContainer}>
+  <Text className={styles.heading2} >{pollName}</Text>
 
-        <Box className={styles.questionCont}>
-         {questions?.length && questions.map((e) => {
-            return <QuestionCard {...e} />
-         })}
-        </Box>
+  <Box className={styles.questionCont}>
+   {questions?.length && questions.map((e, index) => {
+      return <QuestionCard key={index} {...e} index={index} />
+   })}
+  </Box>
+  <Flex mt={'20px'} justifyContent={'flex-end'}>
+  <Button bg={'#D71A20'} color={'white'} fontWeight={400}>Submit</Button>
+</Flex>
+</Box>
       </Box>
-    </Box >
   )
 }
 

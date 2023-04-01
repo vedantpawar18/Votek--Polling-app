@@ -1,5 +1,41 @@
 .container{
-    border: 1px solid teal;
-    height: 20vh;
+    border: 1px solid black;
     width: 50%;
+    padding: 30px;
+    margin-top: 20px;
+    border-radius: 4px;
 }
+
+.question{
+    font-size: 18px;
+    font-family: "Poppins";
+    text-transform: capitalize;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.option{
+    border: 2px solid rgb(234, 230, 230);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-weight: 300;
+}
+
+@media screen and (max-width: 767px){
+    .container{
+        width: 100%;
+        padding: 20px;
+    }
+
+    .options{
+        margin-top: 10px;
+    }
+}
+

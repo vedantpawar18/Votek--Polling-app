@@ -12,6 +12,7 @@ import UserPrivateRoute from './UserPrivateRoute'
 
 import Template from '../pages/Template'
 import CreatePoll from '../pages/CreatePoll'
+import PollPage from '../pages/PollPage'
 
 
 function MainRoutes() {
@@ -26,6 +27,7 @@ function MainRoutes() {
       <Route element={<AdminPrivateRoute />}>
         <Route path="/create" element={<CreatePoll />}/>
         <Route path="/template" element={<Template />}/>
+        <Route path="/pollpage" element={<PollPage />}/>
       </Route>
     </Routes>
   )
