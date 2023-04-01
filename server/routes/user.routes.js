@@ -57,9 +57,8 @@ userController.get("/user-details",async(req,res)=>
         return res.send("Please login again")
     }
     const token = req.headers.authorization.split(" ")[1]
-
-    const userToken=decryptToken(token);
-    const userDetails= await UserModel.find({userId:userToken.userId});
+    const user=decryptToken(token);
+    const userDetails= await UserModel.find({_id:user.userId});
     if(userDetails)
     res.status(200).send({msg:"success",userDetails});
     else

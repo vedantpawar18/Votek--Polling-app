@@ -246,3 +246,259 @@ paths:
           description: Bad Request
         500:
           description: Internal Server Error
+
+/template/save-template :
+    post:
+      summary: "Save ended poll"
+      description: "This API allows an admin to save a ended poll with questions and options"
+      parameters:
+        - name: "pollName"
+          in: "body"
+          description: "Name of the poll"
+          required: true
+          schema:
+            type: "string"
+        - name: "questions"
+          in: "body"
+          description: "Array of questions with options"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                question:
+                  type: "string"
+                maxSelections:
+                  type: "number"
+                options:
+                  type: "array"
+                  items:
+                    type: "string"
+        - name: "pollStatus"
+          in: "body"
+          description: "Status of the poll (active or inactive)"
+          required: true
+          schema:
+            type: "string"
+        - name: "pollCreatedAt"
+          in: "body"
+          description: "Creation date of the poll"
+          required: true
+          schema:
+            type: "string"
+        - name: "pollEndsAt"
+          in: "body"
+          description: "End date of the poll"
+          required: true
+          schema:
+            type: "string"
+        
+      responses:
+        201:
+          description: "Poll saved successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+              pollData:
+                type: "object"
+                properties:
+                  pollName:
+                    type: "string"
+                  pollId:
+                    type: "string"
+                  questions:
+                    type: "object"
+                  pollStatus:
+                    type: "string"
+                  adminId:
+                    type: "string"
+                  pollCreatedAt:
+                    type: "string"
+                  pollEndsAt:
+                    type: "string"
+                  pollUrl:
+                    type: "string"
+              url:
+                type: "string"
+        400:
+          description: "Invalid request"
+        
+
+user/user-details:
+    get:
+      summary: Get user details
+      description: Returns user details
+      parameters:
+        - name: userId
+          in: query
+          description: The ID of the user for which to retrieve user details.
+          required: true
+          type: string
+      responses:
+        200:
+          schema:
+            type: "object"
+            properties: 
+              userData:
+                type: "object"
+                properties:
+                  email:
+                    type: "string"
+                  fullName:
+                    type: "string"
+                  password:
+                    type: "string"
+                  userRole:
+                    type: "string"
+                  pollsCreated:
+                    type: "array"
+                 templateCreated:
+                    type: "array"
+                  pollsAttended:
+                    type: "array" 
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
+
+
+ /template/save-template :
+    post:
+      summary: "Store template into mongodb"
+      description: "This API allows an admin to create a new template with questions and options"
+      parameters:
+        - name: "templateName"
+          in: "body"
+          description: "Name of the template"
+          required: true
+          schema:
+            type: "string"
+        - name: "questions"
+          in: "body"
+          description: "Array of questions with options"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                question:
+                  type: "string"
+                maxSelections:
+                  type: "number"
+                options:
+                  type: "array"
+                  items:
+                    type: "string"
+        - name: "Authorization"
+          in: "header"
+          description: "Bearer token for authentication"
+          required: true
+          type: "string"
+      responses:
+        201:
+          description: "Template saved successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+              pollData:
+                type: "object"
+                properties:
+                  templateName:
+                    type: "string"
+                  templateId:
+                    type: "string"
+                  questions:
+                    type: "object"
+                  adminId:
+                    type: "string"
+                  
+              url:
+                type: "string"
+        400:
+          description: "Something went wrong"
+        
+         /template/save-template :
+    post:
+      summary: "Save ended poll"
+      description: "This API allows an admin to save a ended poll with questions and options"
+      parameters:
+        - name: "pollName"
+          in: "body"
+          description: "Name of the poll"
+          required: true
+          schema:
+            type: "string"
+        - name: "questions"
+          in: "body"
+          description: "Array of questions with options"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                question:
+                  type: "string"
+                maxSelections:
+                  type: "number"
+                options:
+                  type: "array"
+                  items:
+                    type: "string"
+        - name: "pollStatus"
+          in: "body"
+          description: "Status of the poll (active or inactive)"
+          required: true
+          schema:
+            type: "string"
+        - name: "pollCreatedAt"
+          in: "body"
+          description: "Creation date of the poll"
+          required: true
+          schema:
+            type: "string"
+        - name: "pollEndsAt"
+          in: "body"
+          description: "End date of the poll"
+          required: true
+          schema:
+            type: "string"
+        
+      responses:
+        201:
+          description: "Poll saved successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+              pollData:
+                type: "object"
+                properties:
+                  pollName:
+                    type: "string"
+                  pollId:
+                    type: "string"
+                  questions:
+                    type: "object"
+                  pollStatus:
+                    type: "string"
+                  adminId:
+                    type: "string"
+                  pollCreatedAt:
+                    type: "string"
+                  pollEndsAt:
+                    type: "string"
+                  pollUrl:
+                    type: "string"
+              url:
+                type: "string"
+        400:
+          description: "Invalid request"
+        

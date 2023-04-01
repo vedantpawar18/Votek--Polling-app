@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const templateController=Router();
-const {TemplateModel}=require("../models/Polls.model");
+const {TemplateModel}=require("../models/Template.model");
 const {decryptToken}=require("../utils/utils");
 const {UserModel}=require("../models/User.model")
 
@@ -19,8 +19,9 @@ templateController.post("/save-template",async(req,res)=>
             adminId:user.userId,templateName,questions});
            
          await template.save();
-        
+            
          const updateUser= await UserModel.findOneAndUpdate({_id:user.userId},{$push:{templateCreated:{templateId:template._id,templateName}}});
+         
          res.status(200).json({msg :"Template saved successfully"})
       }
       catch(err){ 
