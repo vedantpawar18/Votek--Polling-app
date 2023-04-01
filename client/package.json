@@ -25,6 +25,7 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "stars-rating": "^1.1.0",
+    "uuid": "^9.0.0",
     "validator": "^13.9.0",
     "web-vitals": "^2.1.4"
   },

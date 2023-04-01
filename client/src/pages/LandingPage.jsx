@@ -18,7 +18,7 @@ const LandingPage = () => {
             
                <Button bg={'red.500'} onClick={()=>navigate('/create')}  className={styles.btn}>Create Now</Button>
           
-           <Button bg={'red.500'} onClick={()=>navigate('/template')} className={styles.btn}>Template</Button>
+           <Button bg={'red.500'} onClick={()=>navigate('/template-page')} className={styles.btn}>Template</Button>
                
           </Box>
         </Box>
