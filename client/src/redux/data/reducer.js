@@ -16,18 +16,6 @@ const initState = {
 export const dataReducer = (state = initState, action) => {
   const { payload } = action;
   switch (action.type) {
-    case GET_DATA_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case GET_DATA_SUCCESS:
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
     case POST_POLL_DATA_SUCCESS:
       return {
         ...state,

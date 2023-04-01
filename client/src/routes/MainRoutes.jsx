@@ -1,21 +1,20 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import SignIn from '../pages/SignIn'
-import SignUp from '../pages/SignUp'
-import Dashboard from '../pages/Dashboard'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import Dashboard from "../pages/Dashboard";
 
-import LandingPage from '../pages/LandingPage'
+import LandingPage from "../pages/LandingPage";
 
-import AdminPrivateRoute from './AdminPrivateRoute'
-import UserPrivateRoute from './UserPrivateRoute'
+import AdminPrivateRoute from "./AdminPrivateRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 
-
-import Template from '../pages/Template'
-import CreatePoll from '../pages/CreatePoll'
-import PollPage from '../pages/PollPage'
-import TemplatePage from '../pages/TemplatePage'
-import TemplateDetailPage from '../pages/TemplateDetailPage'
-
+import Template from "../pages/Template";
+import CreatePoll from "../pages/CreatePoll";
+import PollPage from "../pages/PollPage";
+import TemplatePage from "../pages/TemplatePage";
+import TemplateDetailPage from "../pages/TemplateDetailPage";
+import RecentPolls from "../pages/RecentPolls";
 
 function MainRoutes() {
   return (
@@ -25,19 +24,17 @@ function MainRoutes() {
       <Route path="/signup" element={<SignUp />} />
       <Route element={<UserPrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recentpolls" element={<RecentPolls />} />
+        <Route path="/pollpage" element={<PollPage />} />
       </Route>
       <Route element={<AdminPrivateRoute />}>
-        <Route path="/create" element={<CreatePoll />}/>
-        <Route path="/template" element={<Template />}/>
-        <Route path="/pollpage" element={<PollPage />}/>
-        <Route path="/template-page" element={<TemplatePage />}/>
-        <Route path="/template-details" element={<TemplateDetailPage />}/>
+        <Route path="/create" element={<CreatePoll />} />
+        <Route path="/template" element={<Template />} />
+        <Route path="/template-page" element={<TemplatePage />} />
+        <Route path="/template-details" element={<TemplateDetailPage />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default MainRoutes
-
-
-
+export default MainRoutes;

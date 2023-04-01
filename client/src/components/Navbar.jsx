@@ -16,11 +16,11 @@ import {
   VStack,
   Text,
   MenuList,
-  MenuItem
+  MenuItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useSelector } from "react-redux";
 
@@ -40,24 +40,21 @@ const NavLink = ({ children }) => (
 );
 
 const Navbar = () => {
-  const [show, setShow] = useState(false)
-  const data = useSelector((store)=>store.auth.auth.token?.primaryToken);
+  const [show, setShow] = useState(false);
+  const data = useSelector((store) => store.auth.auth.token?.primaryToken);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   let userName = localStorage.getItem("userName");
-	const handleLogout = () => {
-		localStorage.clear();
-		 window.location.reload();
-	};
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 
-
-  useEffect(()=>{
-
-   if(userName||data){
-    setShow(true)
-   }
-  },[data,userName])
-
+  useEffect(() => {
+    if (userName || data) {
+      setShow(true);
+    }
+  }, [data, userName]);
 
   return (
     <>
@@ -71,72 +68,102 @@ const Navbar = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box cursor={'pointer'} onClick={()=>navigate('/')} className={styles.logo}></Box>
-           {show?<HStack
-              as={"nav"}
-              spacing={4}
-			  
-              display={{ base: "none", md: "flex" }}
-            >
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Dashboard</Link></ NavLink>
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/polls'>Create Polls</Link></ NavLink>
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Recent Polls</Link></ NavLink>
-             
-            </HStack>:<></>}
+            <Box
+              cursor={"pointer"}
+              onClick={() => navigate("/")}
+              className={styles.logo}
+            ></Box>
+            {show ? (
+              <HStack
+                as={"nav"}
+                spacing={4}
+                display={{ base: "none", md: "flex" }}
+              >
+                <NavLink href="/dashboard" key={"dashboard"}>
+                  <Link color="black" textDecoration={"none"} href="/dashboard">
+                    Dashboard
+                  </Link>
+                </NavLink>
+                <NavLink href="/dashboard" key={"dashboard"}>
+                  <Link color="black" textDecoration={"none"} href="/polls">
+                    Create Polls
+                  </Link>
+                </NavLink>
+                <NavLink href="/dashboard" key={"dashboard"}>
+                  <Link
+                    color="black"
+                    textDecoration={"none"}
+                    href="/recentpolls"
+                  >
+                    Recent Polls
+                  </Link>
+                </NavLink>
+              </HStack>
+            ) : (
+              <></>
+            )}
           </HStack>
           <Flex alignItems={"center"}>
-           {!show?<Button
-              bg="#D71A20"
-              color="white"
-              fontWeight={500}
-              className={styles.loginButton}
-              onClick={() => navigate('/signin')}
-            >
-              Login
-            </Button>:
+            {!show ? (
+              <Button
+                bg="#D71A20"
+                color="white"
+                fontWeight={500}
+                className={styles.loginButton}
+                onClick={() => navigate("/signin")}
+              >
+                Login
+              </Button>
+            ) : (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
+                  <Flex>
+                    <Avatar
+                      size={"25px"}
+                      round="20px"
+                      fontFamily={"Open Sans"}
+                      textSizeRatio={"60px"}
+                      name={userName}
+                    />
 
-            <Menu >
-							<MenuButton
-							
-								as={Button}
-								rounded={"full"}
-								variant={"link"}
-								cursor={"pointer"}
-								minW={0}
-							>
-								<Flex>
-								<Avatar
-									size={"25px"}
-									round="20px"
-									fontFamily={"Open Sans"}
-									textSizeRatio={"60px"}
-									name={userName}
-								/>
-								
-								<VStack
-									display={{ base: "none", md: "flex" }}
-									alignItems="flex-start"
-									spacing="1px"
-									ml="2"
-								>
-									<Text margin={'auto'} fontFamily={"Open Sans"} fontSize="sm" fontWeight={"600"}>
-										{userName}
-									</Text>
-								</VStack>
-								</Flex>
-								
-								
-							</MenuButton>
-							<MenuList>
-								<MenuItem fontFamily={"Open Sans"} onClick={()=>navigate('/dashboard')}>My Dashboard</MenuItem>
-								<MenuItem fontFamily={"Open Sans"} onClick={handleLogout}>Logout</MenuItem>
-							</MenuList>
-						</Menu>}
-
+                    <VStack
+                      display={{ base: "none", md: "flex" }}
+                      alignItems="flex-start"
+                      spacing="1px"
+                      ml="2"
+                    >
+                      <Text
+                        margin={"auto"}
+                        fontFamily={"Open Sans"}
+                        fontSize="sm"
+                        fontWeight={"600"}
+                      >
+                        {userName}
+                      </Text>
+                    </VStack>
+                  </Flex>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem
+                    fontFamily={"Open Sans"}
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    My Dashboard
+                  </MenuItem>
+                  <MenuItem fontFamily={"Open Sans"} onClick={handleLogout}>
+                    Logout
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            )}
           </Flex>
         </Flex>
-
-      
 
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>

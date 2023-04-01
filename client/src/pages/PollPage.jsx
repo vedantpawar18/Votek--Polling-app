@@ -13,18 +13,23 @@ const PollPage = () => {
   // const curr = useSelector(state => state.pollData)
 
   const {pollName, questions} = pollData;
+  const userToken = localStorage.getItem('userToken')
  
-  console.log(pollData)
+  console.log('pollData', pollData)
  
 
 
   useEffect(() => {
-     axios.get("http://localhost:8080/firebase/live-polls").then((response) => {
+     axios.get("http://localhost:8080/firebase/live-poll/-NRbnJxY7AztnfQkQEtD", {
+      headers: {
+        'Authorization': userToken
+      }
+     }).then((response) => {
       setPollData(response.data[0])
      }).catch((err) => {
       console.log(err)
      })
-  },[])
+  },[userToken])
 
 
   return (
