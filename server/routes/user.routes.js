@@ -51,7 +51,7 @@ userController.post("/signup", async(req, res) => {
 });
 
 // <----------------------------// API for fetching details of the user   --------------------->
-userController.get("/userdetails",async(req,res)=>
+userController.get("/user-details",async(req,res)=>
 {
     if(!req.headers.authorization){
         return res.send("Please login again")
