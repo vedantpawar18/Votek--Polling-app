@@ -1,47 +1,100 @@
 import axios from "axios";
 
 
-export const GET_DATA_REQUEST = "GET_DATA_REQUEST";
-export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
-export const GET_DATA_FAILURE = "GET_DATA_FAILURE";
+export const POST_POLL_DATA_REQUEST = "POST_POLL_DATA_REQUEST";
+export const POST_POLL_DATA_SUCCESS = "POST_POLL_DATA_SUCCESS";
+export const POST_POLL_DATA_FAILURE = "POST_POLL_DATA_FAILURE";
+
+export const ADD_TEMPLATE_DATA_REQUEST = "ADD_TEMPLATE_DATA_REQUEST";
+export const ADD_TEMPLATE_DATA_SUCCESS = "ADD_TEMPLATE_DATA_SUCCESS";
+export const ADD_TEMPLATE_DATA_FAILURE = "ADD_TEMPLATE_DATA_FAILURE";
 
 
-
-export const getDataRequest = ()=>{
+export const postPollDataRequest = ()=>{
     return({
-        type:GET_DATA_REQUEST
+        type:POST_POLL_DATA_REQUEST
     })
 }
 
 
-export const getDataSuccess = (data)=>{
+export const postPollDataSuccess = (data)=>{
     return({
-        type:GET_DATA_SUCCESS,
+        type:POST_POLL_DATA_SUCCESS,
         payload:data
     })
 }
 
 
-export const getDataFailure = ()=>{
+export const postPollDataFailure = ()=>{
     return({
-        type:GET_DATA_FAILURE
+        type:ADD_TEMPLATE_DATA_FAILURE
     })
 }
 
 
 
-export const getData = ()=>(dispatch)=>{
-dispatch(getDataRequest())
+export const addTemplateDataRequest = ()=>{
+    return({
+        type:ADD_TEMPLATE_DATA_REQUEST
+    })
+}
+
+
+export const addTemplateDataSuccess = (data)=>{
+    return({
+        type:ADD_TEMPLATE_DATA_SUCCESS,
+        payload:data
+    })
+}
+
+
+export const addTemplateDataFailure = ()=>{
+    return({
+        type:ADD_TEMPLATE_DATA_FAILURE
+    })
+}
+
+
+
+export const postPollData = (data,token)=>(dispatch)=>{
+   
+dispatch(postPollDataRequest())
     return axios({
-        method:"GET",
-        url:""
+        method:"POST",
+        url:"http://localhost:8080/firebase/create-poll",
+        headers:{
+          'Authorization' : `Bearer ${token}`
+        },
+        data
     })
     .then((res)=>{
-        dispatch(getDataRequest(res.data))
+        // console.log("data res",res.data)
+        dispatch(postPollDataRequest(res.data));
     })
     .catch((error)=>{
-     dispatch(getDataFailure(error))
+     dispatch(postPollDataFailure(error))
     })
 } 
 
 
+
+
+export const addTemplateData = (data,token)=>(dispatch)=>{
+    // console.log("receive data",data,token)
+dispatch(addTemplateDataRequest())
+    return axios({
+        method:"POST",
+        url:"http://localhost:8080/firebase/create-poll",
+        headers:{
+          'Authorization' : `Bearer ${token}`
+        },
+        data
+    })
+    .then((res)=>{
+        // console.log("res",res.data)
+        dispatch(addTemplateDataRequest(res.data));
+    })
+    .catch((error)=>{
+     dispatch(addTemplateDataFailure(error))
+    })
+} 

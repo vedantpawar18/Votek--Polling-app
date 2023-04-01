@@ -25,7 +25,7 @@ authController.post("/signin", async (req, res) => {
         const verification = await bcrypt.compare(password, hash);
         if (verification) {
           const token = generateToken({
-            userId:user.userId,
+            userId:user._id,
             email: user.email,
             fullName: user.fullName,
             role: user.userRole,

@@ -33,11 +33,9 @@ const pollSchema = new mongoose.Schema({
 });
 
 const templateSchema = new mongoose.Schema({
-    templateId : {type : Number},
-    adminId : {type : Number},
+    adminId : {type : String},
     templateName:{type:String},
     questions: [questionSchema],
-    templateCreatedAt: {type:Date}
 });
 
 const  PollModel = mongoose.model("Poll", pollSchema);
