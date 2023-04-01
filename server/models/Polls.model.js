@@ -28,8 +28,8 @@ const pollSchema = new mongoose.Schema({
     questions: [questionSchema],
     pollStatus : {type : Boolean},
     usersAttended:{type:Array},
-    pollCreatedAt: {type:Date},
-    pollEndsAt:{type:Date}
+    pollCreatedAt: {type:String},
+    pollEndsAt:{type:String}
 });
 
 const templateSchema = new mongoose.Schema({

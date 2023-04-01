@@ -141,6 +141,37 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
     return [result];
   }
 
+  function pollDataToUser(data) {
+    const result = {
+      pollId: data.pollId,
+      pollCreatedAt: data.pollCreatedAt,
+      pollEndsAt: data.pollEndsAt,
+      pollName: data.pollName,
+      pollStatus: data.pollStatus,
+      questions: []
+    };
+  
+    for (const [questionId, questionData] of Object.entries(data.questions)) {
+      const options = [];
+  
+      for (const [optionId, optionData] of Object.entries(questionData.options)) {
+        options.push({
+          optionId,
+          option: optionData.option,
+        });
+  
+      }
+  
+      result.questions.push({
+        questionId,
+        question: questionData.question,
+        options
+      });
+    }
+  
+    return [result];
+  }
+
   // function for decrypting token
 const decryptToken =(token) =>{
   const tokenDecodablePart = token.split('.')[1];
@@ -148,5 +179,5 @@ const decryptToken =(token) =>{
   return(decoded)
 }
 
-  module.exports = { validateEmail,decryptToken,  generateToken, jsonToArray, pollToArray,convertPollData};
+  module.exports = { validateEmail,decryptToken,  generateToken, jsonToArray, pollToArray,convertPollData,  pollDataToUser};
 
