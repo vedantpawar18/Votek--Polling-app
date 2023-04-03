@@ -247,7 +247,6 @@ paths:
         500:
           description: Internal Server Error
 
-<<<<<<< HEAD
 /template/save-template :
     post:
       summary: "Save ended poll"
@@ -503,7 +502,7 @@ user/user-details:
         400:
           description: "Invalid request"
         
-=======
+
   
   /live-poll/{pollId}:
     get:
@@ -570,4 +569,4 @@ definitions:
         type: string
       option:
         type: string
->>>>>>> ae06096bea01155a4e6ce7cdbb58c44540f2bd5d
+
