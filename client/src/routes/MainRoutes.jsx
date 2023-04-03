@@ -5,9 +5,10 @@ import SignUp from "../pages/SignUp";
 import Dashboard from "../pages/Dashboard";
 
 import LandingPage from "../pages/LandingPage";
-
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import UserPrivateRoute from "./UserPrivateRoute";
+
+import LiveChart from "../pages/LiveChart";
 
 import Template from "../pages/Template";
 import CreatePoll from "../pages/CreatePoll";
@@ -32,6 +33,7 @@ function MainRoutes() {
         <Route path="/template" element={<Template />} />
         <Route path="/template-page" element={<TemplatePage />} />
         <Route path="/template-details" element={<TemplateDetailPage />} />
+        <Route path="/livedata" element={<LiveChart />} />
       </Route>
     </Routes>
   );
