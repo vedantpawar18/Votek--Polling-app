@@ -3,8 +3,9 @@
     padding: 30px;
     margin-top: 20px;
     border-radius: 4px;
-    background-color: rgb(103, 101, 101);
-    color: white;
+    /* background-color: rgb(103, 101, 101);
+    color: white; */
+    border: 1px solid grey;
 }
 
 .question{
@@ -27,6 +28,7 @@
     cursor: pointer;
     font-family: 'Poppins';
     font-weight: 300;
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 767px){
