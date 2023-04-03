@@ -86,7 +86,7 @@ firebaseController.post('/create-poll', async(req, res) => {
 
   firebaseController.post('/vote', async(req, res) => {
    
-    const { pollId, selectedAnswers, questionData } = req.body; selectedAnswers=[{"questionId":"", "optionId":""}]
+    const { pollId, selectedAnswers} = req.body;
     if(!req.headers.authorization){
       return res.send("Please login again")
     }
