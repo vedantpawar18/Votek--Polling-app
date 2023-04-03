@@ -35,7 +35,6 @@ pollController.post("/save-poll",async(req,res)=>
         await pollRef.remove()
         res.status(200).json({msg :"Poll Details saved successfully"}) 
       }, (error) => {
-        console.error(error);
         res.status(500).send('Internal Server Error');
       });
     

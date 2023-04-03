@@ -82,13 +82,11 @@ firebaseController.post('/create-poll', async(req, res) => {
   
   });
 
-
+  
 
   firebaseController.post('/vote', async(req, res) => {
    
-    const { pollId, selectedAnswers, userId } = req.body;
-    // const usersAttended= pollRef.usersAttended || []
-    // console.log(usersAttended)
+    const { pollId, selectedAnswers, questionData } = req.body; selectedAnswers=[{"questionId":"", "optionId":""}]
     if(!req.headers.authorization){
       return res.send("Please login again")
     }
@@ -97,53 +95,50 @@ firebaseController.post('/create-poll', async(req, res) => {
     const token = req.headers.authorization.split(" ")[1]
     const userToken=decryptToken(token);
     const user = await UserModel.find({email:userToken.email});
-    const usersId =((user[0]._id))
-    if(!usersId){
+    const userId =(user[0]._id)
+
+    if(!userId){
       res.status(400).send("User not found");
     }
     else{
-      const pollRef = firebase.database().ref('polls/' + pollId);
-      pollRef.child('usersAttended').once('value', function(snapshot) {
+        const pollRef = firebase.database().ref('polls/' + pollId);
+
+        pollRef.child('usersAttended').once('value',async function(snapshot) {
         const usersAttended = snapshot.val();  
-        if (Object.values(usersAttended).includes(userId)) {
+        if (Object.values(usersAttended).includes(userId.toString())) {
           res.send('User already voted for this poll');
         }
         else{
-          pollRef.child('usersAttended').push(userId, function(error) {
-            if (error) {
-              // console.error(error);
-            } else {
-              // console.log('User added to usersAttended');
-            }
-          });
-        }
-       
-      });
+          
+          pollRef.child('usersAttended').push(userId.toString())
+    
+          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollId:pollId, selectedAnswers:selectedAnswers} } }); 
   
-      await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollId:pollId, selectedAnswers:selectedAnswers} } }); 
+          pollRef.once('value', (snapshot) => {
+          const pollData = snapshot.val();
   
-      pollRef.once('value', (snapshot) => {
-        const pollData = snapshot.val();
+          for (const selectedAnswer of selectedAnswers) {
+          const { questionId, optionId } = selectedAnswer;
+          const question = pollData.questions[questionId];
+          const option = question.options[optionId];
+          option.votes++;
+          question.totalVotes++;
+          }
   
-        for (const selectedAnswer of selectedAnswers) {
-        const { questionId, optionId } = selectedAnswer;
-        const question = pollData.questions[questionId];
-        const option = question.options[optionId];
-        option.votes++;
-        question.totalVotes++;
-      }
-  
-      pollRef.update(pollData)
+          pollRef.update(pollData)
           .then(() => {
             res.send('Vote recorded successfully');
           })
           .catch((error) => {
             res.status(500).send(`Error recording vote: ${error}`);
           });
-    });
+          });
+        }
+       
+      });
     }
-    } 
-  });
+  } 
+});
 
 
   firebaseController.get('/live-polls',async(req, res) => {
@@ -192,11 +187,12 @@ firebaseController.post('/create-poll', async(req, res) => {
       const newPoll= pollDataToUser((pollData))
       res.json(newPoll);
     }, (error) => {
-      console.error(error);
       res.status(500).send('Internal Server Error');
     });
   }
   });
+
+  
 
 
 

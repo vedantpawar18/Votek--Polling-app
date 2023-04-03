@@ -165,6 +165,8 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
       result.questions.push({
         questionId,
         question: questionData.question,
+        type: questionData.type,
+        maxSelections: questionData.maxSelections,
         options
       });
     }
