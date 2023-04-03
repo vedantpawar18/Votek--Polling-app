@@ -12,8 +12,6 @@ import { useEffect, useState } from "react";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "../App.css";
 
-
-
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -208,6 +206,10 @@ export default function Graphs() {
 		setQLabel(qLabel1);
 	}, []);
 
+
+
+
+	
 	return (
 		<div
 			className="graph"

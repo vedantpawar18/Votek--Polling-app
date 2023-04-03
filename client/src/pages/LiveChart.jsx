@@ -8,8 +8,7 @@ const LiveChart = () => {
 		<>
 			<Navbar />
 			<Heading>Live Data</Heading>
-
-			<Box min-height={"fit-content"} padding={"5%"}>
+			<Box min-height={"fit-content"} padding={"6%"}>
 				<Graphs />
 			</Box>
 		</>
