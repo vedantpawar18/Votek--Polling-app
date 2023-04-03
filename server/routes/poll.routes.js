@@ -29,7 +29,7 @@ pollController.post("/save-poll",async(req,res)=>
         pollName:refPoll.pollName,
         templateName:refPoll.templateName,
         questions:refPoll.questions,
-        pollStatus:refPoll.pollStatus,//poll status false
+        pollStatus:false,
         usersAttended:refPoll.usersAttended,
         pollCreatedAt:refPoll.pollCreatedAt,
         pollEndsAt:refPoll.pollEndsAt})
