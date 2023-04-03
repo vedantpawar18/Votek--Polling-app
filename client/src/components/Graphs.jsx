@@ -207,6 +207,8 @@ export default function Graphs() {
 	}, []);
 
 
+//graph added
+
 
 
 	
@@ -283,7 +285,7 @@ export default function Graphs() {
 										{
 											label: qlabel[i],
 											data: data[i].data,
-											backgroundColor: "hsl(206,90%,54%)",
+											backgroundColor: "hsl(205.85635359116023, 95.76719576719576%, 37.05882352941177%)",
 
 											maxBarThickness: 18,
 											minBarLength: 2,
