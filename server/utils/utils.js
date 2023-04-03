@@ -8,7 +8,6 @@ const validateEmail = (email) => {
   };
 
 const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => {
-  console.log(userId)
     const primaryToken = jwt.sign(
       {userId:userId, email: email, fullName:fullName, role:role  },
       process.env.PRIMARY_SECRET_KEY,
