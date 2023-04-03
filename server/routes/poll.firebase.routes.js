@@ -28,7 +28,7 @@ firebaseController.post('/create-poll', async(req, res) => {
     }
     else{
      const adminId =((user[0]._id))
-     await UserModel.findOneAndUpdate({email:userToken.email},{ $push: { pollsCreated: {pollId:pollId} } }); 
+     await UserModel.findOneAndUpdate({email:userToken.email},{ $push: { pollsCreated: {pollId:pollId} } });
      const pollUrl=`http://localhost:8080/firebase/live-poll/${pollId}`
      const formattedQuestions = questions.map((question) => {
      const questionRef = pollRef.child('questions').push();
@@ -86,7 +86,7 @@ firebaseController.post('/create-poll', async(req, res) => {
 
   firebaseController.post('/vote', async(req, res) => {
    
-    const { pollId, selectedAnswers} = req.body;
+    const { pollId, selectedAnswers, pollData} = req.body;
     if(!req.headers.authorization){
       return res.send("Please login again")
     }
@@ -112,16 +112,18 @@ firebaseController.post('/create-poll', async(req, res) => {
           
           pollRef.child('usersAttended').push(userId.toString())
     
-          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollId:pollId, selectedAnswers:selectedAnswers} } }); 
+          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData} } }); 
   
           pollRef.once('value', (snapshot) => {
           const pollData = snapshot.val();
   
           for (const selectedAnswer of selectedAnswers) {
-          const { questionId, optionId } = selectedAnswer;
+          const { questionId, optionsIds } = selectedAnswer;
           const question = pollData.questions[questionId];
-          const option = question.options[optionId];
-          option.votes++;
+          const options = optionsIds.map(optionId => question.options[optionId]);
+          options.map(option => {
+            option.votes++;
+          });
           question.totalVotes++;
           }
   
@@ -161,7 +163,7 @@ firebaseController.post('/create-poll', async(req, res) => {
         else{
          const adminId =((user[0]._id))
          const filteredPolls = newPoll.filter(poll => poll.adminId === adminId.toString());
-         res.send(filteredPolls);
+         res.send(filteredPolls );
         }
       }
      } catch (error) {
@@ -191,9 +193,6 @@ firebaseController.post('/create-poll', async(req, res) => {
     });
   }
   });
-
-  
-
 
 
 
