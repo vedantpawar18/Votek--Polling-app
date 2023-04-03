@@ -14,6 +14,7 @@ import Template from '../pages/Template'
 import CreatePoll from '../pages/CreatePoll'
 import TemplatePage from '../pages/TemplatePage'
 import TemplateDetailPage from '../pages/TemplateDetailPage'
+import LiveChart from '../pages/LiveChart'
 
 
 function MainRoutes() {
@@ -30,6 +31,7 @@ function MainRoutes() {
         <Route path="/template" element={<Template />}/>
         <Route path="/template-page" element={<TemplatePage />}/>
         <Route path="/template-details" element={<TemplateDetailPage />}/>
+        <Route path="/livedata" element={<LiveChart />}/>
       </Route>
     </Routes>
   )

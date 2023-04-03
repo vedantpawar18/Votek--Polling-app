@@ -17,16 +17,19 @@ pollController.post("/save-poll",async(req,res)=>
           res.status(404).send('Poll not found');
           return;
         }
+        const dataPoll=pollData
+        const adminId=(dataPoll.adminId)
         const newPoll= pollDataToUser((pollData))
         const refPoll=newPoll[0]
-
+        
+        
         const poll = new PollModel({
         pollId:refPoll.pollId,
-        adminId:refPoll.adminId,
+        adminId: adminId,
         pollName:refPoll.pollName,
         templateName:refPoll.templateName,
         questions:refPoll.questions,
-        pollStatus:refPoll.pollStatus,
+        pollStatus:false,
         usersAttended:refPoll.usersAttended,
         pollCreatedAt:refPoll.pollCreatedAt,
         pollEndsAt:refPoll.pollEndsAt})
@@ -39,7 +42,32 @@ pollController.post("/save-poll",async(req,res)=>
       });
     
    
-})
+});
+
+pollController.get('/ended-polls',async(req, res) => {
+  try {
+    
+    if(!req.headers.authorization){
+      return res.send("Please login again")
+    }
+    else {
+      const token = req.headers.authorization.split(" ")[1]
+      const userToken=decryptToken(token);
+      const user = await UserModel.find({email:userToken.email});
+      const userRole =((user[0].userRole))
+      if(userRole!=="admin"){
+       res.send("Only admin is allowed to see a poll")
+      }
+      else{
+       const adminId =((user[0]._id))
+       const endedPolls= await PollModel.find({adminId:adminId});
+       res.send(endedPolls);
+      }
+    }
+   } catch (error) {
+    res.status(500).send('Failed to retrieve poll data.');
+   }
+});
 
 
 
