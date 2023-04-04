@@ -247,7 +247,7 @@ paths:
         500:
           description: Internal Server Error
 
-/template/save-template :
+  poll/save-poll :
     post:
       summary: "Save ended poll"
       description: "This API allows an admin to save a ended poll with questions and options"
@@ -327,7 +327,7 @@ paths:
           description: "Invalid request"
         
 
-user/user-details:
+  user/user-details:
     get:
       summary: Get user details
       description: Returns user details
@@ -355,7 +355,7 @@ user/user-details:
                     type: "string"
                   pollsCreated:
                     type: "array"
-                 templateCreated:
+                  templateCreated:
                     type: "array"
                   pollsAttended:
                     type: "array" 
@@ -365,9 +365,9 @@ user/user-details:
           description: Internal Server Error
 
 
- /template/save-template :
+  template/save-template :
     post:
-      summary: "Store template into mongodb"
+      summary: "Save template into mongodb"
       description: "This API allows an admin to create a new template with questions and options"
       parameters:
         - name: "templateName"
@@ -423,94 +423,14 @@ user/user-details:
         400:
           description: "Something went wrong"
         
-         /template/save-template :
-    post:
-      summary: "Save ended poll"
-      description: "This API allows an admin to save a ended poll with questions and options"
-      parameters:
-        - name: "pollName"
-          in: "body"
-          description: "Name of the poll"
-          required: true
-          schema:
-            type: "string"
-        - name: "questions"
-          in: "body"
-          description: "Array of questions with options"
-          required: true
-          schema:
-            type: "array"
-            items:
-              type: "object"
-              properties:
-                question:
-                  type: "string"
-                maxSelections:
-                  type: "number"
-                options:
-                  type: "array"
-                  items:
-                    type: "string"
-        - name: "pollStatus"
-          in: "body"
-          description: "Status of the poll (active or inactive)"
-          required: true
-          schema:
-            type: "string"
-        - name: "pollCreatedAt"
-          in: "body"
-          description: "Creation date of the poll"
-          required: true
-          schema:
-            type: "string"
-        - name: "pollEndsAt"
-          in: "body"
-          description: "End date of the poll"
-          required: true
-          schema:
-            type: "string"
-        
-      responses:
-        201:
-          description: "Poll saved successfully"
-          schema:
-            type: "object"
-            properties:
-              message:
-                type: "string"
-              pollData:
-                type: "object"
-                properties:
-                  pollName:
-                    type: "string"
-                  pollId:
-                    type: "string"
-                  questions:
-                    type: "object"
-                  pollStatus:
-                    type: "string"
-                  adminId:
-                    type: "string"
-                  pollCreatedAt:
-                    type: "string"
-                  pollEndsAt:
-                    type: "string"
-                  pollUrl:
-                    type: "string"
-              url:
-                type: "string"
-        400:
-          description: "Invalid request"
-        
-
-  
-  /live-poll/{pollId}:
+         
+  template/get-template/{templateId}:
     get:
-      summary: Get live poll data
+      summary: Get saved template details for particular user by templateId.
       parameters:
-        - name: pollId
+        - name: templateId
           in: path
-          description: ID of the poll to retrieve
+          description: ID of the template to retrieve
           required: true
           type: string
         - name: Authorization
@@ -520,28 +440,22 @@ user/user-details:
           type: string
       responses:
         '200':
-          description: Poll data retrieved successfully
+          description: Template data retrieved successfully
           schema:
-            $ref: '#/definitions/PollData'
+            $ref: '#/definitions/TemplateData'
         '401':
           description: Unauthorized access
         '404':
-          description: Poll not found
+          description: Template not found
         '500':
           description: Internal server error
 definitions:
-  PollData:
+  TemplateData:
     type: object
     properties:
-      pollId:
+      templateId:
         type: string
-      pollCreatedAt:
-        type: string
-      pollEndsAt:
-        type: string
-      pollName:
-        type: string
-      pollStatus:
+      templateName:
         type: string
       questions:
         type: array
@@ -560,13 +474,5 @@ definitions:
         type: string
       options:
         type: array
-        items:
-          $ref: '#/definitions/Option'
-  Option:
-    type: object
-    properties:
-      optionId:
-        type: string
-      option:
-        type: string
+       
 
