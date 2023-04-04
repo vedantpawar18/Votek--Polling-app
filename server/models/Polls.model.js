@@ -32,14 +32,8 @@ const pollSchema = new mongoose.Schema({
     pollEndsAt:{type:String}
 });
 
-// const templateSchema = new mongoose.Schema({
-//     adminId : {type : String},
-//     templateName:{type:String},
-//     questions: [questionSchema],
-// });
 
 const  PollModel = mongoose.model("Poll", pollSchema);
-// const  TemplateModel = mongoose.model("template", templateSchema);
 
 module.exports = {
     PollModel
