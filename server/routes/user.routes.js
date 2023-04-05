@@ -11,6 +11,7 @@ const {validateEmail,generateToken, decryptToken}= require("../utils/utils");
 userController.post("/signup", async(req, res) => {
     const {email,fullName, password} = req.body;
 
+    console.log(email,fullName,password)
     const alreadyUser = await UserModel.find({ email });
     const valideMail= validateEmail(email);
     const role= "user"
@@ -59,9 +60,10 @@ userController.get("/user-details",async(req,res)=>
     const token = req.headers.authorization.split(" ")[1]
 
     const userToken=decryptToken(token);
-    const userDetails= await UserModel.find({_id:userToken.userId});
-    if(userDetails)
-    res.status(200).send({msg:"success",userDetails});
+    const user= await UserModel.findOne({_id:userToken.userId});
+    console.log(user)
+    if(user)
+    res.status(200).send({msg:"success",data:{email:user.email,fullName:user.fullName,userRole:user.userRole,pollsCreated:user.pollsCreated,pollsAttended:user.pollsAttended,templateCreated:user.templateCreated}});
     else
     res.status(400).send({msg:"Something went wrong while getting user details"});
 })

@@ -2,7 +2,7 @@ const { Router } = require("express");
 const pollController=Router();
 const {PollModel}=require("../models/Polls.model");
 const {firebase} = require('../config/db');
-const fireDb = firebase.database(); 
+// const fireDb = firebase.database(); 
 const { pollDataToUser,decryptToken, pollToArray} = require("../utils/utils");
 // <----------------------------// API for storing ended poll inot MongoDB----------------->
 pollController.post("/save-poll",async(req,res)=>
