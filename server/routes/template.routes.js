@@ -22,7 +22,6 @@ templateController.post("/save-template",async(req,res)=>
             
          const updateUser= await UserModel.findOneAndUpdate({_id:user.userId},{$push:{templateCreated:{templateId:template._id,templateName}}});
          
-         console.log(updateUser)
          res.status(200).json({msg :"Template saved successfully"})
       }
       catch(err){ 
