@@ -113,7 +113,7 @@ firebaseController.post('/create-poll', async(req, res) => {
           
           pollRef.child('usersAttended').push(userId.toString())
     
-          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData,pollName:pollName } } }); 
+          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData,pollName:pollName, pollId:pollId } } }); 
   
           pollRef.once('value', (snapshot) => {
           const pollData = snapshot.val();
