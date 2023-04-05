@@ -43,6 +43,10 @@ templateController.get("/get-template/:templateId",async(req,res)=>
     const template= await TemplateModel.findById({_id:templateId});
     if(template && user.userId==template.adminId)
     res.status(200).send({msg:"success",template});
+    else if(user.userId!=template.adminId)
+    res.status(401).send({msg:"Unauthorized access"})
+    else if(!template)
+    res.status(404).send({msg:"Template not found"})
     else
     res.status(400).send({msg:"Something went wrong while getting template"});
 })

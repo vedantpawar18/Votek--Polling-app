@@ -8,9 +8,6 @@ const {
   generateToken,
   validateEmail,
 } = require("../utils/utils");
-const customEmailMessage = "sign in with masai portal.";
-const customEmailMessage2 = "reset your old password";
-
 
 //<-------------------------------   APT for sign in   ------------------------------->
 

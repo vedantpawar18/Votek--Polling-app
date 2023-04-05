@@ -86,9 +86,9 @@ firebaseController.post('/create-poll', async(req, res) => {
 
   firebaseController.post('/vote', async(req, res) => {
    
-    const { pollId, selectedAnswers, pollData} = req.body;
+    const { pollId, selectedAnswers, pollData, pollName} = req.body;
     if(!req.headers.authorization){
-      return res.send("Please login again")
+      return res.status(401).send("Please login again")
     }
     else{
     
@@ -105,15 +105,16 @@ firebaseController.post('/create-poll', async(req, res) => {
         const pollRef = firebase.database().ref('polls/' + pollId);
 
         pollRef.child('usersAttended').once('value',async function(snapshot) {
-        const usersAttended = snapshot.val();  
+        const usersAttended = snapshot.val() || [];  
+        
         if (Object.values(usersAttended).includes(userId.toString())) {
-          res.send('User already voted for this poll');
+          res.status(401).send('User already voted for this poll');
         }
         else{
           
           pollRef.child('usersAttended').push(userId.toString())
     
-          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData} } }); 
+          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData,pollName:pollName, pollId:pollId } } }); 
   
           pollRef.once('value', (snapshot) => {
           const pollData = snapshot.val();
@@ -126,11 +127,11 @@ firebaseController.post('/create-poll', async(req, res) => {
             option.votes++;
           });
           question.totalVotes++;
-          }
+          } 
   
           pollRef.update(pollData)
           .then(() => {
-            res.send('Vote recorded successfully');
+            res.status(200).send('Vote recorded successfully');
           })
           .catch((error) => {
             res.status(500).send(`Error recording vote: ${error}`);
@@ -177,7 +178,7 @@ firebaseController.post('/create-poll', async(req, res) => {
   firebaseController.get('/live-poll/:pollId', async(req, res) => {
     const pollId = req.params.pollId;
     if(!req.headers.authorization){
-      return res.send("Please login again")
+      return res.status(401).send("Please login again")
     }
     else {
     fireDb.ref(`polls/${pollId}`).once('value', (snapshot) => {
