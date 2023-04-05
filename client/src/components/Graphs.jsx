@@ -11,7 +11,9 @@ import {
 import { useEffect, useState } from "react";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "../App.css";
-
+import { useSelector, useDispatch } from "react-redux";
+import io from 'socket.io-client';
+import { useParams } from "react-router-dom";
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -21,179 +23,60 @@ ChartJS.register(
 	Legend
 );
 
-let data2 = [
-	{
-		pollId: "-NRr4CKLpheSrhyq-3zB",
-		adminId: "6425786c1b27cedef7b31370",
-		pollCreatedAt: "time1231",
-		pollEndsAt: "time2",
-		pollName: "votek",
-		pollStatus: "true",
-		questions: [
-			{
-				questionId: "-NRr4CL2qh1FMfw032pO",
-				question: "The first month of the year is...",
-				maxSelections: "2",
-				options: [
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4s",
-						option: "January",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4t",
-						option: "February",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4u",
-						option: "March",
-						votes: 8,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4v",
-						option: "April",
-						votes: 7,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4v",
-						option: "June",
-						votes: 7,
-					},
-				],
-			},
-			{
-				questionId: "-NRr4CL3TnNz9ZVAkq4w",
-				question: " Who is the father of Computers?",
-				maxSelections: "2",
-				options: [
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4x",
-						option: "James Gosling",
-						votes: 3,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4y",
-						option: "Charles Babbage",
-						votes: 10,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4z",
-						option: "Dennis Ritchie",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq5-",
-						option: " Bjarne Stroustrup",
-						votes: 4,
-					},
-				],
-			},
-			{
-				questionId: "-NRr4CL3TnNz9ZVAkq4w",
-				question:
-					"Which of the following is not a characteristic of a computer?",
-				maxSelections: "2",
-				options: [
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4x",
-						option: "Versatility",
-						votes: 8,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4y",
-						option: "Accuracy",
-						votes: 6,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4z",
-						option: "Diligence",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq5-",
-						option: "I.Q.",
-						votes: 14,
-					},
-				],
-			},
-			{
-				questionId: "-NRr4CL3TnNz9ZVAkq4w",
-				question: " Which of the following is not a type of computer code?",
-				maxSelections: "2",
-				options: [
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4x",
-						option: "EDIC",
-						votes: 8,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4y",
-						option: "ASCII",
-						votes: 6,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4z",
-						option: "BCD",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq5-",
-						option: "EBCDIC",
-						votes: 4,
-					},
-				],
-			},
-			{
-				questionId: "-NRr4CL3TnNz9ZVAkq4w",
-				question:
-					"Which of the following device use positional notation to represent a decimal number?",
-				maxSelections: "2",
-				options: [
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4x",
-						option: "Pascaline",
-						votes: 8,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4y",
-						option: "Abacus",
-						votes: 16,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq4z",
-						option: "Computer",
-						votes: 5,
-					},
-					{
-						optionId: "-NRr4CL3TnNz9ZVAkq5-",
-						option: "Calculator",
-						votes: 4,
-					},
-				],
-			},
-		],
-	},
-];
+
+
+
 
 export default function Graphs() {
 	const [data, setData] = useState([]);
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);
+	// const [liveData,setLiveData]=useState([])
+	const [updatedData, setUpdatedData] = useState(true)
+	const [pollData,setPollData]=useState([])
+	const dispatch = useDispatch();
+	const {id} = useParams()
+
+	const adminLiveData = useSelector((store) => store.data.liveData);
+	
+
+	useEffect(() => {
+		const socket = io(`http://localhost:8080`);
+		socket.emit('getPollData',`${id}`);
+		socket.on('pollData', (pollData) => {
+		//   console.log("fetching live detail")
+			setPollData(pollData);
+			const upData = !updatedData
+			setUpdatedData(upData)
+		});
+			return () => socket.disconnect();
+		  }, []);
+		 
+
+
+
+useEffect(()=>{
+
+//  console.log("polldata",pollData.length, updatedData)
+
+},[pollData[0]?.questions])
+
+
+
 
 	useEffect(() => {
 		let label1 = [];
 		let data1 = [];
 		let qLabel1 = [];
 
-		for (let i = 0; i < data2[0].questions.length; i++) {
+		for (let i = 0; i < pollData[0]?.questions?.length; i++) {
 			let labels = [];
 			let datas = [];
 
-			qLabel1.push(data2[0].questions[i].question);
-			for (let j = 0; j < data2[0].questions[i].options.length; j++) {
-				labels.push(data2[0].questions[i].options[j].option);
-				datas.push(data2[0].questions[i].options[j].votes);
+			qLabel1.push(pollData[0]?.questions[i]?.question);
+			for (let j = 0; j < pollData[0]?.questions[i]?.options.length; j++) {
+				labels.push(pollData[0].questions[i].options[j].option);
+				datas.push(pollData[0].questions[i].options[j].votes);
 			}
 
 			let a = { labels: labels };
@@ -204,14 +87,11 @@ export default function Graphs() {
 		setData(data1);
 		setLabel(label1);
 		setQLabel(qLabel1);
-	}, []);
-
-
-//graph added
-
-
+	}, [pollData]);
 
 	
+
+
 	return (
 		<div
 			className="graph"
@@ -285,8 +165,8 @@ export default function Graphs() {
 										{
 											label: qlabel[i],
 											data: data[i].data,
-											backgroundColor: "hsl(205.85635359116023, 95.76719576719576%, 37.05882352941177%)",
-
+											backgroundColor:
+												"hsl(205.85635359116023, 95.76719576719576%, 37.05882352941177%)",
 											maxBarThickness: 18,
 											minBarLength: 2,
 										},
