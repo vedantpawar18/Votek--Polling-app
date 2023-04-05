@@ -86,7 +86,7 @@ firebaseController.post('/create-poll', async(req, res) => {
 
   firebaseController.post('/vote', async(req, res) => {
    
-    const { pollId, selectedAnswers, pollData} = req.body;
+    const { pollId, selectedAnswers, pollData, pollName} = req.body;
     if(!req.headers.authorization){
       return res.status(401).send("Please login again")
     }
@@ -113,7 +113,7 @@ firebaseController.post('/create-poll', async(req, res) => {
           
           pollRef.child('usersAttended').push(userId.toString())
     
-          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData} } }); 
+          await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData,pollName:pollName } } }); 
   
           pollRef.once('value', (snapshot) => {
           const pollData = snapshot.val();
@@ -126,7 +126,7 @@ firebaseController.post('/create-poll', async(req, res) => {
             option.votes++;
           });
           question.totalVotes++;
-          }
+          } 
   
           pollRef.update(pollData)
           .then(() => {
