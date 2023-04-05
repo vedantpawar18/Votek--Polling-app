@@ -25,8 +25,8 @@ function MainRoutes() {
       <Route path="/signup" element={<SignUp />} />
       <Route element={<UserPrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/recentpolls" element={<RecentPolls />} />
-        <Route path="/pollpage" element={<PollPage />} />
+        <Route path="/user/recentpolls" element={<RecentPolls />} />
+        <Route path="/event/:id" element={<PollPage />} />
       </Route>
       <Route element={<AdminPrivateRoute />}>
         <Route path="/create" element={<CreatePoll />} />

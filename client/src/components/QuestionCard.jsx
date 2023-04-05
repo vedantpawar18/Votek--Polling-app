@@ -3,30 +3,43 @@ import styles from "../styles/questioncard.module.css";
 import { Box, Flex, Checkbox, CheckboxGroup, Text } from "@chakra-ui/react";
 import { RiErrorWarningLine } from "react-icons/ri";
 
-const QuestionCard = ({ question, options, index, onSelectionChange, questionId }) => {
+const QuestionCard = ({
+  question,
+  options,
+  index,
+  onSelectionChange,
+  questionId,
+  maxSelections,
+}) => {
   const [value, setVal] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  let  arr=[];
-  let maxSelections = 2;
 
+
+  //  useEffect function for toggling the disable variable when maxSelection has reached.
 
   useEffect(() => {
-    if (value?.length === maxSelections) {
+    if (value?.length === Number(maxSelections)) {
       setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
     }
   }, [value]);
 
+
+  /* useEffect function for calling the parent function (onSelectionChange) 
+  when maxSelect has reached or remaining option were disabled. */
+
   useEffect(() => {
-    if(isDisabled){
+    if (isDisabled) {
       let payload = {
-        selectedAns : value,
+        selectedAns: value,
         question,
         questionId,
-        options
-      }
+        options,
+      };
       onSelectionChange(payload);
     }
-  }, [value, isDisabled]);
+  }, [isDisabled]);
 
   return (
     <Box className={styles.container}>
@@ -37,10 +50,23 @@ const QuestionCard = ({ question, options, index, onSelectionChange, questionId 
             return (
               <Box key={index} className={styles.option}>
                 <Checkbox
-                  disabled={isDisabled}
+                  disabled={
+                    value.length == maxSelections && !value.includes(e.optionId)
+                  }
                   className="option"
                   value={e?.optionId}
-                  colorScheme="green"
+                  colorScheme="#D71A20"
+                  _checked={{ // apply color when checkbox is checked
+                    bg: "#D71A20",
+                    color: "white",
+                    borderColor: "white"
+                  }}
+                  _hover={{ // apply color on hover
+                    bg: "#FFC1C3",
+                    borderColor: "white"
+                  }}
+                  width={'100%'}
+                  p={'8px'}
                 >
                   {e?.option}
                 </Checkbox>

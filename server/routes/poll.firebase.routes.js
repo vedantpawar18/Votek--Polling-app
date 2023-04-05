@@ -94,8 +94,9 @@ firebaseController.post('/create-poll', async(req, res) => {
     
     const token = req.headers.authorization.split(" ")[1]
     const userToken=decryptToken(token);
+    console.log(userToken)
     const user = await UserModel.find({email:userToken.email});
-    const userId =(user[0]._id)
+    const userId =(user[0]?._id)
 
     if(!userId){
       res.status(400).send("User not found");

@@ -1,12 +1,9 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import Navbar from "../components/Navbar"
+import React from 'react'
 
 const RecentPolls = () => {
-  return <Box>
-    <Navbar />
-    Recent Polls
-  </Box>;
-};
+  return (
+    <div>RecentPolls</div>
+  )
+}
 
-export default RecentPolls;
+export default RecentPolls
