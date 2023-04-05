@@ -247,7 +247,7 @@ paths:
         500:
           description: Internal Server Error
 
-  poll/save-poll :
+  /poll/save-poll :
     post:
       summary: "Save ended poll"
       description: "This API allows an admin to save a ended poll with questions and options"
@@ -327,16 +327,16 @@ paths:
           description: "Invalid request"
         
 
-  user/user-details:
+  /user/user-details:
     get:
       summary: Get user details
       description: Returns user details
       parameters:
-        - name: userId
-          in: query
-          description: The ID of the user for which to retrieve user details.
+        - name: "Authorization"
+          in: "header"
+          description: "Bearer token for authentication"
           required: true
-          type: string
+          type: "string" 
       responses:
         200:
           schema:
@@ -354,18 +354,18 @@ paths:
                   userRole:
                     type: "string"
                   pollsCreated:
-                    type: "array"
+                    type: array
                   templateCreated:
                     type: "array"
                   pollsAttended:
-                    type: "array" 
+                    type: "array"
         400:
           description: Bad Request
         500:
           description: Internal Server Error
 
 
-  template/save-template :
+  /template/save-template :
     post:
       summary: "Save template into mongodb"
       description: "This API allows an admin to create a new template with questions and options"
@@ -421,7 +421,7 @@ paths:
               url:
                 type: "string"
         400:
-          description: "Something went wrong"
+          description: "Something went wrong, please try again"
         
          
   template/get-template/{templateId}:
