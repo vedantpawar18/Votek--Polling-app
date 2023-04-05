@@ -96,6 +96,7 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
         pollEndsAt: poll.pollEndsAt,
         pollName: poll.pollName,
         pollStatus: poll.pollStatus,
+        pollUrl: poll.pollUrl,
         questions: questionsArray,
       });
     }
