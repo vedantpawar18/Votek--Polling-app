@@ -7,6 +7,7 @@ const {UserModel} = require("../models/User.model")
 const fireDb = firebase.database(); 
 const bodyParser = require('body-parser');
 const express = require("express")
+const ExcelJS = require('exceljs');
 const app = express();
 app.use(express.json());
 
@@ -111,8 +112,7 @@ firebaseController.post('/create-poll', async(req, res) => {
         }
         else{
           
-          pollRef.child('usersAttended').push(userId.toString())
-    
+          pollRef.child('usersAttended').push(userId.toString()) 
           await UserModel.findOneAndUpdate({ _id: userId },{ $push: { pollsAttended: {pollData:pollData,pollName:pollName } } }); 
   
           pollRef.once('value', (snapshot) => {
@@ -123,7 +123,15 @@ firebaseController.post('/create-poll', async(req, res) => {
           const question = pollData.questions[questionId];
           const options = optionsIds.map(optionId => question.options[optionId]);
           options.map(option => {
-            option.votes++;
+            option.votes++; 
+            if (option.votedBy == null) {
+              option.votedBy = [];
+          }
+          option.votedBy.push({
+              email: userToken.email,
+              userId: userId,
+              fullName: user[0].fullName
+          });
           });
           question.totalVotes++;
           } 
@@ -193,6 +201,46 @@ firebaseController.post('/create-poll', async(req, res) => {
       res.status(500).send('Internal Server Error');
     });
   }
+  });
+
+
+  firebaseController.get('/voted-by', async(req, res) => {
+    const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Voters');
+  
+  // add headers to the worksheet
+  worksheet.columns = [
+    { header: 'Email', key: 'email', width: 50 },
+    { header: 'Full Name', key: 'fullName', width: 50 },
+    { header: 'User ID', key: 'userId', width: 50 },
+  ];
+  
+  const votedBy= [
+    {
+        "email": "arun421@gmail.com",
+        "fullName": "Arun Raj",
+        "userId": "642d12d86b7157be0bb36690"
+    },
+    {
+        "email": "vedant@gmail.com",
+        "fullName": "Vedant Pawar",
+        "userId": "642d12d86b7157be0bb36612"
+    }
+]
+  // add rows to the worksheet
+  votedBy.forEach(user => {
+    worksheet.addRow(user);
+  });
+  
+  // set the response headers
+  res.setHeader('Content-Disposition', 'attachment; filename="voters.xlsx"');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  
+  // write the workbook to the response
+  await workbook.xlsx.write(res);
+  
+  // end the response
+  res.end();
   });
 
 

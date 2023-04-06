@@ -76,6 +76,7 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
             optionId,
             option: option.option,
             votes: option.votes,
+            votedBy:option.votedBy
           });
         }
   
