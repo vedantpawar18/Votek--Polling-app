@@ -34,6 +34,7 @@ export const ENDED_POLL_FAILURE = "ENDED_POLL_FAILURE";
 
 
 
+
 export const postPollDataRequest = ()=>{
     return({
         type:POST_POLL_DATA_REQUEST
@@ -54,8 +55,6 @@ export const postPollDataFailure = ()=>{
         type:POST_POLL_DATA_FAILURE
     })
 }
-
-
 
 export const addTemplateDataRequest = ()=>{
     return({
