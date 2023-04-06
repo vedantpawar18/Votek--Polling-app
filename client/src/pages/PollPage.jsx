@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/pollpage.module.css";
-import { Box, Button, Flex, Text, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import QuestionCard from "../components/QuestionCard";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,8 @@ const PollPage = () => {
   const [pollDetail, setPollDetail] = useState([]);
   const { id } = useParams();
   const [loader, setLoader] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const toast = useToast();
 
   // A parent function for retrieving the Payload from child component(Question.jsx)
 
@@ -26,6 +28,7 @@ const PollPage = () => {
 
   const vote = (e) => {
     e.preventDefault();
+    setSubmitting(true);
     axios({
       method: "POST",
       url: "http://localhost:8080/firebase/vote",
@@ -35,11 +38,36 @@ const PollPage = () => {
       data: voteData,
     })
       .then((res) => {
-        console.log("get live data", res.data);
+        setSubmitting(false);
+        if (res?.status === 200) {
+          toast({
+            title: "YaY, You did it.👍",
+            description: "We've collected your opinon.😋",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        }else if (res?.status === 208) {
+          toast({
+            title: "You've allready voted.👍",
+            description: "We've allready collected your opinon.😋",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
-        console.log(voteData);
+        setSubmitting(false);
+        //   if (error?.response?.status === 401) {
+        //   toast({
+        //     title: "Unauthorized.🙄",
+        //     description: "Please, Login again.😐",
+        //     status: "warning",
+        //     duration: 5000,
+        //     isClosable: true,
+        //   });
+        // }
       });
   };
 
@@ -53,7 +81,10 @@ const PollPage = () => {
       );
       if (existingQuestionIndex === -1) {
         // add new question to array
-        setPollDetail([...pollDetail, { question, questionId, selectedAns, options }]);
+        setPollDetail([
+          ...pollDetail,
+          { question, questionId, selectedAns, options },
+        ]);
       } else {
         // update options ids for existing question
         const updatedQuestion = {
@@ -68,7 +99,7 @@ const PollPage = () => {
       const payload = {
         pollData: pollDetail,
         pollId: pollData?.pollId,
-        pollName : pollData?.pollName,
+        pollName: pollData?.pollName,
         selectedAnswers: questionData,
       };
       setVoteData(payload);
@@ -120,7 +151,6 @@ const PollPage = () => {
       });
   }, [userToken]);
 
-  console.log(voteData);
 
   return (
     <>
@@ -160,6 +190,8 @@ const PollPage = () => {
                   color={"white"}
                   fontWeight={400}
                   type="submit"
+                  isLoading={isSubmitting}
+                  loadingText="Submitting"
                 >
                   Submit
                 </Button>
