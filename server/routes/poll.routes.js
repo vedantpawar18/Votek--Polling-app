@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const pollController=Router();
 const {PollModel}=require("../models/Polls.model");
+const {UserModel}=require("../models/User.model");
 const {firebase} = require('../config/db');
 const fireDb = firebase.database(); 
 const { pollDataToUser,decryptToken, pollToArray} = require("../utils/utils");
@@ -9,10 +10,9 @@ pollController.post("/save-poll",async(req,res)=>
 {
     const {pollId} = req.body;
     const pollRef = fireDb.ref(`polls/${pollId}`);
-
+    
     pollRef.once('value',async (snapshot) => {
         const pollData = snapshot.val();
-    
         if (!pollData) {
           res.status(404).send('Poll not found');
           return;
@@ -64,7 +64,7 @@ pollController.get('/ended-polls',async(req, res) => {
        res.send(endedPolls);
       }
     }
-   } catch (error) {
+   } catch (error) { 
     res.status(500).send('Failed to retrieve poll data.');
    }
 });

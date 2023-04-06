@@ -6,7 +6,8 @@ const OptionSchema = new mongoose.Schema({
     votes: {
         type: Number,
         default: 0
-    }
+    },
+    votedBy:Array
 })
 
 const questionSchema= new mongoose.Schema({

@@ -1,12 +1,14 @@
 "use strict";
 const { Router } = require("express");
 const firebaseController = Router();
-const { firebase } = require("../config/db");
-const { pollDataToUser, decryptToken, pollToArray } = require("../utils/utils");
-const { UserModel } = require("../models/User.model");
-const fireDb = firebase.database();
-const bodyParser = require("body-parser");
-const express = require("express");
+const {firebase} = require('../config/db');
+const { pollDataToUser,decryptToken, pollToArray} = require("../utils/utils");
+const {UserModel} = require("../models/User.model")
+const fireDb = firebase.database(); 
+const bodyParser = require('body-parser');
+const express = require("express")
+const ExcelJS = require('exceljs');
+
 const app = express();
 app.use(express.json());
 
@@ -188,8 +190,7 @@ firebaseController.get("/live-poll/:pollId", async (req, res) => {
       "value",
       (snapshot) => {
         const pollData = snapshot.val();
-
-        if (!pollData) {
+         if (!pollData) {
           res.status(404).send("Poll not found");
           return;
         }
@@ -202,6 +203,47 @@ firebaseController.get("/live-poll/:pollId", async (req, res) => {
     );
   }
 });
+
+
+  firebaseController.get('/voted-by', async(req, res) => {
+    const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Voters');
+  
+  // add headers to the worksheet
+  worksheet.columns = [
+    { header: 'Email', key: 'email', width: 50 },
+    { header: 'Full Name', key: 'fullName', width: 50 },
+    { header: 'User ID', key: 'userId', width: 50 },
+  ];
+  
+  const votedBy= [
+    {
+        "email": "arun421@gmail.com",
+        "fullName": "Arun Raj",
+        "userId": "642d12d86b7157be0bb36690"
+    },
+    {
+        "email": "vedant@gmail.com",
+        "fullName": "Vedant Pawar",
+        "userId": "642d12d86b7157be0bb36612"
+    }
+]
+  // add rows to the worksheet
+  votedBy.forEach(user => {
+    worksheet.addRow(user);
+  });
+  
+  // set the response headers
+  res.setHeader('Content-Disposition', 'attachment; filename="voters.xlsx"');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  
+  // write the workbook to the response
+  await workbook.xlsx.write(res);
+  
+  // end the response
+  res.end();
+  });
+
 
 module.exports = {
   firebaseController,
