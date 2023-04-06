@@ -1,5 +1,6 @@
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Grid, GridItem, Heading, Image,Input,SimpleGrid,Stack, Text, Toast, useToast } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading,
+   Image,SimpleGrid, Text,  useToast } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 
 import image_4 from '../images/image_4.png';
 import image_3 from '../images/image_3.png';
@@ -7,17 +8,21 @@ import image_2 from '../images/image_2.png';
 import image_1 from '../images/image_1.png';
 
 import { useNavigate } from 'react-router-dom';
-import StarsRating from 'stars-rating';
+
 import { Link } from 'react-router-dom';
-import EditComponent from '../components/EditComponent';
+import Navbar from "../components/Navbar";
 import { useDispatch } from 'react-redux';
-import { postPollData } from '../redux/data/action';
+import { getAllData, postPollData } from '../redux/data/action';
+import { useSelector } from 'react-redux';
 
 function TemplatePage(){
 const navigate = useNavigate()
 let temp = JSON.parse(localStorage.getItem("template")) || []
+const data = useSelector((store)=>store.data.data)||[]
+// console.log("dataaa check",data.userDetails[0].templateCreated)
 const dispatch = useDispatch()
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOm51bGwsImVtYWlsIjoidmVkYW50cGF3YXIxOEBnbWFpbC5jb20iLCJmdWxsTmFtZSI6IlZlZGFudCBQYXdhciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjgwMTc3MjYwLCJleHAiOjE2ODAxODA4NjB9.RHwjDDdf36a7i6gV_jh7vCPyyfDF46-BKf9pE37ZB8g"
+const [dataArray, setDataArray] = useState([])
+let token = localStorage.getItem("adminToken");
 const toast = useToast()
 const handleSubmit =(item)=>{
   const data = {
@@ -38,10 +43,36 @@ toast({
 })
 }
 
+// console.log("data",data)
+
+useEffect(()=>{
+  // dispatch(getTemplateByIdData(token))
+  dispatch(getAllData(token))
+},[dispatch])
+
+let dataA = []
+useEffect(()=>{
+
+  if(data.length!==0 ){
+    dataA = data?.userDetails[0]?.templateCreated
+    setDataArray(dataA)
+    // console.log("dataA",dataA)
+}
+},[data])
+
+
+
+const handleDetails = (name)=>{
+  localStorage.setItem("templateName",name);
+}
+
+
   return (
+    <>
+    <Navbar/>
     <Box  bg={'#F2F7FF'} h={'300vh'} border={'1px solid #F2F7FF'} >
       <Flex justifyContent={'space-between'} w={'100%'}  >
-      <Image margin={"1%"} onClick={()=>navigate('/')} cursor={'pointer'} w={'110px'} h={'45px'} alt="icon" src={'https://user-images.githubusercontent.com/97525465/226943245-2d818b81-d5aa-4f1d-bc89-e82c3dbde51d.png'}/>
+     
             <Image marginRight={'5%'} w={'100px'} h={'100px'} marginTop={'1%'} alt="icon" src={image_4}/>
             <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_3}/>
             <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_2}/>
@@ -55,7 +86,7 @@ toast({
  
    
     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
-{temp.map((item)=>(
+{dataArray.map((item)=>(
  <Card >
  <CardHeader>
    <Heading size='md'> {item.templateName} </Heading>
@@ -64,16 +95,15 @@ toast({
    <Text>Use templates to save time.</Text>
  </CardBody>
  <CardFooter>
-   <Button color={'white'} bgColor={'red.400'}><Link to={`/template-details`}>
-    {/* <EditComponent item={item}/> */}
+   <Button color={'white'} bgColor={'red.400'} onClick={()=>handleDetails(item.templateName)}><Link to={`/template-page/${item.templateId}`}>
+
     Details
     </Link></Button>
-    <Button color={'white'} bgColor={'red.500'} onClick={()=>handleSubmit(item)} marginLeft={"5px"}>Use template</Button>
+    <Button color={'white'} bgColor={'red.500'} onClick={()=>handleSubmit(item)} marginLeft={"5px"}>Start poll</Button>
  </CardFooter>
 </Card>
 ))}
  
-
 </SimpleGrid>
   
  
@@ -83,6 +113,7 @@ toast({
     
        
        </Box>
+       </>
   )
 }
 

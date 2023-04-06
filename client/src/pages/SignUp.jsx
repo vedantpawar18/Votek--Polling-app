@@ -16,26 +16,28 @@ import {
     Text
   } from '@chakra-ui/react';
   
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import validator from 'validator';
 import Layout from '../components/Layout';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { signUp } from '../redux/auth/action';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
   export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("")
-    const data = useSelector((store)=>store.auth.auth);
     const [password, setPassword] = useState("")
     const[name,setName]=useState("")
     const [nameError, setNameError] = useState("")
     const [emailError, setEmailError] = useState("")
     const [passwordError,setPasswordError] = useState("")
+    const data = useSelector((store)=>store.auth.auth);
     const dispatch = useDispatch();
-let userToken = localStorage.getItem("userToken");
-let userEmail = localStorage.getItem("userEmail");
-let userName = localStorage.getItem("userName");
+    const navigate = useNavigate();
+// let userToken = localStorage.getItem("userToken");
+// let userEmail = localStorage.getItem("userEmail");
+// let userName = localStorage.getItem("userName");
 
 
 const handleClick = ()=>{
@@ -84,6 +86,16 @@ if(name.length<3){
         }
         
 }
+
+
+useEffect(()=>{
+
+  if(data?.token?.primaryToken){
+  
+    navigate("/dashboard")
+  }
+  
+  },[data])
 
 
     return (
