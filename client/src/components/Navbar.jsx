@@ -78,9 +78,9 @@ const Navbar = () => {
 			  
               display={{ base: "none", md: "flex" }}
             >
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Dashboard</Link></ NavLink>
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/polls'>Create Polls</Link></ NavLink>
-                <NavLink href="/dashboard" key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Recent Polls</Link></ NavLink>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Dashboard</Link></ NavLink>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/create'>Create Polls</Link></ NavLink>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/history'>Recent Polls</Link></ NavLink>
              
             </HStack>:<></>}
           </HStack>
