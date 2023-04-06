@@ -27,6 +27,7 @@
     "react-stars": "^2.2.5",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "socket.io-client": "^4.6.1",
     "stars-rating": "^1.1.0",
     "uuid": "^9.0.0",
     "validator": "^13.9.0",
