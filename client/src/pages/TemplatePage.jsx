@@ -82,9 +82,7 @@ function TemplatePage() {
 			// console.log("dataA",dataA)
 		}
 	}, [data]);
-	console.log(dataArray);
-	console.log(dataA);
-
+	
 	const handleDetails = (name) => {
 		localStorage.setItem("templateName", name);
 	};
