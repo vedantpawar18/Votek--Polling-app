@@ -9,7 +9,7 @@ import UserPrivateRoute from "./UserPrivateRoute";
 import CreatePoll from "../pages/CreatePoll";
 import TemplatePage from "../pages/TemplatePage";
 import TemplateDetailPage from "../pages/TemplateDetailPage";
-import PollHistory from "../pages/PollHistory";
+
 import LiveChart from "../pages/LiveChart";
 import RecentPolls from "../pages/RecentPolls";
 import EndedPoll from "../pages/EndedPoll";
@@ -32,7 +32,6 @@ function MainRoutes() {
         <Route path="/create" element={<CreatePoll />} />
         <Route path="/template-page" element={<TemplatePage />} />
         <Route path="/template-page/:id" element={<TemplateDetailPage />} />
-        <Route path="/poll-history" element={<PollHistory />} />
         <Route path="/live-polls" element={<LivePoll />} />
         <Route path="/live-polls/:id" element={<LiveChart />} />
         <Route path="/ended-polls" element={<EndedPoll/>} />

@@ -1,26 +1,74 @@
 import React, { useState,useEffect } from 'react'
-import { Box,  Heading, Text } from "@chakra-ui/react";
+import { Box,  Button,  Heading, Text, useToast } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Graphs from "../components/Graphs";
 import io from 'socket.io-client';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { stopPoll } from '../redux/data/action';
+import { useDispatch } from 'react-redux';
 const LiveChart = () => {
 	const [remainingTime, setRemainingTime] = useState(null);
 	const {id} = useParams()
 	const [pollData,setPollData]=useState([])
-	useEffect(() => {
+	const dispatch = useDispatch()
+	let token = localStorage.getItem("adminToken");
+    const navigate = useNavigate()
+    const toast = useToast()
+		  useEffect(() => {
 		const socket = io(`http://localhost:8080`);
-		socket.emit('getPollData',`${id}`);
-		socket.on('pollData', (pollData) => {
-		  
-			setPollData(pollData);
-		});
-			return () => socket.disconnect();
+
+			// Listen for poll data from the server
+			socket.on('pollData', (newPollData) => {
+			  setPollData(newPollData);
+			});
+			// Listen for poll deleted event from the server
+			socket.on('pollDeleted', () => { 
+	
+			  toast({
+                title: `This poll has been deleted!`,
+                position: 'top',
+				duration: 9000,
+                isClosable: true,
+              })
+			  // You can also redirect the user to a different page or perform other actions
+			});
+		 
+			socket.emit('getPollData',`${id}`);
+		 
+			return () => {
+			  socket.off('pollData');
+			  socket.off('pollDeleted');
+			};
 		  }, [id]);
+
+
+
+
+
+		  const handleClick = ()=>{
+			
+		let data = {
+			pollId:id
+		}
+		
+			dispatch(stopPoll(data,token))
+			toast({
+                title: `This poll has been deleted!`,
+                position: 'top',
+				duration: 9000,
+                isClosable: true,
+              })
+					navigate('/ended-polls')
+		}
+		
+
+
+
+
 
         //  console.log("pollData",pollData[0].pollEndsAt)
 		 
-		  var endTime = 0
+		  var endTime = pollData[0]?.pollEndsAt
 		//   console.log("eennn",endTime)
 		  useEffect(() => {
 			const intervalId = setInterval(() => {
@@ -30,8 +78,19 @@ const LiveChart = () => {
 		
 			  if (diff <= 0) {
 				clearInterval(intervalId);
-				setRemainingTime('Poll ended');
-
+				let data = {
+					pollId:id
+				}
+				
+					dispatch(stopPoll(data,token))
+					toast({
+						title: 'Poll already ended.',
+						description: "Sorry this poll was ended.",
+						status: 'warning',
+						duration: 8000,
+						isClosable: true
+					  })
+					navigate('/ended-polls')
 			  } else {
 				const minutes = Math.floor((diff / 1000 / 60) % 60);
 				const seconds = Math.floor((diff / 1000) % 60);
@@ -48,11 +107,11 @@ const LiveChart = () => {
 		<>
 			<Navbar />
 			<Heading>Live Data</Heading>
-			{/* <Text>Remaining time:{remainingTime}</Text> */}
+			<Text>Poll will be ended with in: {remainingTime}</Text>
 			<Box min-height={"fit-content"} padding={"6%"}>
 				<Graphs pollData={pollData} />
 			</Box>
-			
+			<Button bg={"red.400"} onClick={handleClick}>End Poll</Button>
 		</>
 	);
 };

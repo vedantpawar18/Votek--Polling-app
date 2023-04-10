@@ -35,55 +35,34 @@ export default function Graphs(item) {
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);
 	// const [liveData,setLiveData]=useState([])
-	const navigate = useNavigate()
+
 	let token = localStorage.getItem("adminToken");
 	const [updatedData, setUpdatedData] = useState(true)
 	const [pollData,setPollData]=useState([])
 	const dispatch = useDispatch();
 	const {id} = useParams()
 
-	const adminLiveData = useSelector((store) => store.data.liveData);
-	const ended = useSelector((store) => store.data.ended) || [];
-	const [isEnded,setIsEnded]=useState(false)
+	// const adminLiveData = useSelector((store) => store.data.liveData);
+	// const ended = useSelector((store) => store.data.ended) || [];
+	// const [isEnded,setIsEnded]=useState(false)
 	
-	useEffect(() => {
-		const socket = io(`http://localhost:8080`);
-		// console.log(isEnded)
-		if(!isEnded){
-		
-		socket.emit('getPollData',`${id}`);
-		socket.on('pollData', (pollData) => {
-		//   console.log("fetching live detail")
-			setPollData(pollData);
-			
-		});
-		return () => socket.disconnect();
-		}else{
-			setIsEnded(false)
-			navigate('/ended-polls')
-		}
-		
-			
-		  }, []);
-		 
+	
 
-const handleClick = ()=>{
-	setIsEnded(true)
-	// console.log("id",id)
-let data = {
-	pollId:id
-}
+// const handleClick = ()=>{
+// 	setIsEnded(true)
+// let data = {
+// 	pollId:id
+// }
 
-	dispatch(stopPoll(data,token))
-}
+// 	dispatch(stopPoll(data,token))
+// }
 
 
 
 useEffect(()=>{
 dispatch(endedPoll(token))
-},[])
+},[dispatch,token])
 
-// console.log("ended",ended)
 
 	useEffect(() => {
 		let label1 = [];
@@ -201,7 +180,7 @@ dispatch(endedPoll(token))
 				})}
 				
 		</div>
-		<Button onClick={handleClick}>End Poll</Button>
+		{/* <Button onClick={handleClick}>End Poll</Button> */}
 </>
 	);
 }

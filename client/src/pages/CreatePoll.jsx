@@ -134,6 +134,7 @@ function CreatePoll() {
       duration: 9000,
       isClosable: true
     })
+    navigate('/live-polls')
   };
 
   const handleCreateTemplate = () => {
