@@ -56,7 +56,6 @@ function EndedPoll() {
 		dispatch(endedPoll(token));
 	}, [dispatch, token]);
 
-	console.log("ended", ended);
 
 	return (
 		<>
