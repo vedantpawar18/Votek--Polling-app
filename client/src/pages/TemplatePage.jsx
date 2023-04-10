@@ -48,7 +48,7 @@ function TemplatePage() {
 	const navigate = useNavigate();
 	let temp = JSON.parse(localStorage.getItem("template")) || [];
 	const data = useSelector((store) => store.data.data) || [];
-	// console.log("dataaa check",data.userDetails[0].templateCreated)
+	
 	const dispatch = useDispatch();
 	const [dataArray, setDataArray] = useState([]);
 
@@ -77,7 +77,7 @@ function TemplatePage() {
 	let token = localStorage.getItem("adminToken");
 	const toast = useToast();
 
-	// console.log("data",data)
+	
 
 	useEffect(() => {
 		// dispatch(getTemplateByIdData(token))
@@ -89,7 +89,7 @@ function TemplatePage() {
 		if (data.length !== 0) {
 			dataA = data?.userDetails?.templateCreated;
 			setDataArray(dataA);
-			// console.log("dataA",dataA)
+		
 		}
 	}, [data]);
 
@@ -97,7 +97,7 @@ function TemplatePage() {
 		localStorage.setItem("templateName", name);
 	};
 
-	// console.log("template data", dataArray);
+
 
 	const handleSubmit = (item) => {
 		//   const data = {

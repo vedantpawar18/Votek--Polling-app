@@ -30,7 +30,7 @@ ChartJS.register(
 
 
 export default function Graphs(item) {
-	// console.log("itttemmm",item.pollData)
+	
 	const [data, setData] = useState([]);
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);

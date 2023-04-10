@@ -125,7 +125,7 @@ function CreatePoll() {
       pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
     };
     dispatch(postPollData(data, token))
-    // console.log("data",data)
+    
 
     toast({
       title: 'Poll created.',
@@ -149,7 +149,7 @@ function CreatePoll() {
       }))
     }
     dispatch(addTemplateData(data, token))
-    // console.log("template data", data)
+  
     // temp.push(data)
     // localStorage.setItem("template", JSON.stringify(temp))
 
@@ -164,10 +164,7 @@ function CreatePoll() {
     navigate('/template-page')
   }
 
-  const handleSave = () => {
-    // console.log("working")
-  }
-
+ 
 
 
   return (

@@ -21,7 +21,7 @@ const finalRef = useRef(null)
 
 
 
-  
+
   const [currentPoll, setCurrentPoll] = useState(data);
 
   const dispatch = useDispatch()
@@ -50,7 +50,7 @@ const finalRef = useRef(null)
     const newOption = '';
     updatedPoll.questions[questionIndex].options.push(newOption);
     setCurrentPoll(updatedPoll);
-    // console.log("check",currentPoll)
+
 
 
   };
@@ -87,7 +87,7 @@ currentPoll.pollName = poll
       duration: 9000,
       isClosable: true,
     })
-    // console.log("currentPoll",currentPoll)
+
   };
 
 
@@ -95,7 +95,7 @@ currentPoll.pollName = poll
     dispatch(getTemplateByIdData(id,token))
   },[])
  
-// console.log("currentPoll zzzzz",currentPoll)
+
 
 
   return (

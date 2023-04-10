@@ -66,14 +66,14 @@ const LiveChart = () => {
 
 
 
-        //  console.log("pollData",pollData[0].pollEndsAt)
+       
 		 
 		  var endTime = pollData[0]?.pollEndsAt
-		//   console.log("eennn",endTime)
+	
 		  useEffect(() => {
 			const intervalId = setInterval(() => {
 			  const currentTime = new Date().getTime();
-			  // console.log("end",currentTime)
+			 
 			  const diff = endTime - currentTime;
 		
 			  if (diff <= 0) {
