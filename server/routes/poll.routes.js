@@ -93,7 +93,6 @@ pollController.get('/polls/votedBy', async (req, res) => {
     const votedBy = option.votedBy;
     res.status(200).json(votedBy);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
    
