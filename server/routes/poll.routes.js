@@ -100,7 +100,7 @@ pollController.get('/polls/votedBy', async (req, res) => {
 });
 
 
-pollController.get('download/votedby/poll/:pollId/question/:questionId/option/:optionId', async(req, res) => { 
+pollController.get('/download/votedby/:pollId/question/:questionId/option/:optionId', async(req, res) => { 
   const pollId = req.params.pollId;
   const questionId = req.params.questionId;
   const optionId = req.params.optionId;
