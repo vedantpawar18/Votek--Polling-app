@@ -1,5 +1,9 @@
 # Votek
-Votek is a real-time polling application built using React.js and Firebase. It allows admin to create polls with custom questions and options, and share them with others via a unique URL. Users can vote on the polls anonymously, and the results are updated in real-time for all connected clients.
+Votek App is a real-time polling application built using Firebase Realtime Database and React. It allows admins to create polls and share them with others to gather their opinions or preferences. Users can vote on polls and admin can see real-time updates on the poll results. The app provides a user-friendly interface for creating and managing polls and displays the results of the poll in various formats such as graphs and charts.
+
+The backend of the Votek App is built using Firebase Realtime Database, MongoDb and Express.js, while the frontend is built using React. Socket.IO is used for real-time communication between the server and the client, allowing admin to see live updates on poll results.
+
+This app can be used for various purposes such as conducting surveys, gathering feedback, and decision making. It provides an efficient way of gathering opinions from a large number of people in a short time.
 
 # Step to cloning repo
 
