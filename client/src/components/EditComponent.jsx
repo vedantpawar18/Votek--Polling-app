@@ -18,17 +18,20 @@ const finalRef = useRef(null)
     pollCreatedAt: Date.now(),
     pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
   }
-  // console.log("cccc",data)
+
+
+
+  
   const [currentPoll, setCurrentPoll] = useState(data);
 
   const dispatch = useDispatch()
   const [rating, setRating] = useState(0)
   const toast = useToast()
   const {id} = useParams()
-  // const dataById = useSelector((store)=>store.data.dataDetails)||[]
+ 
   let token = localStorage.getItem("adminToken");
 
-// console.log("data by id",dataById)
+
 
   const handleOptionChange = (event, questionIndex, optionIndex) => {
   
@@ -66,7 +69,7 @@ const finalRef = useRef(null)
   };
 
   
-// console.log("poll name check",poll)
+
 
 
   const handleSubmit = () => {
