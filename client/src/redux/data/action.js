@@ -235,7 +235,7 @@ dispatch(postPollDataRequest())
         data
     })
     .then((res)=>{
-        console.log("Posted poll data",res.data)
+        // console.log("Posted poll data",res.data)
         dispatch(postPollDataRequest());
     })
     .catch((error)=>{
@@ -258,7 +258,7 @@ dispatch(addTemplateDataRequest())
         data
     })
     .then((res)=>{
-        console.log("Template added",res.data)
+        // console.log("Template added",res.data)
         dispatch(addTemplateDataSuccess());
     })
     .catch((error)=>{
@@ -304,7 +304,7 @@ dispatch(getTemplateByIdDataRequest())
         }
     })
     .then((res)=>{
-        console.log("template by id",res.data)
+        // console.log("template by id",res.data)
         dispatch(getTemplateByIdDataSuccess(res.data));
     })
     .catch((error)=>{
@@ -345,7 +345,7 @@ export const getLiveData = (token)=>(dispatch)=>{
             }
         })
         .then((res)=>{
-            console.log("get live data",res.data)
+            // console.log("get live data",res.data)
             dispatch(getLiveDataSuccess(res.data));
             
         })

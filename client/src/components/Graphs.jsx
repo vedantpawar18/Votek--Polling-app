@@ -30,7 +30,7 @@ ChartJS.register(
 
 
 export default function Graphs(item) {
-	console.log("itttemmm",item.pollData)
+	// console.log("itttemmm",item.pollData)
 	const [data, setData] = useState([]);
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);
@@ -48,7 +48,7 @@ export default function Graphs(item) {
 	
 	useEffect(() => {
 		const socket = io(`http://localhost:8080`);
-		console.log(isEnded)
+		// console.log(isEnded)
 		if(!isEnded){
 		
 		socket.emit('getPollData',`${id}`);
@@ -69,7 +69,7 @@ export default function Graphs(item) {
 
 const handleClick = ()=>{
 	setIsEnded(true)
-	console.log("id",id)
+	// console.log("id",id)
 let data = {
 	pollId:id
 }
@@ -83,7 +83,7 @@ useEffect(()=>{
 dispatch(endedPoll(token))
 },[])
 
-console.log("ended",ended)
+// console.log("ended",ended)
 
 	useEffect(() => {
 		let label1 = [];

@@ -97,7 +97,7 @@ function TemplatePage() {
 		localStorage.setItem("templateName", name);
 	};
 
-	console.log("template data", dataArray);
+	// console.log("template data", dataArray);
 
 	const handleSubmit = (item) => {
 		//   const data = {

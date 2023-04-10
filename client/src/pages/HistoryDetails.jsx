@@ -29,7 +29,7 @@ const HistoryDetails = () => {
 
       }, []);
      
-console.log("live data",pollData)
+// console.log("live data",pollData)
 
  
  
@@ -41,7 +41,7 @@ const ended = useSelector((store)=>store.data.ended)
         dispatch(endedPoll(token))
     },[dispatch,token])
 
-console.log("ended",ended)
+// console.log("ended",ended)
   return (
 
     <Box>

@@ -54,7 +54,7 @@ function LivePoll() {
 		dispatch(getLiveData(token));
 	}, [dispatch, token]);
 
-	console.log("live", live);
+	// console.log("live", live);
 
 
 

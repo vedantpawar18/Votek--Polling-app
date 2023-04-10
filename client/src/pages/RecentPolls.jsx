@@ -19,7 +19,7 @@ const RecentPolls = () => {
         setData(response?.data.userDetails?.pollsAttended);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, [userToken]);
 

@@ -62,7 +62,7 @@ const finalRef = useRef(null)
     setCurrentPoll(updatedPoll);
  
   };
-console.log("poll name check",poll)
+// console.log("poll name check",poll)
   const handleSubmit = () => {
    
 currentPoll.pollName = poll

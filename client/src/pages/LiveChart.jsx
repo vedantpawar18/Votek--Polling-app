@@ -21,7 +21,7 @@ const LiveChart = () => {
         //  console.log("pollData",pollData[0].pollEndsAt)
 		 
 		  var endTime = 0
-		  console.log("eennn",endTime)
+		//   console.log("eennn",endTime)
 		  useEffect(() => {
 			const intervalId = setInterval(() => {
 			  const currentTime = new Date().getTime();
