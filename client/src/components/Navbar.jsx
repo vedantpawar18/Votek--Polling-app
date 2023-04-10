@@ -73,14 +73,17 @@ const Navbar = () => {
           <HStack spacing={8} alignItems={"center"}>
             <Box cursor={'pointer'} onClick={()=>navigate('/')} className={styles.logo}></Box>
            {show?<HStack
-              as={"nav"}
-              spacing={4}
-			  
-              display={{ base: "none", md: "flex" }}
-            >
-                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>Dashboard</Link></ NavLink>
-                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/create'>Create Polls</Link></ NavLink>
-                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/history'>Recent Polls</Link></ NavLink>
+                as={"nav"}
+                spacing={4}
+			          display={{ base: "none", md: "flex" }}>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/dashboard'>
+                  Dashboard</Link></ NavLink>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/create'>
+                  Create Polls</Link></ NavLink>
+                  <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/live-polls'>
+                  Live Polls</Link></ NavLink>
+                <NavLink  key={"dashboard"}><Link color='black' textDecoration={"none"} href='/ended-polls'>
+                  Ended Polls</Link></ NavLink>
              
             </HStack>:<></>}
           </HStack>

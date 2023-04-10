@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Flex,
+
   Heading,
-  Text,
+
   Button,
   useToast,
 } from "@chakra-ui/react";
 import Active from "../components/Active";
 import Inactive from "../components/Inactive";
-import BarChart from './BarChart'
+
 import io from 'socket.io-client';
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -224,7 +224,7 @@ useEffect(() => {
 
 
       {dataFromChild? <><Active/></>:<><Inactive/></>}
-          <BarChart dataFromChild={dataFromChild} setDataFromChild={setDataFromChild}/>
+       
      
      
           {dataFromChild && (

@@ -1,16 +1,18 @@
-import { Box, Button, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Button, FormControl,Heading, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTemplateData, getTemplateByIdData, postPollData } from "../redux/data/action";
+import {  getTemplateByIdData, postPollData } from "../redux/data/action";
 import StarsRating from 'stars-rating'
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 const EditComponent= (props) => {
-
+const [poll, setPollName] = useState("")
 const templateName = localStorage.getItem("templateName");
-
+const { isOpen, onOpen, onClose } = useDisclosure()
+const initialRef = useRef(null)
+const finalRef = useRef(null)
   let data = {
-    pollName:templateName,
+    // pollName:poll,
     questions:[props.item],
     pollStatus: true,
     pollCreatedAt: Date.now(),
@@ -60,10 +62,10 @@ const templateName = localStorage.getItem("templateName");
     setCurrentPoll(updatedPoll);
  
   };
-
+console.log("poll name check",poll)
   const handleSubmit = () => {
    
-
+currentPoll.pollName = poll
 
 
     dispatch(postPollData(currentPoll,token))
@@ -100,10 +102,35 @@ const templateName = localStorage.getItem("templateName");
            onClick={() => handleOptionCreate(questionIndex)}>
             Add Option
           </Button>}
+
+      <>
+      
+      {question.type==="rating"&&
+               
+               <>
+
+<StarsRating
+  count={10}
+  value={question.options.length}
+  onChange={(event)=>handleOptionRatingChange(event, questionIndex)}
+  size={44}
+  color2={'#ffd700'} />  
+
+             </> 
+              }
+          
+      
+      
+      
+      
+      </>
+
+
+
             {question?.options.map((option, optionIndex) => (
               <Box key={optionIndex}>
                 {/* <label color={"#6C6768"} fontSize={"20px"} textAlign={'left'} htmlFor={`option-${questionIndex}-${optionIndex}`}>Option {optionIndex+1}</label> */}
-                <FormLabel marginLeft={'3px'} marginTop={'10px'} marginBottom="1px"  fontSize={'12px'} htmlFor={`option-${questionIndex}-${optionIndex}`}>Option {optionIndex+1}</FormLabel>
+                {/* <FormLabel marginLeft={'3px'} marginTop={'10px'} marginBottom="1px"  fontSize={'12px'} htmlFor={`option-${questionIndex}-${optionIndex}`}>Option {optionIndex+1}</FormLabel> */}
               { question.type==="poll" && <Input
                 bg={'white'}
                  
@@ -117,34 +144,48 @@ const templateName = localStorage.getItem("templateName");
                 bg={'white'}
                  
                   id={`option-${questionIndex}-${optionIndex}`}
-                  type="number"
+                  type="text"
                   value={option}
                   onChange={(event) => handleOptionChange(event, questionIndex, optionIndex)}
                 />}
-                       {question.type==="rating"&&
-               
-               <>
-
-<StarsRating
-  count={10}
-  value={option}
-  onChange={(event)=>handleOptionRatingChange(event, questionIndex, optionIndex)}
-  size={44}
-  color2={'#ffd700'} />  
-
-             </> 
-              }
-             
+                      
               </Box>
             ))}
           </Box>
         ))}
 
-        <Button marginTop={'40px'} color={'white'} bg={'red.400'} onClick={handleSubmit}>Launch poll</Button>
-     
+        {/* <Button marginTop={'40px'} color={'white'} bg={'red.400'} onClick={handleSubmit}>Launch poll</Button> */}
+        <>
+          <Button bg={"red.400"}  marginTop={'40px'} color={'white'} marginLeft={"5px"}  onClick={onOpen}>Launch poll</Button>
+    
+          <Modal
+            initialFocusRef={initialRef}
+            finalFocusRef={finalRef}
+            isOpen={isOpen}
+            onClose={onClose}
+          >
+            <ModalOverlay  bg='none' />
+            <ModalContent>
+              <ModalHeader>Enter Poll Name</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody pb={6}>
+                <FormControl>
+                  
+                  <Input ref={initialRef} placeholder='Poll name' onChange={(e)=>setPollName(e.target.value)} />
+                </FormControl>
+              </ModalBody>
+    
+              <ModalFooter>
+                <Button bg={"red.400"} color={'white'} onClick={handleSubmit} mr={3}>
+                 Start
+                </Button>
+                <Button onClick={onClose}>Cancel</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </>
     </Box>
   );
 };
 
-export default EditComponent
-;
+export default EditComponent;

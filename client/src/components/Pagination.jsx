@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
 const Pagination = ({ showPerPage, onPaginationChange, total }) => {
@@ -24,15 +24,34 @@ const Pagination = ({ showPerPage, onPaginationChange, total }) => {
       }
     }
   };
+
+
+const arr = new Array(Math.ceil(total/showPerPage)).fill(0)
+
+
   return (
-    <Box className="d-flex justify-content-between" textAlign={"center"} marginTop={"8%"} >
-      <Button onClick={() => onButtonClick("prev")} marginRight={"15%"} >
+
+  <>
+    <Flex justifyContent={"center"} gap={'5px'}  textAlign={"center"} marginTop={"8%"}>
+
+      <Button onClick={() => onButtonClick("prev")} color={'white'}  bgColor={'red.400'}>
         Previous
       </Button>
-      <Button  onClick={() => onButtonClick("next")} >
+
+      {arr.map((item,page)=>(
+        
+        <Button onClick={()=>onPaginationChange(page+1)}>
+          {page+1}
+        </Button>
+
+      ))}
+
+      <Button  onClick={() => onButtonClick("next")}  color={'white'} bgColor={'red.400'} >
         Next
       </Button>
-    </Box>
+    </Flex>
+    </>
+
   );
 };
 

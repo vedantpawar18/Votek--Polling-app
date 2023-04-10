@@ -44,7 +44,7 @@ const RecentPolls = () => {
         ml={'10px'}
         pb={2}
       >
-        Poll's you've visited recently
+        Polls you've visited recently
       </Text>
       <Grid
         p={{ base: 2, md: 10 }}

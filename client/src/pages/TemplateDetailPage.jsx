@@ -22,7 +22,7 @@ const TemplateDetailPage = () => {
     dispatch(getTemplateByIdData(id,token))
   },[dispatch,id,token])
  
-
+console.log("databyId",dataById)
 
   let dataA = []
   useEffect(()=>{
