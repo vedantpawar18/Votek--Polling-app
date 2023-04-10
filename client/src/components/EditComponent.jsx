@@ -48,6 +48,8 @@ const finalRef = useRef(null)
     updatedPoll.questions[questionIndex].options.push(newOption);
     setCurrentPoll(updatedPoll);
     // console.log("check",currentPoll)
+
+
   };
 
 
@@ -62,7 +64,11 @@ const finalRef = useRef(null)
     setCurrentPoll(updatedPoll);
  
   };
+
+  
 // console.log("poll name check",poll)
+
+
   const handleSubmit = () => {
    
 currentPoll.pollName = poll
