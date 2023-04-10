@@ -191,7 +191,6 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
       const options = [];
   
       for (const [optionId, optionData] of Object.entries(questionData.options)) {
-        console.log("optionId:",optionData.optionId)
         options.push({
           optionId:optionId,
           option: optionData.option,
