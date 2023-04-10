@@ -17,11 +17,11 @@ const LiveChart = () => {
 		  useEffect(() => {
 		const socket = io(`http://localhost:8080`);
 
-			// Listen for poll data from the server
+	
 			socket.on('pollData', (newPollData) => {
 			  setPollData(newPollData);
 			});
-			// Listen for poll deleted event from the server
+		
 			socket.on('pollDeleted', () => { 
 	
 			  toast({
@@ -30,7 +30,7 @@ const LiveChart = () => {
 				duration: 9000,
                 isClosable: true,
               })
-			  // You can also redirect the user to a different page or perform other actions
+			
 			});
 		 
 			socket.emit('getPollData',`${id}`);

@@ -30,13 +30,10 @@ import image_4 from "../images/image_4.png";
 import image_3 from "../images/image_3.png";
 import image_2 from "../images/image_2.png";
 import image_1 from "../images/image_1.png";
-
-import { useNavigate } from "react-router-dom";
-
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useDispatch } from "react-redux";
-import { getAllData, postPollData } from "../redux/data/action";
+import { getAllData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { BiSearchAlt } from "react-icons/bi";
@@ -45,8 +42,8 @@ function TemplatePage() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const initialRef = useRef(null);
 	const finalRef = useRef(null);
-	const navigate = useNavigate();
-	let temp = JSON.parse(localStorage.getItem("template")) || [];
+
+
 	const data = useSelector((store) => store.data.data) || [];
 	
 	const dispatch = useDispatch();

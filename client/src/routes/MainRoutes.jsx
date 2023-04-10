@@ -9,7 +9,6 @@ import UserPrivateRoute from "./UserPrivateRoute";
 import CreatePoll from "../pages/CreatePoll";
 import TemplatePage from "../pages/TemplatePage";
 import TemplateDetailPage from "../pages/TemplateDetailPage";
-
 import LiveChart from "../pages/LiveChart";
 import RecentPolls from "../pages/RecentPolls";
 import EndedPoll from "../pages/EndedPoll";

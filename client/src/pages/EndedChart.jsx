@@ -1,12 +1,12 @@
-import React, { useState,useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Box,  Heading } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Graphs from "../components/Graphs";
 
-import { useParams } from "react-router-dom";
+
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { endedPoll, getLiveData } from '../redux/data/action';
+import { endedPoll } from '../redux/data/action';
 const EndedChart = () => {
     let token = localStorage.getItem("adminToken");
     const dispatch = useDispatch()

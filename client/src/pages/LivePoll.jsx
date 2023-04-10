@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { endedPoll, getLiveData } from "../redux/data/action";
+import {  getLiveData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import {
 	Box,

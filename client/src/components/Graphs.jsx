@@ -11,11 +11,9 @@ import {
 import { useEffect, useState } from "react";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "../App.css";
-import { useSelector, useDispatch } from "react-redux";
-import io from 'socket.io-client';
-import { useNavigate, useParams } from "react-router-dom";
-import { endedPoll, stopPoll } from "../redux/data/action";
-import { Button } from "@chakra-ui/react";
+import {  useDispatch } from "react-redux";
+import { endedPoll } from "../redux/data/action";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -25,40 +23,18 @@ ChartJS.register(
 	Legend
 );
 
-
-
-
-
 export default function Graphs(item) {
 	
 	const [data, setData] = useState([]);
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);
-	// const [liveData,setLiveData]=useState([])
+
 
 	let token = localStorage.getItem("adminToken");
-	const [updatedData, setUpdatedData] = useState(true)
-	const [pollData,setPollData]=useState([])
+
 	const dispatch = useDispatch();
-	const {id} = useParams()
 
-	// const adminLiveData = useSelector((store) => store.data.liveData);
-	// const ended = useSelector((store) => store.data.ended) || [];
-	// const [isEnded,setIsEnded]=useState(false)
 	
-	
-
-// const handleClick = ()=>{
-// 	setIsEnded(true)
-// let data = {
-// 	pollId:id
-// }
-
-// 	dispatch(stopPoll(data,token))
-// }
-
-
-
 useEffect(()=>{
 dispatch(endedPoll(token))
 },[dispatch,token])

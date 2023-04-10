@@ -15,11 +15,9 @@ import { useNavigate } from 'react-router-dom';
 import PollModal from '../components/PollModal';
 import { useDispatch } from 'react-redux';
 import { addTemplateData, postPollData } from '../redux/data/action';
-import { v4 as uuidv4 } from 'uuid';
+
 import Navbar from "../components/Navbar";
-import { RiArrowUpDownLine } from 'react-icons/ri';
-import { TfiMenuAlt } from 'react-icons/tfi';
-import { GiRoundStar } from 'react-icons/gi';
+
 
 
 function CreatePoll() {
@@ -30,12 +28,9 @@ function CreatePoll() {
   const [rating, setRating] = useState(0)
   const [pollName, setPollName] = useState("");
   const [template, setTemplate] = useState("")
-  const [tempData, setTempData] = useState([])
+ 
   const navigate = useNavigate()
   const toast = useToast()
-  var today = new Date(), time = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-  var today2 = new Date(), time2 = today2.getFullYear() + '-' + (today2.getMonth() + 1) + '-' + today2.getDate() + ' ' + today2.getHours() + ':' + today2.getMinutes() + ':' + today2.getSeconds();
-  today2.setHours(today2.getHours() + 1)
   let token = localStorage.getItem("adminToken");
   const dispatch = useDispatch()
 
