@@ -43,9 +43,7 @@ const RecentPolls = () => {
       .then((response) => {
         setUserData(response?.data.userDetails?.pollsAttended);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }, [userToken]);
 
   return (
@@ -94,7 +92,7 @@ const RecentPolls = () => {
         ml={{ base: 6, md: 10 }}
         mt={5}
       >
-        Recent Polls
+        Polls you've visited recently
       </Text>
       <Grid
         pl={{ base: 10, md: 10 }}

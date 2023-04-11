@@ -24,7 +24,7 @@ export default function Inactive() {
           borderRadius="50%"
         />
       </Tooltip>
-      <Text fontFamily={"Open Sans"} marginLeft={'5px'} fontSize={'24px'} fontWeight={'800'}>Poll Ended</Text>
+      <Text fontFamily={"Open Sans"} marginLeft={'5px'} fontSize={'24px'} fontWeight={'800'}>Inactive Polls</Text>
     </Flex>
   );
 }

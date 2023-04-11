@@ -1,12 +1,13 @@
 "use strict";
 const { Router } = require("express");
 const firebaseController = Router();
-const { firebase } = require("../config/db");
-const { pollDataToUser, decryptToken, pollToArray } = require("../utils/utils");
-const { UserModel } = require("../models/User.model");
-const fireDb = firebase.database();
-const bodyParser = require("body-parser");
-const express = require("express");
+const {firebase} = require('../config/db');
+const { pollDataToUser,decryptToken, pollToArray} = require("../utils/utils");
+const {UserModel} = require("../models/User.model")
+const fireDb = firebase.database(); 
+const bodyParser = require('body-parser');
+const express = require("express")
+
 const app = express();
 app.use(express.json());
 
@@ -132,6 +133,15 @@ firebaseController.post("/vote", async (req, res) => {
               );
               options.map((option) => {
                 option.votes++;
+                option.votes++; 
+                if (option.votedBy == null) {
+                  option.votedBy = [];
+              }
+              option.votedBy.push({
+                  email: userToken.email,
+                  userId: userId,
+                  fullName: user[0].fullName
+              });
               });
               question.totalVotes++;
             }
@@ -188,8 +198,7 @@ firebaseController.get("/live-poll/:pollId", async (req, res) => {
       "value",
       (snapshot) => {
         const pollData = snapshot.val();
-
-        if (!pollData) {
+         if (!pollData) {
           res.status(404).send("Poll not found");
           return;
         }
@@ -203,6 +212,8 @@ firebaseController.get("/live-poll/:pollId", async (req, res) => {
   }
 });
 
+
+  
 module.exports = {
   firebaseController,
 };

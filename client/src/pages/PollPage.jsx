@@ -137,7 +137,7 @@ const PollPage = () => {
         setLoader(false);
       })
       .catch((err) => {
-        console.log(err);
+       
         setLoader(false);
       });
   }, [userToken]);

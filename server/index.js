@@ -47,6 +47,10 @@ io.on('connection', (socket) => {
     const pollRef = fireDb.ref(`polls/${pollId}`);
     pollRef.on('value',async (snapshot) => {
       const pollData = snapshot.val();
+      if (!pollData) {
+        socket.emit('pollDeleted');
+        return;
+      }
       const newPollData=await convertPollData(pollData)
       socket.emit('pollData', newPollData);
     }, (error) => {
