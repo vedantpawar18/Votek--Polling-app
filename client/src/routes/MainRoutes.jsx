@@ -12,12 +12,9 @@ import TemplateDetailPage from "../pages/TemplateDetailPage";
 import PollHistory from "../pages/PollHistory";
 import LiveChart from "../pages/LiveChart";
 import History from "../pages/History";
+import PollPage from "../pages/PollPage"
 
-import Template from "../pages/Template";
-import CreatePoll from "../pages/CreatePoll";
-import PollPage from "../pages/PollPage";
-import TemplatePage from "../pages/TemplatePage";
-import TemplateDetailPage from "../pages/TemplateDetailPage";
+// import Template from "../pages/Template";
 import RecentPolls from "../pages/RecentPolls";
 
 function MainRoutes() {
