@@ -27,7 +27,7 @@ import { BiSearchAlt } from "react-icons/bi";
 function LivePoll() {
 	const dispatch = useDispatch();
 	const [searchTerm, setSearchTerm] = useState("");
-
+	let token = localStorage.getItem("adminToken");
 	const [postsPerPage, setPostsPerPage] = useState(8);
 	const [currentPage, setCurrentPage] = useState(0);
 	const live = useSelector((store) => store.data.liveData);
@@ -35,6 +35,7 @@ function LivePoll() {
 	for (let i = 0; i < Math.ceil(live.length / postsPerPage); i++) {
 		pageNumbers.push(i);
 	}
+	
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 	const getPageData = () => {
 		const start = currentPage * 8;
@@ -48,13 +49,13 @@ function LivePoll() {
 		setCurrentPage(currentPage - 1);
 	};
 
-	let token = localStorage.getItem("adminToken");
+
 
 	useEffect(() => {
 		dispatch(getLiveData(token));
-	}, [dispatch, token]);
+	}, [dispatch, token,live]);
 
-	// console.log("live", live);
+	
 
 
 
@@ -150,7 +151,7 @@ function LivePoll() {
 							key={number}
 							className={`page-item ${currentPage === number ? "active" : ""}`}
 						>
-							<Button onClick={() => paginate(number)}>{number + 1}</Button>
+							<Button bg={currentPage === number ? 'red.400' : 'grey.400'}  onClick={() => paginate(number)}>{number + 1}</Button>
 						</Box>
 					))}
 
