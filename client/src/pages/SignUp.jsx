@@ -35,9 +35,7 @@ import { useNavigate } from 'react-router-dom';
     const data = useSelector((store)=>store.auth.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-// let userToken = localStorage.getItem("userToken");
-// let userEmail = localStorage.getItem("userEmail");
-// let userName = localStorage.getItem("userName");
+
 
 
 const handleClick = ()=>{

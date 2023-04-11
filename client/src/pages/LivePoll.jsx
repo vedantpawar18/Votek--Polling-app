@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { endedPoll} from "../redux/data/action";
+import {  getLiveData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import {
 	Box,
@@ -18,29 +18,28 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import Active from "../components/Active";
+import UrlModal from "../components/UrlModal";
 import Navbar from "../components/Navbar";
-import Inactive from "../components/Inactive";
 
-import { BiSearchAlt } from "react-icons/bi";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
-
-function EndedPoll() {
+import { BiSearchAlt } from "react-icons/bi";
+function LivePoll() {
 	const dispatch = useDispatch();
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const [postsPerPage, setPostsPerPage] = useState(8);
 	const [currentPage, setCurrentPage] = useState(0);
-	const ended = useSelector((store) => store.data.ended) || [];
+	const live = useSelector((store) => store.data.liveData);
 	const pageNumbers = [];
-	for (let i = 0; i < Math.ceil(ended.length / postsPerPage); i++) {
+	for (let i = 0; i < Math.ceil(live.length / postsPerPage); i++) {
 		pageNumbers.push(i);
 	}
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 	const getPageData = () => {
 		const start = currentPage * 8;
 		const end = start + 8;
-		return ended.slice(start, end);
+		return live.slice(start, end);
 	};
 	const handleNext = () => {
 		setCurrentPage(currentPage + 1);
@@ -51,29 +50,32 @@ function EndedPoll() {
 
 	let token = localStorage.getItem("adminToken");
 
-	
 	useEffect(() => {
-		dispatch(endedPoll(token));
+		dispatch(getLiveData(token));
 	}, [dispatch, token]);
 
+	// console.log("live", live);
 
 
 
 
 
 
-	
+
+
+
+
 
 	return (
 		<>
 			<Navbar />
-			<Box paddingLeft={"10%"} paddingRight={"10%"} justifyContent={"center"}>
-				{ended.length > 0 && (
+			<Box paddingLeft={"10%"} paddingRight={"10%"}>
+				{live.length > 0 && (
 					<>
-						<Inactive />
+						<Active />
 					</>
 				)}
-				<Box w={{ base: "90%", md: "30%" }} marginTop={'5%'} ml={"33%"} mb={"4%"}>
+				<Box w={{ base: "90%", md: "30%" }} ml={"33%"} mb={"4%"}>
 					<InputGroup>
 						<InputLeftElement
 							pointerEvents="none"
@@ -94,10 +96,18 @@ function EndedPoll() {
 						/>
 					</InputGroup>
 				</Box>
-				<SimpleGrid
-					spacing={4}
-					templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-				>
+				<SimpleGrid spacing={4} templateColumns="repeat(4,1fr)">
+					{/* {live
+						.filter((val) => {
+							if (searchTerm === "") {
+								return val;
+							} else if (
+								val.pollName?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+							) {
+								return val;
+							}
+						})
+						.slice(pagination.start, pagination.end) */}
 					{getPageData()
 						.filter((val) => {
 							if (searchTerm === "") {
@@ -117,14 +127,14 @@ function EndedPoll() {
 									<Text>See the live poll details.</Text>
 								</CardBody>
 								<CardFooter>
-									<Button color={"white"} bgColor={"red.400"}>
-										<Link to={`/ended-polls/${item.pollId}`}>Poll details</Link>
+									<Button color={"white"} bgColor={"teal.400"}>
+										<Link to={`/live-polls/${item.pollId}`}>Poll details</Link>
 									</Button>
+									<UrlModal item={item.pollUrl} />
 								</CardFooter>
 							</Card>
 						))}
 				</SimpleGrid>
-
 				<Flex justifyContent={"center"} mt={"3%"}>
 					<Button
 						isDisabled={currentPage === 0}
@@ -145,7 +155,7 @@ function EndedPoll() {
 					))}
 
 					<Button
-						isDisabled={currentPage >= Math.ceil(ended.length / 8) - 1}
+						isDisabled={currentPage >= Math.ceil(live.length / 8) - 1}
 						onClick={handleNext}
 						color={"white"}
 						bgColor={"#FFC1C3"}
@@ -158,4 +168,4 @@ function EndedPoll() {
 	);
 }
 
-export default EndedPoll;
+export default LivePoll;

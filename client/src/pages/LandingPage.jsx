@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Flex, Text, Button } from "@chakra-ui/react";
 import styles from "../styles/landingpage.module.css";
 import Navbar from './../components/Navbar';
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-  const [isLogged, setIsLogged] = useState(true);
+
   const navigate = useNavigate()
   return (
     <Box className={styles.container}>
