@@ -163,9 +163,9 @@ function CreatePoll() {
 
 
   return (
-    <>
+    <Box>
       <Navbar />
-      <Box bg={'#F2F7FF'}  border={'5%'} h={"100vh"} >
+      <Box bg={'#F2F7FF'}  border={'5%'} h={"100%"} >
         <Flex justifyContent={'space-between'} w={'100%'}>
           <Image marginRight={'5%'} w={'100px'} h={'100px'} marginTop={'1%'} alt="icon" src={image_4} />
           <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_3} />
@@ -264,11 +264,11 @@ function CreatePoll() {
             <Flex justifyContent={"left"} paddingTop={'10px'} >
             {questions.length > 0 ? <PollModal handleQuestionCreate={handleQuestionCreate} /> : <></>}
             </Flex>
-            {questions.length > 0 ? <Button bg={"red.400"} marginRight={"10px"}  color={'white'} w={"200px"} onClick={handleSubmit}>Submit</Button> : <></>}
+            {questions.length > 0 ? <Button marginBottom={'35px'} bg={"red.400"} marginRight={"10px"}  color={'white'} w={"200px"} onClick={handleSubmit}>Submit</Button> : <></>}
             {questions.length > 0 ?
 
               <>
-                <Button bg={"red.500"} color={'white'}   w={"200px"} onClick={onOpen}>Save Template</Button>
+                <Button bg={"red.500"} color={'white'} marginBottom={'35px'}   w={"200px"} onClick={onOpen}>Save Template</Button>
 
                 <Modal
                   initialFocusRef={initialRef}
@@ -296,8 +296,6 @@ function CreatePoll() {
                   </ModalContent>
                 </Modal>
               </>
-
-
               : <></>}
             {/* <TemplateModal handeSave={handleSave} /> */}
 
@@ -310,7 +308,7 @@ function CreatePoll() {
 
 
       </Box>
-    </>
+    </Box>
   )
 }
 
