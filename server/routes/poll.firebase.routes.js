@@ -133,7 +133,6 @@ firebaseController.post("/vote", async (req, res) => {
               );
               options.map((option) => {
                 option.votes++;
-                option.votes++; 
                 if (option.votedBy == null) {
                   option.votedBy = [];
               }
