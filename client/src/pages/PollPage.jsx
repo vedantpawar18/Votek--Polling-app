@@ -142,7 +142,6 @@ const PollPage = () => {
       });
   }, [userToken]);
 
-  console.log(pollData)
 
   return (
     <>

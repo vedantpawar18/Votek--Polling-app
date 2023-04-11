@@ -15,6 +15,7 @@ const QuestionCard = ({
 }) => {
   const [value, setVal] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [rateVal , setRateVal] = useState(0)
 
   //  useEffect function for toggling the disable variable when maxSelection has reached.
 
@@ -24,7 +25,17 @@ const QuestionCard = ({
     } else {
       setIsDisabled(false);
     }
+    if (type === "rating" && value?.length > 0) {
+      let payload = {
+        selectedAns: [value[0]],
+        question,
+        questionId,
+        options,
+      };
+      onSelectionChange(payload);
+    }
   }, [value]);
+
 
   /* useEffect function for calling the parent function (onSelectionChange) 
   when maxSelect has reached or remaining option were disabled. */
@@ -41,9 +52,6 @@ const QuestionCard = ({
     }
   }, [isDisabled]);
 
-
-  console.log(value)
-
   return (
     <Box className={styles.container}>
       <Text className={styles.question}>{`${index + 1}. ${question}`}</Text>
@@ -52,10 +60,11 @@ const QuestionCard = ({
           <Box>
             <StarsRating
               count={options?.length}
-              onChange={(e) =>{
-                 console.log([options[e-1].optionId])
-              }} 
-              value={options.option}
+              onChange={(e) => {
+                setRateVal(e)
+                setVal([options[e - 1].optionId]);
+              }}
+              value={rateVal}
               half={false}
               size={30}
               color2={"#D71A20"}
@@ -114,4 +123,4 @@ const QuestionCard = ({
   );
 };
 
-export default QuestionCard;          
+export default QuestionCard;

@@ -10,7 +10,7 @@ import CreatePoll from "../pages/CreatePoll";
 import TemplatePage from "../pages/TemplatePage";
 import TemplateDetailPage from "../pages/TemplateDetailPage";
 import LiveChart from "../pages/LiveChart";
-import History from "../pages/History";
+// import History from "../pages/History";
 
 // import Template from "../pages/Template";
 import RecentPolls from "../pages/RecentPolls";
