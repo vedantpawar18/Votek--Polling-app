@@ -224,7 +224,7 @@ export const endedPollFailure = ()=>{
 
 
 export const postPollData = (data,token)=>(dispatch)=>{
-    // console.log("data post check",data)
+  
 dispatch(postPollDataRequest())
     return axios({
         method:"POST",
@@ -235,7 +235,7 @@ dispatch(postPollDataRequest())
         data
     })
     .then((res)=>{
-        // console.log("Posted poll data",res.data)
+       
         dispatch(postPollDataRequest());
     })
     .catch((error)=>{
@@ -247,7 +247,7 @@ dispatch(postPollDataRequest())
 
 
 export const addTemplateData = (data,token)=>(dispatch)=>{
-    // console.log("data check",data)
+    
 dispatch(addTemplateDataRequest())
     return axios({
         method:"POST",
@@ -258,7 +258,7 @@ dispatch(addTemplateDataRequest())
         data
     })
     .then((res)=>{
-        // console.log("Template added",res.data)
+   
         dispatch(addTemplateDataSuccess());
     })
     .catch((error)=>{
@@ -282,7 +282,7 @@ dispatch(getTemplateDataRequest())
         }
     })
     .then((res)=>{
-        // console.log("Template data received",res.data)
+      
         dispatch(getTemplateDataSuccess(res.data));
     })
     .catch((error)=>{
@@ -304,7 +304,7 @@ dispatch(getTemplateByIdDataRequest())
         }
     })
     .then((res)=>{
-        // console.log("template by id",res.data)
+       
         dispatch(getTemplateByIdDataSuccess(res.data));
     })
     .catch((error)=>{
@@ -317,7 +317,7 @@ dispatch(getTemplateByIdDataRequest())
 
 
 export const getAllData = (token)=>(dispatch)=>{
-    // console.log("token",token)
+   
 dispatch(getAllDataRequest())
     return axios({
         method:"GET",
@@ -327,7 +327,7 @@ dispatch(getAllDataRequest())
         }
     })
     .then((res)=>{
-        // console.log("get all data",res.data)
+  
         dispatch(getAllDataSuccess(res.data));
     })
     .catch((error)=>{
@@ -345,7 +345,7 @@ export const getLiveData = (token)=>(dispatch)=>{
             }
         })
         .then((res)=>{
-            // console.log("get live data",res.data)
+        
             dispatch(getLiveDataSuccess(res.data));
             
         })
@@ -370,7 +370,7 @@ export const getLiveData = (token)=>(dispatch)=>{
                 data
             })
             .then((res)=>{
-                // console.log("poll status changed",res.data)
+         
                 dispatch(stopPollSuccess());
             })
             .catch((error)=>{
@@ -390,7 +390,7 @@ export const getLiveData = (token)=>(dispatch)=>{
             
             })
             .then((res)=>{
-                // console.log("ended polls",res.data)
+           
                 dispatch(endedPollSuccess(res.data));
             })
             .catch((error)=>{

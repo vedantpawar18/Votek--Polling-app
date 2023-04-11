@@ -72,7 +72,7 @@ export default function Active() {
         />
        
       </Tooltip>
-      <Text fontFamily={"Open Sans"} marginLeft={'5px'} fontSize={'24px'} fontWeight={'800'}>Active Poll</Text>
+      <Text fontFamily={"Open Sans"} marginLeft={'5px'} fontSize={'24px'} fontWeight={'800'}>Active Polls</Text>
     </Flex>
   );
 }

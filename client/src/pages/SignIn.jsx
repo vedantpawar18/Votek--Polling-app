@@ -34,10 +34,7 @@ import Layout from '../components/Layout';
     const dispatch = useDispatch();
     const [emailError, setEmailError] = useState("");
     const [passwordError,setPasswordError] = useState("");
-    let userToken = localStorage.getItem("userToken");
-    let userEmail = localStorage.getItem("userEmail");
-    let userName = localStorage.getItem("userName");
-
+ 
 
 
 

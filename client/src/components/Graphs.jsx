@@ -11,9 +11,9 @@ import {
 import { useEffect, useState } from "react";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "../App.css";
-import { useSelector, useDispatch } from "react-redux";
-import io from 'socket.io-client';
-import { useParams } from "react-router-dom";
+import {  useDispatch } from "react-redux";
+import { endedPoll } from "../redux/data/action";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -23,45 +23,21 @@ ChartJS.register(
 	Legend
 );
 
-
-
-
-
-export default function Graphs() {
+export default function Graphs(item) {
+	
 	const [data, setData] = useState([]);
 	const [label, setLabel] = useState([]);
 	const [qlabel, setQLabel] = useState([]);
-	// const [liveData,setLiveData]=useState([])
-	const [updatedData, setUpdatedData] = useState(true)
-	const [pollData,setPollData]=useState([])
+
+
+	let token = localStorage.getItem("adminToken");
+
 	const dispatch = useDispatch();
-	const {id} = useParams()
 
-	const adminLiveData = useSelector((store) => store.data.liveData);
 	
-
-	useEffect(() => {
-		const socket = io(`http://localhost:8080`);
-		socket.emit('getPollData',`${id}`);
-		socket.on('pollData', (pollData) => {
-		//   console.log("fetching live detail")
-			setPollData(pollData);
-			const upData = !updatedData
-			setUpdatedData(upData)
-		});
-			return () => socket.disconnect();
-		  }, []);
-		 
-
-
-
 useEffect(()=>{
-
-//  console.log("polldata",pollData.length, updatedData)
-
-},[pollData[0]?.questions])
-
-
+dispatch(endedPoll(token))
+},[dispatch,token])
 
 
 	useEffect(() => {
@@ -69,14 +45,14 @@ useEffect(()=>{
 		let data1 = [];
 		let qLabel1 = [];
 
-		for (let i = 0; i < pollData[0]?.questions?.length; i++) {
+		for (let i = 0; i < item.pollData[0]?.questions?.length; i++) {
 			let labels = [];
 			let datas = [];
 
-			qLabel1.push(pollData[0]?.questions[i]?.question);
-			for (let j = 0; j < pollData[0]?.questions[i]?.options.length; j++) {
-				labels.push(pollData[0].questions[i].options[j].option);
-				datas.push(pollData[0].questions[i].options[j].votes);
+			qLabel1.push(item.pollData[0]?.questions[i]?.question);
+			for (let j = 0; j < item.pollData[0]?.questions[i]?.options.length; j++) {
+				labels.push(item.pollData[0].questions[i].options[j].option);
+				datas.push(item.pollData[0].questions[i].options[j].votes);
 			}
 
 			let a = { labels: labels };
@@ -87,12 +63,13 @@ useEffect(()=>{
 		setData(data1);
 		setLabel(label1);
 		setQLabel(qLabel1);
-	}, [pollData]);
+	}, [item.pollData]);
 
 	
 
 
 	return (
+		<>
 		<div
 			className="graph"
 			style={{
@@ -177,6 +154,9 @@ useEffect(()=>{
 						</>
 					);
 				})}
+				
 		</div>
+		{/* <Button onClick={handleClick}>End Poll</Button> */}
+</>
 	);
 }

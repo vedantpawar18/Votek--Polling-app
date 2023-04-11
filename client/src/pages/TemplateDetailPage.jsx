@@ -21,7 +21,6 @@ const TemplateDetailPage = () => {
   useEffect(()=>{
     dispatch(getTemplateByIdData(id,token))
   },[dispatch,id,token])
- 
 
 
   let dataA = []
@@ -30,12 +29,12 @@ const TemplateDetailPage = () => {
       dataA = dataById.template.questions
 
       setDataArray(dataA)
-      // console.log("dataA",dataA)
+  
   }
   },[dataById])
 
 
-  // console.log("data detailzzz",dataArray)
+ 
 
   return (
 

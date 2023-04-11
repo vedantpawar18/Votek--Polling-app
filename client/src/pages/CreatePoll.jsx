@@ -1,5 +1,10 @@
-import { Box, Flex, Image, Input, Stack, Button, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import {
+  Box, Flex, Image, Input, Stack, Button, useToast,
+  useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader,
+  ModalCloseButton, ModalBody, FormControl,
+  ModalFooter
+} from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
 import { DeleteIcon } from '@chakra-ui/icons';
 import image_4 from '../images/image_4.png';
 import image_3 from '../images/image_3.png';
@@ -10,21 +15,22 @@ import { useNavigate } from 'react-router-dom';
 import PollModal from '../components/PollModal';
 import { useDispatch } from 'react-redux';
 import { addTemplateData, postPollData } from '../redux/data/action';
-import { v4 as uuidv4 } from 'uuid';
+
 import Navbar from "../components/Navbar";
 
+
+
 function CreatePoll() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = useRef(null)
+  const finalRef = useRef(null)
   const [questions, setQuestions] = useState([]);
   const [rating, setRating] = useState(0)
   const [pollName, setPollName] = useState("");
   const [template, setTemplate] = useState("")
+ 
   const navigate = useNavigate()
   const toast = useToast()
-  let temp = JSON.parse(localStorage.getItem("template")) || []
-  var today = new Date(), time = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-  var today2 = new Date(), time2 = today2.getFullYear() + '-' + (today2.getMonth() + 1) + '-' + today2.getDate() + ' ' + today2.getHours() + ':' + today2.getMinutes() + ':' + today2.getSeconds();
-  today2.setHours(today2.getHours() + 1)
-  let id = uuidv4()
   let token = localStorage.getItem("adminToken");
   const dispatch = useDispatch()
 
@@ -78,9 +84,17 @@ function CreatePoll() {
 
 
   const handleOptionRatingChange = (event, questionIndex, optionIndex) => {
+   let rating = []
+    for(let i=1; i<=event; i++){
+       rating.push(i)
+    }
     setRating(event)
     const newQuestions = [...questions];
-    newQuestions[questionIndex].options[optionIndex] = event;
+    for(let i=1; i<=event; i++){
+      newQuestions[questionIndex].options[i-1] = i;
+
+    }
+   
     setQuestions(newQuestions);
   };
 
@@ -106,7 +120,8 @@ function CreatePoll() {
       pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
     };
     dispatch(postPollData(data, token))
-        
+    
+
     toast({
       title: 'Poll created.',
       description: "We've created your poll.",
@@ -114,6 +129,7 @@ function CreatePoll() {
       duration: 9000,
       isClosable: true
     })
+    navigate('/live-polls')
   };
 
   const handleCreateTemplate = () => {
@@ -128,7 +144,7 @@ function CreatePoll() {
       }))
     }
     dispatch(addTemplateData(data, token))
-    // console.log("template data",data)
+  
     // temp.push(data)
     // localStorage.setItem("template", JSON.stringify(temp))
 
@@ -140,117 +156,160 @@ function CreatePoll() {
       duration: 8000,
       isClosable: true
     })
-    // navigate('/template-page')
+    navigate('/template-page')
   }
 
-
+ 
 
 
   return (
     <>
-    <Navbar/>
-    <Box bg={'#F2F7FF'} border={'5%'} h={"100%"} >
-      <Flex justifyContent={'space-between'} w={'100%'}  >
-      
-        <Image marginRight={'5%'} w={'100px'} h={'100px'} marginTop={'1%'} alt="icon" src={image_4} />
-        <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_3} />
-        <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_2} />
-        <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_1} />
-      </Flex>
+      <Navbar />
+      <Box bg={'#F2F7FF'}  border={'5%'} h={"100vh"} >
+        <Flex justifyContent={'space-between'} w={'100%'}>
+          <Image marginRight={'5%'} w={'100px'} h={'100px'} marginTop={'1%'} alt="icon" src={image_4} />
+          <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_3} />
+          <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_2} />
+          <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_1} />
+        </Flex>
 
 
-      <Stack marginLeft={'10%'} marginRight={'10%'}>
+        <Stack marginLeft={'10%'} marginRight={'10%'}>
 
-        <PollModal handleQuestionCreate={handleQuestionCreate} />
-        <Box >
-          {questions.length > 0 ?
-            <>
+          
+          <Flex justifyContent={'center'} gap={'20px'}>
+              <Button h={'100px'} w={'100px'} bg={'red.400'} color='white' value={"poll"} onClick={handleQuestionCreate} variant='ghost'>     Poll </Button>
+              <Button  h={'100px'} w={'100px'} bg={'red.500'} color='white' value={"mcq"} onClick={handleQuestionCreate}  variant='ghost'>    MCQ  </Button>
+              <Button  h={'100px'} w={'100px'} bg={'red.600'} color='white' value={"rating"} onClick={handleQuestionCreate}  variant='ghost'>  Rating   </Button>
+          </Flex>
+          <Box>
+            {questions.length > 0 ?
+              <>
+                <Input bg={'white'} placeholder='Add poll name' onChange={(e) => setPollName(e.target.value)} />
+                {/* <Input bg={'white'} marginTop={'10px'} placeholder='Add template name' onChange={(e) => setTemplate(e.target.value)} /> */}
 
-              <Input bg={'white'} placeholder='Add poll name' onChange={(e) => setPollName(e.target.value)} />
-              <Input bg={'white'} marginTop={'10px'} placeholder='Add template name' onChange={(e) => setTemplate(e.target.value)} />
+              </> : <></>
+            }
+            {questions.map((question, questionIndex) => (
+              <Box key={questionIndex}>
+                <Flex>
+                  <Input marginTop={'40px'} placeholder='Create question' bg={"white"}
+                    value={question.title}
+                    onChange={(event) => handleTitleChange(event, questionIndex)} />
+                  <Button marginTop={'40px'} bg={"white"} onClick={() => handleDeleteQuestion(questionIndex)}><DeleteIcon color={"red"} /></Button>
+                </Flex>
+                <Stack>
 
-            </> : <></>
-          }
-          {questions.map((question, questionIndex) => (
-            <Box key={questionIndex}>
-              <Flex>
-                <Input marginTop={'40px'} placeholder='Create question' bg={"white"}
-                  value={question.title}
-                  onChange={(event) => handleTitleChange(event, questionIndex)}
-                />
-                <Button marginTop={'40px'} bg={"white"} onClick={() => handleDeleteQuestion(questionIndex)}><DeleteIcon color={"red"} /></Button>
-              </Flex>
-              <Stack>
-
-                {question.type === "rating" ? <Button marginTop={"10px"} bg={"red.400"}
-                  w={'200px'} color={'white'}
-                  onClick={() => handleRatingOptionCreate(questionIndex)}
-                >
-                  Add Rating
-                </Button> : <Button marginTop={"10px"} bg={"red.400"} w={'200px'} color={'white'}
-                  onClick={() => handleOptionCreate(questionIndex)}>
-                  Add Option
-                </Button>}
-                {question.type === "mcq" && <Input marginTop={"10px"} type="number" w={'150px'} bg="white" placeholder='max option' onChange={(event) => handleSelectionChange(event, questionIndex)} />
-                }
-              </Stack>
-              {question.options.map((option, optionIndex) => (
-                <Box key={optionIndex}>
-                  {question.type === "mcq" &&
-                    <>
-                      <Input placeholder={`option ${optionIndex + 1}`} marginTop={"10px"} bg={"white"}
-                        value={option.option}
-                        onChange={(event) =>
-                          handleOptionTitleChange(event, questionIndex, optionIndex)
-                        }
-
-                      />
-
-                    </>
-
+                  {question.type === "rating" ? <Button marginTop={"10px"} bg={"red.400"}
+                    w={'200px'} color={'white'}
+                    onClick={() => handleRatingOptionCreate(questionIndex)}
+                  >
+                    Add Rating
+                  </Button> : <Button marginTop={"10px"} bg={"red.400"} w={'200px'} color={'white'}
+                    onClick={() => handleOptionCreate(questionIndex)}>
+                    Add Option
+                  </Button>}
+                  
+                  {question.type === "mcq" && <Input marginTop={"10px"} type="number" w={'150px'} bg="white" placeholder='max option' onChange={(event) => handleSelectionChange(event, questionIndex)} />
                   }
-                  {question.type === "poll" && <Input
-                    placeholder={`option ${optionIndex + 1}`} bg={"white"}
-                    marginTop={"10px"}
-                    value={option.option}
-                    onChange={(event) =>
-                      handleOptionTitleChange(event, questionIndex, optionIndex)
+                </Stack>
+                <>
+                
+                {question.type === "rating" &&
+
+<>
+
+  <StarsRating
+    count={10}
+    value={rating}
+    onChange={(event) => handleOptionRatingChange(event, questionIndex)}
+    size={44}
+    color2={'#ffd700'} />
+
+</>
+}
+
+                {question.options.map((option, optionIndex) => (
+                  <Box key={optionIndex}>
+                    {question.type === "mcq" &&
+                      <>
+                        <Input placeholder={`option ${optionIndex + 1}`} marginTop={"10px"} bg={"white"}
+                          value={option.option}
+                          onChange={(event) =>
+                            handleOptionTitleChange(event, questionIndex, optionIndex)
+                          }
+
+                        />
+
+                      </>
+
                     }
-                  />}
+                    {question.type === "poll" && <Input
+                      placeholder={`option ${optionIndex + 1}`} bg={"white"}
+                      marginTop={"10px"}
+                      value={option.option}
+                      onChange={(event) =>
+                        handleOptionTitleChange(event, questionIndex, optionIndex)
+                      }
+                    />}
 
-                  {question.type === "rating" &&
+                  </Box>
 
-                    <>
+                ))}
+                </>
+              </Box>
+           
+            ))}
+           
+            <Flex justifyContent={"left"} paddingTop={'10px'} >
+            {questions.length > 0 ? <PollModal handleQuestionCreate={handleQuestionCreate} /> : <></>}
+            </Flex>
+            {questions.length > 0 ? <Button bg={"red.400"} marginRight={"10px"}  color={'white'} w={"200px"} onClick={handleSubmit}>Submit</Button> : <></>}
+            {questions.length > 0 ?
 
-                      <StarsRating
-                        count={10}
-                        value={rating}
-                        onChange={(event) => handleOptionRatingChange(event, questionIndex, optionIndex)}
-                        size={44}
-                        color2={'#ffd700'} />
+              <>
+                <Button bg={"red.500"} color={'white'}   w={"200px"} onClick={onOpen}>Save Template</Button>
 
-                    </>
-                  }
+                <Modal
+                  initialFocusRef={initialRef}
+                  finalFocusRef={finalRef}
+                  isOpen={isOpen}
+                  onClose={onClose}
+                >
+                  <ModalOverlay bg='none' />
+                  <ModalContent>
+                    <ModalHeader>Enter Template Name</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                      <FormControl>
 
-                </Box>
+                        <Input ref={initialRef} placeholder='Template name' onChange={(e) => setTemplate(e.target.value)} />
+                      </FormControl>
+                    </ModalBody>
 
-              ))}
-            </Box>
-          ))}
-
-
-
-          {questions.length > 0 ? <Button bg={"red.400"} marginTop={"10px"} marginBottom={"70px"} color={'white'} w={"200px"} onClick={handleSubmit}>Submit</Button> : <></>}
-          {questions.length > 0 ? <Button bg={"red.400"} marginTop={"10px"} marginBottom={"70px"} marginLeft={"10px"} color={'white'} w={"200px"} onClick={handleCreateTemplate} >Save the template</Button> : <></>}
-        </Box>
-
-
-      </Stack>
-
+                    <ModalFooter>
+                      <Button bg={"red.400"} color={'white'} onClick={handleCreateTemplate} mr={3}>
+                        Save
+                      </Button>
+                      <Button onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+              </>
 
 
+              : <></>}
+            {/* <TemplateModal handeSave={handleSave} /> */}
 
-    </Box>
+          </Box>
+
+
+        </Stack>
+
+
+
+
+      </Box>
     </>
   )
 }

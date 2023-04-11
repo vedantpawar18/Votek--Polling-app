@@ -6,68 +6,75 @@ import {
 	CardFooter,
 	CardHeader,
 	Flex,
+	FormControl,
 	Heading,
 	Image,
 	Input,
+	InputGroup,
+	InputLeftElement,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
 	SimpleGrid,
 	Text,
+	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import image_4 from "../images/image_4.png";
 import image_3 from "../images/image_3.png";
 import image_2 from "../images/image_2.png";
 import image_1 from "../images/image_1.png";
-
-import { useNavigate } from "react-router-dom";
-
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useDispatch } from "react-redux";
-import { getAllData, postPollData } from "../redux/data/action";
+import { getAllData } from "../redux/data/action";
 import { useSelector } from "react-redux";
-import Pagination from "../components/Pagination";
+import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
+import { BiSearchAlt } from "react-icons/bi";
 
 function TemplatePage() {
-	const navigate = useNavigate();
-	let temp = JSON.parse(localStorage.getItem("template")) || [];
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const initialRef = useRef(null);
+	const finalRef = useRef(null);
+
+
 	const data = useSelector((store) => store.data.data) || [];
-	// console.log("dataaa check",data.userDetails[0].templateCreated)
+	
 	const dispatch = useDispatch();
 	const [dataArray, setDataArray] = useState([]);
+
 	const [searchTerm, setSearchTerm] = useState("");
-	const [showPerPage, setShowPerPage] = useState(8);
-  const [pagination, setPagination] = useState({
-    start: 0,
-    end: showPerPage,
-  });
 
-  const onPaginationChange = (start, end) => {
-    setPagination({ start: start, end: end });
-  };
-	let token = localStorage.getItem("adminToken");
-	const toast = useToast();
-	const handleSubmit = (item) => {
-		const data = {
-			pollName: item.pollName,
-			questions: item.questions,
-			pollStatus: true,
-			pollCreatedAt: Date.now(),
-			pollEndsAt: Date.now() + 2 * 60 * 30 * 1000,
-		};
-		dispatch(postPollData(data, token));
+	const [postsPerPage, setPostsPerPage] = useState(8);
+	const [currentPage, setCurrentPage] = useState(0);
 
-		toast({
-			title: "Poll created.",
-			description: "We've created your poll.",
-			status: "success",
-			duration: 9000,
-			isClosable: true,
-		});
+	const pageNumbers = [];
+	for (let i = 0; i < Math.ceil(dataArray.length / postsPerPage); i++) {
+		pageNumbers.push(i);
+	}
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	const getPageData = () => {
+		const start = currentPage * 8;
+		const end = start + 8;
+		return dataArray.slice(start, end);
+	};
+	const handleNext = () => {
+		setCurrentPage(currentPage + 1);
+	};
+	const handlePrevious = () => {
+		setCurrentPage(currentPage - 1);
 	};
 
-	// console.log("data",data)
+	let token = localStorage.getItem("adminToken");
+	const toast = useToast();
+
+	
 
 	useEffect(() => {
 		// dispatch(getTemplateByIdData(token))
@@ -79,18 +86,38 @@ function TemplatePage() {
 		if (data.length !== 0) {
 			dataA = data?.userDetails?.templateCreated;
 			setDataArray(dataA);
-			// console.log("dataA",dataA)
+		
 		}
 	}, [data]);
-	
+
 	const handleDetails = (name) => {
 		localStorage.setItem("templateName", name);
+	};
+
+
+
+	const handleSubmit = (item) => {
+		//   const data = {
+		//      pollName:item.pollName,
+		//      questions: item.questions,
+		//      pollStatus:true,
+		//      pollCreatedAt:Date.now(),
+		//      pollEndsAt:Date.now() + 2 * 60 * 30 * 1000
+		// };
+		// dispatch(postPollData(data,token))
+
+		toast({
+			title: "Poll created.",
+			description: "We've created your poll.",
+			status: "success",
+			duration: 9000,
+			isClosable: true,
+		});
 	};
 
 	return (
 		<>
 			<Navbar />
-
 			<Box bg={"#F2F7FF"} h={"300vh"} border={"1px solid #F2F7FF"}>
 				<Flex justifyContent={"space-between"} w={"100%"}>
 					<Image
@@ -128,26 +155,33 @@ function TemplatePage() {
 					Templates
 				</Heading>
 				<Box margin={"10%"} marginTop="60px" textAlign={"start"}>
-					<Box>
-						<Input
-							id="searchInput"
-							type="text"
-							autoComplete="none"
-              width={"40%"}
-              marginLeft={"30%"}
-              marginBottom={"7%"}
-							placeholder="Search here..."
-							onChange={(event) => {
-								setSearchTerm(event.target.value);
-							}}
-						/>
+					<Box w={{ base: "90%", md: "30%" }} ml={"33%"} mb={"4%"}>
+						<InputGroup>
+							<InputLeftElement
+								pointerEvents="none"
+								children={<BiSearchAlt color="gray.300" />}
+							/>
+							<Input
+								type="text"
+								placeholder="Search polls by name"
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								bg="white"
+								borderRadius={"none"}
+								borderColor={"#FFC1C3"}
+								_focus={{
+									outline: "none",
+									boxShadow: "none",
+								}}
+							/>
+						</InputGroup>
 					</Box>
 
 					<SimpleGrid
 						spacing={4}
 						templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
 					>
-						{dataArray
+						{getPageData()
 							.filter((val) => {
 								if (searchTerm === "") {
 									return val;
@@ -159,7 +193,7 @@ function TemplatePage() {
 									return val;
 								}
 							})
-							.slice(pagination.start, pagination.end)
+
 							.map((item) => (
 								<Card>
 									<CardHeader>
@@ -178,23 +212,85 @@ function TemplatePage() {
 												Details
 											</Link>
 										</Button>
-										<Button
-											color={"white"}
-											bgColor={"red.500"}
-											onClick={() => handleSubmit(item)}
-											marginLeft={"5px"}
-										>
-											Start poll
-										</Button>
+										{/* <Button color={'white'} bgColor={'red.500'} onClick={()=>handleSubmit(item)} marginLeft={"5px"}>Start poll</Button> */}
+										<>
+											<Button
+												bg={"red.400"}
+												color={"white"}
+												marginLeft={"5px"}
+												onClick={onOpen}
+											>
+												Start poll
+											</Button>
+
+											<Modal
+												initialFocusRef={initialRef}
+												finalFocusRef={finalRef}
+												isOpen={isOpen}
+												onClose={onClose}
+											>
+												<ModalOverlay bg="none" />
+												<ModalContent>
+													<ModalHeader>Enter Poll Name</ModalHeader>
+													<ModalCloseButton />
+													<ModalBody pb={6}>
+														<FormControl>
+															<Input
+																ref={initialRef}
+																placeholder="Poll name"
+																onChange={"(e)=>setTemplate(e.target.value)"}
+															/>
+														</FormControl>
+													</ModalBody>
+
+													<ModalFooter>
+														<Button
+															bg={"red.400"}
+															color={"white"}
+															onClick={"handleCreateTemplate"}
+															mr={3}
+														>
+															Start
+														</Button>
+														<Button onClick={onClose}>Cancel</Button>
+													</ModalFooter>
+												</ModalContent>
+											</Modal>
+										</>
 									</CardFooter>
 								</Card>
 							))}
 					</SimpleGrid>
-					<Pagination
-          showPerPage={showPerPage}
-          onPaginationChange={onPaginationChange}
-          total={dataArray.length}
-        />
+					<Flex justifyContent={"center"} mt={"3%"}>
+						<Button
+							isDisabled={currentPage === 0}
+							onClick={handlePrevious}
+							color={"white"}
+							bgColor={"#FFC1C3"}
+						>
+							<GrCaretPrevious />
+						</Button>
+						{pageNumbers.map((number) => (
+							<Box
+								display={"flex"}
+								key={number}
+								className={`page-item ${
+									currentPage === number ? "active" : ""
+								}`}
+							>
+								<Button onClick={() => paginate(number)}>{number + 1}</Button>
+							</Box>
+						))}
+
+						<Button
+							isDisabled={currentPage >= Math.ceil(dataArray.length / 8) - 1}
+							onClick={handleNext}
+							color={"white"}
+							bgColor={"#FFC1C3"}
+						>
+							<GrCaretNext />
+						</Button>
+					</Flex>
 				</Box>
 			</Box>
 		</>
