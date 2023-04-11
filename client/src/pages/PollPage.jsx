@@ -47,7 +47,7 @@ const PollPage = () => {
             duration: 5000,
             isClosable: true,
           });
-        }else if (res?.status === 208) {
+        } else if (res?.status === 208) {
           toast({
             title: "You've allready voted.👍",
             description: "We've allready collected your opinon.😋",
@@ -59,15 +59,6 @@ const PollPage = () => {
       })
       .catch((error) => {
         setSubmitting(false);
-        //   if (error?.response?.status === 401) {
-        //   toast({
-        //     title: "Unauthorized.🙄",
-        //     description: "Please, Login again.😐",
-        //     status: "warning",
-        //     duration: 5000,
-        //     isClosable: true,
-        //   });
-        // }
       });
   };
 
