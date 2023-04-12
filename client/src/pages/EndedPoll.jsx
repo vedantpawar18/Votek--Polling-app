@@ -138,9 +138,9 @@ function EndedPoll() {
 						<Box
 							display={"flex"}
 							key={number}
-							className={`page-item ${currentPage === number ? "active" : ""}`}
+							
 						>
-							<Button onClick={() => paginate(number)}>{number + 1}</Button>
+							<Button bg={currentPage === number ? 'red.400' : 'grey.400'} onClick={() => paginate(number)}>{number + 1}</Button>
 						</Box>
 					))}
 
