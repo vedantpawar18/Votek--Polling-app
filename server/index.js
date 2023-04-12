@@ -24,8 +24,8 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-    res.send("Welcome to homepage");
-  });
+  res.send("Welcome to homepage");
+});
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 app.use("/user", userController);
@@ -34,42 +34,44 @@ app.use("/auth", authController);
 app.use("/poll",pollController);
 app.use("/template",templateController);
 
-
 // ---------------Socket.io setup to get live changes ------->
-const io = new Server(server);
-ref.on("value", (snapshot) => { 
-  io.emit("data", snapshot.val());
+const io = new Server({
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
 });
 
-
-io.on('connection', (socket) => {
-  socket.on('getPollData', (pollId) => {
+io.on("connection", (socket) => {
+  socket.on("getPollData", (pollId) => {
     const pollRef = fireDb.ref(`polls/${pollId}`);
-    pollRef.on('value',async (snapshot) => {
+    pollRef.on("value", async (snapshot) => {
       const pollData = snapshot.val();
       if (!pollData) {
-        socket.emit('pollDeleted');
+        socket.emit("pollDeleted");
         return;
       }
-      const newPollData=await convertPollData(pollData)
-      socket.emit('pollData', newPollData);
+      const newPollData = await convertPollData(pollData);
+      socket.emit("pollData", newPollData);
     }, (error) => {
       console.error(`Error getting poll data with ID ${pollId}: `, error);
     });
   });
 });
 
-// ----------------------------------------------------------->
+app.get('/socket.io/socket.io.js', (req, res) => {
+  res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
+});
+
+io.attach(server);
 
 server.listen(PORT, async () => {
-    try {
-      await Connection;
-      await firebase;
-      console.log("Server is connected to database");
-      console.log(`server is running on ${PORT}`);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-
-  
+  try {
+    await Connection;
+    await firebase;
+    console.log("Server is connected to database");
+    console.log(`server is running on ${PORT}`);
+  } catch (err) {
+    console.log(err);
+  }
+});

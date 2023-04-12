@@ -176,7 +176,7 @@ const generateToken = ({ userId=null,email=null ,fullName=null,role=null  }) => 
     return [result];
   }
 
-  function votedByData(data) {
+  function votedByData(data) { 
     const result = {
       pollId: data.pollId,
       pollCreatedAt: data.pollCreatedAt,
