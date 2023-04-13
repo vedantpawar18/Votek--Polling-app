@@ -1,0 +1,37 @@
+.box{
+    width: 30%;
+}
+
+.heading{
+    font-size: 30px;
+    font-family: 'Poppins';
+    margin-bottom: 50px;
+    color: #D71A20;
+}
+
+.btn{
+    border: none;
+    background-color: rgb(215, 26, 32);
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    height: 6vh;
+    font-family: 'Poppins';
+    font-size: 16px;
+    transition:  1s;
+}
+
+.btn:hover{
+    background: #FFC1C3;
+    color: black;
+}
+
+@media screen and (max-width: 767px){
+    .box{
+        width: 90%;
+    }
+
+    .heading{
+        font-size: 25px;
+    }
+}

@@ -19,7 +19,9 @@ function UrlModal(url) {
       <>
         <Button
         marginLeft={'10px'}
-        bg={'teal.400'}
+        bg={"#38A169"}
+        fontWeight={400}
+        borderRadius={'none'}
         color={'white'}
           onClick={() => {
             setOverlay(<OverlayOne />)
