@@ -1,8 +1,7 @@
-import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
+import { Button, Flex, Modal, ModalBody, ModalCloseButton,
+   ModalContent, ModalFooter, ModalHeader, ModalOverlay,
+    useDisclosure } from "@chakra-ui/react"
 
-import { TfiMenuAlt } from "react-icons/tfi";
-import { GiRoundStar } from "react-icons/gi";
-import { RiArrowUpDownLine } from "react-icons/ri";
 
 
 function PollModal({handleQuestionCreate}) {

@@ -24,6 +24,7 @@ const EndedChart = () => {
 		return item.pollId === id
 	})
 	
+	
 
 	return (
 		<>

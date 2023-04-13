@@ -32,6 +32,13 @@ export const ENDED_POLL_REQUEST = "ENDED_POLL_REQUEST";
 export const ENDED_POLL_SUCCESS = "ENDED_POLL_SUCCESS";
 export const ENDED_POLL_FAILURE = "ENDED_POLL_FAILURE";
 
+export const USER_VOTED_REQUEST = "USER_VOTED_REQUEST";
+export const USER_VOTED_SUCCESS = "USER_VOTED_SUCCESS";
+export const USER_VOTED_FAILURE = "USER_VOTED_FAILURE";
+
+export const ADMIN_DOWNLOAD_REQUEST = "ADMIN_DOWNLOAD_REQUEST";
+export const ADMIN_DOWNLOAD_SUCCESS = "ADMIN_DOWNLOAD_SUCCESS";
+export const ADMIN_DOWNLOAD_FAILURE = "ADMIN_DOWNLOAD_FAILURE";
 
 
 
@@ -219,6 +226,49 @@ export const endedPollFailure = ()=>{
 
 
 
+export const userVotedRequest = ()=>{
+    return({
+        type:USER_VOTED_REQUEST
+    })
+}
+
+
+export const userVotedSuccess = (data)=>{
+    return({
+        type:USER_VOTED_SUCCESS,
+        payload:data
+    })
+}
+
+
+export const userVotedFailure = ()=>{
+    return({
+        type:USER_VOTED_FAILURE
+    })
+}
+
+
+export const adminDownloadRequest = ()=>{
+    return({
+        type:ADMIN_DOWNLOAD_REQUEST
+    })
+}
+
+
+export const adminDownloadSuccess = (data)=>{
+    return({
+        type:ADMIN_DOWNLOAD_SUCCESS,
+        payload:data
+    })
+}
+
+
+export const adminDownloadFailure = ()=>{
+    return({
+        type:ADMIN_DOWNLOAD_FAILURE
+    })
+}
+
 
 
 
@@ -398,5 +448,41 @@ export const getLiveData = (token)=>(dispatch)=>{
             })
         } 
 
+        export const userVotedData = (data,token)=>(dispatch)=>{
 
-        // /poll/ended-polls
+            dispatch(userVotedRequest())
+                return axios({
+                    method:"POST",
+                    url:"http://localhost:8080/poll/polls/votedBy",
+                    headers:{
+                      'Authorization' : `Bearer ${token}`,
+                      'Content-Type': 'application/json'
+                    },
+                    data:JSON.stringify(data)
+                })
+                .then((res)=>{
+                   dispatch(userVotedSuccess(res.data));
+                })
+                .catch((error)=>{
+                 dispatch(userVotedFailure(error))
+                })
+            } 
+
+
+
+            export const adminDownload = (data,token)=>(dispatch)=>{
+
+                dispatch(adminDownloadRequest())
+                    return axios({
+                        method:"GET",
+                        url:`http://localhost:8080/poll/download/${data.optionId}/question/${data.questionId}/option/${data.pollId}`
+                    
+                    })
+                    .then((res)=>{
+                    
+                        dispatch(adminDownloadSuccess(res.data));
+                    })
+                    .catch((error)=>{
+                     dispatch(adminDownloadFailure(error))
+                    })
+                }

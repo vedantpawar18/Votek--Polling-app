@@ -27,9 +27,8 @@ export default function Graphs(item) {
     const [label, setLabel] = useState([]);
     const [qlabel, setQLabel] = useState([]);
     let token = localStorage.getItem("adminToken");
+	const navigate = useNavigate()
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const chartRef = useRef();
     useEffect(() => {
         dispatch(endedPoll(token));
     }, [dispatch, token]);
@@ -56,29 +55,18 @@ export default function Graphs(item) {
         setLabel(label1);
         setQLabel(qLabel1);
     }, [item.pollData]);
-    const handleClick = (e) => {
-        // console.log("event",e)
-		
-        let data = {
-            pollId: item?.pollData[0]?.pollId,
-            optionId: "",
-            questionId: item?.pollData[0]?.questions[0]?._id,
-        };
-        // dispatch(userVotedData(data, token));
-    };
-    // console.log("idzz", item?.pollData[0]?.questions[0]?._id);
-    // console.log("data", data[0]?.optionId);
+   
+  
     const onClick = (event, clickedElements) => {
         if (clickedElements.length === 0) return;
-        const { dataIndex, raw } = clickedElements[0].element.$context;
-        const barLabel = event.chart.data.labels[dataIndex];
-        // console.log(barLabel, "**");
-        // console.log(event.chart.data);
+        const { dataIndex } = clickedElements[0].element.$context;
+        let oId =  data[0]?.optionId[dataIndex]
+		localStorage.setItem("pollId",item?.pollData[0]?.pollId);
+		localStorage.setItem("optionId",oId);
+		localStorage.setItem("questionId",item?.pollData[0]?.questions[0]?._id);
+		
+         navigate('/user-voted')
     };
-
-
-
-
     return (
         <>
             <div id="canvas-container">
@@ -135,7 +123,7 @@ export default function Graphs(item) {
                                                 links: "/user-vote",
                                             },
                                         },
-                                        onClick:(e)=>handleClick(e,item),
+                                        onClick,
                                     }}
                                     plugins={[ChartDataLabels]}
                                     data={{
