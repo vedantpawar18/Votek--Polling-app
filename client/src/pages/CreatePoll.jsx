@@ -117,7 +117,7 @@ function CreatePoll() {
       })),
       pollStatus: true,
       pollCreatedAt: Date.now(),
-      pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
+      pollEndsAt: Date.now() + 6 * 60 * 30 * 1000
     };
     dispatch(postPollData(data, token))
     
@@ -165,7 +165,7 @@ function CreatePoll() {
   return (
     <Box>
       <Navbar />
-      <Box bg={'#F2F7FF'}  border={'5%'} h={"100%"} >
+      <Box   border={'5%'} h={"100%"} >
         <Flex justifyContent={'space-between'} w={'100%'}>
           <Image marginRight={'5%'} w={'100px'} h={'100px'} marginTop={'1%'} alt="icon" src={image_4} />
           <Image marginRight={'5%'} w={'100px'} h={'100px'} alt="icon" src={image_3} />
@@ -221,6 +221,7 @@ function CreatePoll() {
 
   <StarsRating
     count={10}
+    half={false}
     value={rating}
     onChange={(event) => handleOptionRatingChange(event, questionIndex)}
     size={44}
@@ -297,8 +298,7 @@ function CreatePoll() {
                 </Modal>
               </>
               : <></>}
-            {/* <TemplateModal handeSave={handleSave} /> */}
-
+         
           </Box>
 
 

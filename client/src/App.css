@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+.canvas-container {
+  height: 60vh;
+  display: grid;
+  
+}
+@media (min-width: 768px) {
+   /* #canvas-container {
+       height: auto;
+       width: auto;
+    } */
+}

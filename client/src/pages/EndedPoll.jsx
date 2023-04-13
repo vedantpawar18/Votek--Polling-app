@@ -98,7 +98,7 @@ function EndedPoll() {
 					spacing={4}
 					templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
 				>
-					{getPageData()
+					{getPageData().reverse()
 						.filter((val) => {
 							if (searchTerm === "") {
 								return val;
