@@ -33,7 +33,7 @@ import image_1 from "../images/image_1.png";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useDispatch } from "react-redux";
-import { getAllData } from "../redux/data/action";
+import { getAllData, postPollData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { BiSearchAlt } from "react-icons/bi";
@@ -102,7 +102,7 @@ function TemplatePage() {
 		//      questions: item.questions,
 		//      pollStatus:true,
 		//      pollCreatedAt:Date.now(),
-		//      pollEndsAt:Date.now() + 2 * 60 * 30 * 1000
+		//      pollEndsAt:Date.now() + 8 * 60 * 30 * 1000
 		// };
 		// dispatch(postPollData(data,token))
 
@@ -181,7 +181,7 @@ function TemplatePage() {
 						spacing={4}
 						templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
 					>
-						{getPageData()
+						{getPageData().reverse()
 							.filter((val) => {
 								if (searchTerm === "") {
 									return val;

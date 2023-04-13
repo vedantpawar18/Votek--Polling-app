@@ -117,7 +117,7 @@ function CreatePoll() {
       })),
       pollStatus: true,
       pollCreatedAt: Date.now(),
-      pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
+      pollEndsAt: Date.now() + 8 * 60 * 30 * 1000
     };
     dispatch(postPollData(data, token))
     
@@ -221,6 +221,7 @@ function CreatePoll() {
 
   <StarsRating
     count={10}
+    half={false}
     value={rating}
     onChange={(event) => handleOptionRatingChange(event, questionIndex)}
     size={44}
@@ -297,8 +298,7 @@ function CreatePoll() {
                 </Modal>
               </>
               : <></>}
-            {/* <TemplateModal handeSave={handleSave} /> */}
-
+         
           </Box>
 
 

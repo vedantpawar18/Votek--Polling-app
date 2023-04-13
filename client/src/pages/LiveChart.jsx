@@ -15,7 +15,7 @@ const LiveChart = () => {
     const navigate = useNavigate()
     const toast = useToast()
 		  useEffect(() => {
-		const socket = io(`https://votek-backend-production.up.railway.app`);
+		const socket = io(`http://localhost:8080`);
 
 	
 			socket.on('pollData', (newPollData) => {

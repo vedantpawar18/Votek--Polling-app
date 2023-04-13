@@ -109,7 +109,7 @@ function LivePoll() {
 							}
 						})
 						.slice(pagination.start, pagination.end) */}
-					{getPageData()
+					{getPageData().reverse()
 						.filter((val) => {
 							if (searchTerm === "") {
 								return val;
