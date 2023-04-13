@@ -181,7 +181,7 @@ function TemplatePage() {
 						spacing={4}
 						templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
 					>
-						{getPageData().reverse()
+						{getPageData()
 							.filter((val) => {
 								if (searchTerm === "") {
 									return val;
