@@ -31,7 +31,7 @@ function EndedPoll() {
 
 	const [postsPerPage, setPostsPerPage] = useState(8);
 	const [currentPage, setCurrentPage] = useState(0);
-	const ended = useSelector((store) => store.data.ended) || [];
+	const ended = useSelector((store) => store.data.ended).reverse() || [];
 	const pageNumbers = [];
 	for (let i = 0; i < Math.ceil(ended.length / postsPerPage); i++) {
 		pageNumbers.push(i);
@@ -98,7 +98,7 @@ function EndedPoll() {
 					spacing={4}
 					templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
 				>
-					{getPageData().reverse()
+					{getPageData()
 						.filter((val) => {
 							if (searchTerm === "") {
 								return val;

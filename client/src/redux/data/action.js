@@ -475,11 +475,11 @@ export const getLiveData = (token)=>(dispatch)=>{
                 dispatch(adminDownloadRequest())
                     return axios({
                         method:"GET",
-                        url:`http://localhost:8080/poll/download/${data.optionId}/question/${data.questionId}/option/${data.pollId}`
+                        url:`http://localhost:8080/poll/download/votedby/${data.pollId}/question/${data.questionId}/option/${data.optionId}`
                     
                     })
                     .then((res)=>{
-                    
+                  
                         dispatch(adminDownloadSuccess(res.data));
                     })
                     .catch((error)=>{

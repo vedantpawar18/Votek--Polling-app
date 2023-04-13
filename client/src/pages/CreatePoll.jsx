@@ -144,9 +144,6 @@ function CreatePoll() {
       }))
     }
     dispatch(addTemplateData(data, token))
-  
-    // temp.push(data)
-    // localStorage.setItem("template", JSON.stringify(temp))
 
 
     toast({
