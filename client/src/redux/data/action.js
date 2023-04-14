@@ -36,9 +36,6 @@ export const USER_VOTED_REQUEST = "USER_VOTED_REQUEST";
 export const USER_VOTED_SUCCESS = "USER_VOTED_SUCCESS";
 export const USER_VOTED_FAILURE = "USER_VOTED_FAILURE";
 
-export const ADMIN_DOWNLOAD_REQUEST = "ADMIN_DOWNLOAD_REQUEST";
-export const ADMIN_DOWNLOAD_SUCCESS = "ADMIN_DOWNLOAD_SUCCESS";
-export const ADMIN_DOWNLOAD_FAILURE = "ADMIN_DOWNLOAD_FAILURE";
 
 
 
@@ -248,27 +245,6 @@ export const userVotedFailure = ()=>{
 }
 
 
-export const adminDownloadRequest = ()=>{
-    return({
-        type:ADMIN_DOWNLOAD_REQUEST
-    })
-}
-
-
-export const adminDownloadSuccess = (data)=>{
-    return({
-        type:ADMIN_DOWNLOAD_SUCCESS,
-        payload:data
-    })
-}
-
-
-export const adminDownloadFailure = ()=>{
-    return({
-        type:ADMIN_DOWNLOAD_FAILURE
-    })
-}
-
 
 
 
@@ -308,7 +284,7 @@ dispatch(addTemplateDataRequest())
         data
     })
     .then((res)=>{
-   
+    //    console.log("res",res)
         dispatch(addTemplateDataSuccess());
     })
     .catch((error)=>{
@@ -470,19 +446,4 @@ export const getLiveData = (token)=>(dispatch)=>{
 
 
 
-            export const adminDownload = (data,token)=>(dispatch)=>{
-
-                dispatch(adminDownloadRequest())
-                    return axios({
-                        method:"GET",
-                        url:`https://votek-backend-production.up.railway.app/poll/download/votedby/${data.pollId}/question/${data.questionId}/option/${data.optionId}`
-                    
-                    })
-                    .then((res)=>{
-                  
-                        dispatch(adminDownloadSuccess(res.data));
-                    })
-                    .catch((error)=>{
-                     dispatch(adminDownloadFailure(error))
-                    })
-                }
+         

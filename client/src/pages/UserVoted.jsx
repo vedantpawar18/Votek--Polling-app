@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
+import * as XLSX from 'xlsx'
 import { useDispatch } from "react-redux";
-import { adminDownload, userVotedData } from "../redux/data/action";
+import {  userVotedData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 
 const UserVoted = () => {
@@ -27,7 +28,7 @@ const UserVoted = () => {
 
 const data = useSelector((store)=>store.data.userVoted)
 
-
+// console.log("data",data)
     useEffect(()=>{
         let data = {
             pollId:pollId,
@@ -39,16 +40,17 @@ const data = useSelector((store)=>store.data.userVoted)
 
     },[])
 
-
-    const handleClick = ()=>{
-        let payload = {
-            pollId:pollId,
-            optionId:optionId,
-            questionId:questionId
-        }
-
-     dispatch(adminDownload(payload,token))
+ 
+    const  handleClick = ()=>{
+        const newData = data.map(({ email, fullName }) => ({ email, fullName }));
+        const worksheet = XLSX.utils.json_to_sheet(newData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+        XLSX.writeFile(workbook, 'user voted data.xlsx');
     }
+
+   
+
 
 	return (
 		<>
