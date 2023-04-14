@@ -2,9 +2,6 @@ import {
   ADD_TEMPLATE_DATA_FAILURE,
   ADD_TEMPLATE_DATA_REQUEST,
   ADD_TEMPLATE_DATA_SUCCESS,
-  ADMIN_DOWNLOAD_FAILURE,
-  ADMIN_DOWNLOAD_REQUEST,
-  ADMIN_DOWNLOAD_SUCCESS,
   ENDED_POLL_FAILURE,
   ENDED_POLL_REQUEST,
   ENDED_POLL_SUCCESS,
@@ -215,25 +212,7 @@ export const dataReducer = (state = initState, action) => {
         isLoading: false,
         isError: false,
       };
-      case ADMIN_DOWNLOAD_REQUEST:
-        return {
-          ...state,
-          isLoading: true,
-          isError: false,
-        };
-      case ADMIN_DOWNLOAD_SUCCESS:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-          adminDownload: action.payload,
-        };
-      case ADMIN_DOWNLOAD_FAILURE:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-        };
+    
     default:
       return {
         ...state,

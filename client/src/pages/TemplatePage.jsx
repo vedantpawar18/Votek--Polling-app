@@ -45,7 +45,7 @@ function TemplatePage() {
 
 
 	const data = useSelector((store) => store.data.data) || [];
-	
+	// console.log("data",data)
 	const dispatch = useDispatch();
 	const [dataArray, setDataArray] = useState([]);
 
@@ -78,14 +78,16 @@ function TemplatePage() {
 
 	useEffect(() => {
 		// dispatch(getTemplateByIdData(token))
+		// console.log("working")
 		dispatch(getAllData(token));
-	}, [dispatch]);
+	
+	}, [dataArray]);
 
 	let dataA = [];
 	useEffect(() => {
 		if (data.length !== 0) {
 			dataA = data?.userDetails?.templateCreated;
-			setDataArray(dataA);
+			setDataArray(dataA.reverse());
 		
 		}
 	}, [data]);
@@ -94,6 +96,7 @@ function TemplatePage() {
 		localStorage.setItem("templateName", name);
 	};
 
+	// console.log("template data",data)
 
 
 	const handleSubmit = (item) => {

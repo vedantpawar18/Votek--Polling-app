@@ -99,9 +99,9 @@ function CreatePoll() {
   };
 
 
-  const handleDeleteQuestion = (question) => {
+  const handleDeleteQuestion = (questionIndex) => {
     let newQuestion = questions
-    newQuestion.splice(newQuestion.indexOf(question), 1)
+    newQuestion.splice(newQuestion.indexOf(questionIndex), 1)
     setQuestions([...newQuestion])
   }
 
