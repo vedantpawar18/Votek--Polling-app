@@ -18,7 +18,7 @@ import styles from "../styles/questioncard.module.css";
 
 const UserRecentPoll = ({ pollData, pollId, pollName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
- console.log(pollData)
+
   return (
     <>
       <Button
