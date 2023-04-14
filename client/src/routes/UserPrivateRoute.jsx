@@ -6,7 +6,7 @@ function UserPrivateRoute() {
 let token = localStorage.getItem("userToken")
 
   return (
-    token ? <Outlet/>: <Navigate to="/" />
+    token ? <Outlet/>: <Navigate to="/signin" />
   )
 }
 

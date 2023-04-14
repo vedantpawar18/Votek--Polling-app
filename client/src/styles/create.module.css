@@ -1,0 +1,58 @@
+body {
+  background-color: #f2f7ff;
+}
+
+.btn {
+  height: 50px;
+  width: 100px;
+  border: 1px solid rgb(206, 203, 203);
+  font-family: "Open Sans";
+}
+
+.btn:hover {
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.cont {
+  padding: 30px;
+  gap: 20px;
+  justify-content: center;
+}
+
+.optionCont {
+  text-align: start;
+  padding: 30px;
+  height: min-content;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: #ffffff;
+}
+
+.quesCont {
+  padding: 30px;
+  width: 40%;
+  height: 80vh;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: #ffffff;
+  overflow: scroll;
+}
+
+.emptyCont {
+  background-image: url("https://pngimg.com/d/question_mark_PNG129.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 100%;
+  height: 60vh;
+}
+
+@media screen and (max-width: 767px) {
+  .cont {
+    flex-direction: column;
+  }
+
+  .quesCont {
+    width: 100%;
+    height: fit-content;
+  }
+}

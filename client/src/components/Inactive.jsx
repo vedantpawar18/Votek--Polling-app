@@ -11,7 +11,7 @@ export default function Inactive() {
     justifyContent="center"
     alignItems="center"
     flexDir="row"
-    h="100px"
+    mt={3}
     overflow="hidden" >
    
       <Tooltip label={`Status: Inactive`} textTransform="capitalize">
@@ -24,7 +24,7 @@ export default function Inactive() {
           borderRadius="50%"
         />
       </Tooltip>
-      <Text fontFamily={"Open Sans"} marginLeft={'5px'} fontSize={'24px'} fontWeight={'800'}>Inactive Polls</Text>
+      <Text fontFamily={"Open Sans"} textTransform={'capitalize'} marginLeft={'10px'} fontSize={{base : "18px" , md: '22px'}} fontWeight={'600'}>Inactive Polls</Text>
     </Flex>
   );
 }

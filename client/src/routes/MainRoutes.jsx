@@ -18,6 +18,7 @@ import EndedPoll from "../pages/EndedPoll";
 import EndedChart from "../pages/EndedChart";
 import LivePoll from "../pages/LivePoll";
 import PollPage from "../pages/PollPage";
+import Participate from "../pages/Participate";
 import UserVoted from "../pages/UserVoted";
 
 function MainRoutes() {
@@ -30,6 +31,7 @@ function MainRoutes() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/user/recentpolls" element={<RecentPolls />} />
         <Route path="/event/:id" element={<PollPage />} />
+        <Route path="/user/participate" element={<Participate />} />
       </Route>
       <Route element={<AdminPrivateRoute />}>
         <Route path="/create" element={<CreatePoll />} />

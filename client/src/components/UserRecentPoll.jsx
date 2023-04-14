@@ -40,11 +40,7 @@ const UserRecentPoll = ({ pollData, pollId, pollName }) => {
         <ModalOverlay />
         <ModalContent fontFamily={"Poppins"} fontWeight={400}>
           <ModalHeader textTransform={"capitalize"}>
-            <Text>{pollName}</Text>
-            <Text
-              fontSize={"14px"}
-              fontWeight={200}
-            >{`Poll Id : ${pollId}`}</Text>
+            <Text>{pollName}</Text>       
           </ModalHeader>
 
           <ModalCloseButton />

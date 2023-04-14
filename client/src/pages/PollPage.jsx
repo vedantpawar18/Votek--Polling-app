@@ -4,6 +4,7 @@ import { Box, Button, Flex, Text, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import QuestionCard from "../components/QuestionCard";
 import { useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const PollPage = () => {
   const [pollData, setPollData] = useState("");
@@ -17,6 +18,7 @@ const PollPage = () => {
   const [loader, setLoader] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
   const toast = useToast();
+  const [statusCode, setStatus] = useState("");
 
   // A parent function for retrieving the Payload from child component(Question.jsx)
 
@@ -137,58 +139,81 @@ const PollPage = () => {
         setLoader(false);
       })
       .catch((err) => {
-       
+        setStatus(err?.response?.status);
         setLoader(false);
       });
   }, [userToken]);
 
-
   return (
     <>
-      {loader ? (
-        <Box className={styles.loaderContainer}>
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="#FFC1C3"
-            color="#D71A20"
-            size="xl"
-          />
-        </Box>
+      <Navbar />
+      {statusCode === 404 ? (
+        <Flex
+          p={20}
+          fontFamily={"Open Sans"}
+          flexDir={"column"}
+          justify={"center"}
+          align={"center"}
+          h="90vh"
+        >
+          <Box className={styles.errorPng}></Box>
+          <Text fontFamily={"Poppins"} color={"#D71A20"} fontSize={"22px"}>
+            Invalid Link
+          </Text>
+          <Text
+            fontSize={{ base: "10px", md: "20px" }}
+            color={"rgb(22, 26, 26)"}
+          >
+            Either you can check the link or the poll has been ended
+          </Text>
+        </Flex>
       ) : (
-        <Box className={styles.container}>
-          <Text className={styles.heading}>VOTEK POLL</Text>
+        <Box>
+          {loader ? (
+            <Box className={styles.loaderContainer}>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="#FFC1C3"
+                color="#D71A20"
+                size="xl"
+              />
+            </Box>
+          ) : (
+            <Box className={styles.container}>
+              <Text className={styles.heading}>{pollName}</Text>
 
-          <Box className={styles.pollContainer}>
-            <Text className={styles.heading2}>{pollName}</Text>
-            <form onSubmit={vote}>
-              <Box className={styles.questionCont}>
-                {questions?.length &&
-                  questions.map((e, index) => {
-                    return (
-                      <QuestionCard
-                        key={index}
-                        {...e}
-                        index={index}
-                        onSelectionChange={handleSelectionChange}
-                      />
-                    );
-                  })}
+              <Box className={styles.pollContainer}>
+                <form onSubmit={vote}>
+                  <Box className={styles.questionCont}>
+                    {questions?.length &&
+                      questions.map((e, index) => {
+                        return (
+                          <QuestionCard
+                            key={index}
+                            {...e}
+                            index={index}
+                            onSelectionChange={handleSelectionChange}
+                          />
+                        );
+                      })}
+                  </Box>
+                  <Flex mt={"20px"} justifyContent={"flex-end"}>
+                    <Button
+                      bg={"#D71A20"}
+                      color={"white"}
+                      fontWeight={400}
+                      type="submit"
+                      isLoading={isSubmitting}
+                      loadingText="Submitting"
+                    >
+                      Submit
+                    </Button>
+                  </Flex>
+                </form>
               </Box>
-              <Flex mt={"20px"} justifyContent={"flex-end"}>
-                <Button
-                  bg={"#D71A20"}
-                  color={"white"}
-                  fontWeight={400}
-                  type="submit"
-                  isLoading={isSubmitting}
-                  loadingText="Submitting"
-                >
-                  Submit
-                </Button>
-              </Flex>
-            </form>
-          </Box>
+            </Box>
+          )}
         </Box>
       )}
     </>

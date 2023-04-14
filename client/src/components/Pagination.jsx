@@ -1,10 +1,10 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 
 const Pagination = ({ data, pagination }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 2;
+  const cardsPerPage = 10;
   const totalPages = Math.ceil(data.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -35,7 +35,7 @@ const Pagination = ({ data, pagination }) => {
   });
 
   useEffect(() => {
-    pagination(currentItems);
+    pagination(currentItems, currentPage, totalPages);
   }, [currentPage, data]);
 
   const pageNumbers = [];
@@ -68,7 +68,7 @@ const Pagination = ({ data, pagination }) => {
         >
           <GrCaretPrevious />
         </Button>
-        {renderPageNumbers}
+        <Text fontWeight={600}>{currentPage}</Text>
         <Button
           bg={"#FFC1C3"}
           onClick={handleNextClick}
