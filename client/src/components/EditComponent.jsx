@@ -20,7 +20,7 @@ const EditComponent = (props) => {
     questions: [props.item],
     pollStatus: true,
     pollCreatedAt: Date.now(),
-    pollEndsAt: Date.now() + 2 * 60 * 30 * 1000
+    pollEndsAt: Date.now() + 8 * 60 * 30 * 1000
   }
 
 
@@ -123,6 +123,7 @@ const EditComponent = (props) => {
               <>
 
                 <StarsRating
+                 half={false}
                   count={10}
                   value={question.options.length}
                   onChange={(event) => handleOptionRatingChange(event, questionIndex)}

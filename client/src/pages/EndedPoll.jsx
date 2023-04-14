@@ -29,25 +29,25 @@ function EndedPoll() {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [postsPerPage, setPostsPerPage] = useState(12);
-  const [currentPage, setCurrentPage] = useState(0);
-  const ended = useSelector((store) => store.data.ended) || [];
-  const pageNumbers = [];
-  for (let i = 0; i < Math.ceil(ended.length / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const getPageData = () => {
-    const start = currentPage * 12;
-    const end = start + 12;
-    return ended.slice(start, end);
-  };
-  const handleNext = () => {
-    setCurrentPage(currentPage + 1);
-  };
-  const handlePrevious = () => {
-    setCurrentPage(currentPage - 1);
-  };
+	const [postsPerPage, setPostsPerPage] = useState(8);
+	const [currentPage, setCurrentPage] = useState(0);
+	const ended = useSelector((store) => store.data.ended).reverse() || [];
+	const pageNumbers = [];
+	for (let i = 0; i < Math.ceil(ended.length / postsPerPage); i++) {
+		pageNumbers.push(i);
+	}
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	const getPageData = () => {
+		const start = currentPage * 8;
+		const end = start + 8;
+		return ended.slice(start, end);
+	};
+	const handleNext = () => {
+		setCurrentPage(currentPage + 1);
+	};
+	const handlePrevious = () => {
+		setCurrentPage(currentPage - 1);
+	};
 
   let token = localStorage.getItem("adminToken");
 

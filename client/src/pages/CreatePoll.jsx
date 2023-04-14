@@ -107,11 +107,12 @@ function CreatePoll() {
     setQuestions(newQuestions);
   };
 
-  const handleDeleteQuestion = (question) => {
-    let newQuestion = questions;
-    newQuestion.splice(newQuestion.indexOf(question), 1);
-    setQuestions([...newQuestion]);
-  };
+  const handleDeleteQuestion = (questionIndex) => {
+    let newQuestion = questions
+    newQuestion.splice(newQuestion.indexOf(questionIndex), 1)
+    setQuestions([...newQuestion])
+  }
+
 
   const handleSubmit = () => {
     const data = {
@@ -124,7 +125,7 @@ function CreatePoll() {
       })),
       pollStatus: true,
       pollCreatedAt: Date.now(),
-      pollEndsAt: Date.now() + 2 * 60 * 30 * 1000,
+      pollEndsAt: Date.now() + 6 * 60 * 30 * 1000
     };
     dispatch(postPollData(data, token));
 
@@ -145,13 +146,11 @@ function CreatePoll() {
         question: question.question,
         type: question.type,
         maxSelections: Number(question.maxSelections),
-        options: question.options,
-      })),
-    };
-    dispatch(addTemplateData(data, token));
+        options: question.options
+      }))
+    }
+    dispatch(addTemplateData(data, token))
 
-    // temp.push(data)
-    // localStorage.setItem("template", JSON.stringify(temp))
 
     toast({
       title: "Templated created.",
@@ -164,7 +163,7 @@ function CreatePoll() {
   };
 
   return (
-    <>
+    <Box>
       <Navbar />
       <Box>
         <Flex className={styles.cont}>

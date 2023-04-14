@@ -19,6 +19,7 @@ import EndedChart from "../pages/EndedChart";
 import LivePoll from "../pages/LivePoll";
 import PollPage from "../pages/PollPage";
 import Participate from "../pages/Participate";
+import UserVoted from "../pages/UserVoted";
 
 function MainRoutes() {
   return (
@@ -37,6 +38,7 @@ function MainRoutes() {
         <Route path="/template-page" element={<TemplatePage />} />
         <Route path="/template-page/:id" element={<TemplateDetailPage />} />
         <Route path="/live-polls" element={<LivePoll />} />
+        <Route path="/user-voted" element={<UserVoted />} />
         <Route path="/live-polls/:id" element={<LiveChart />} />
         <Route path="/ended-polls" element={<EndedPoll />} />
         <Route path="/ended-polls/:id" element={<EndedChart />} />

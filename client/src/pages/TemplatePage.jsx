@@ -33,7 +33,7 @@ import image_1 from "../images/image_1.png";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useDispatch } from "react-redux";
-import { getAllData } from "../redux/data/action";
+import { getAllData, postPollData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { BiSearchAlt } from "react-icons/bi";
@@ -45,7 +45,7 @@ function TemplatePage() {
 
 
 	const data = useSelector((store) => store.data.data) || [];
-	
+	// console.log("data",data)
 	const dispatch = useDispatch();
 	const [dataArray, setDataArray] = useState([]);
 
@@ -78,14 +78,16 @@ function TemplatePage() {
 
 	useEffect(() => {
 		// dispatch(getTemplateByIdData(token))
+		// console.log("working")
 		dispatch(getAllData(token));
-	}, [dispatch]);
+	
+	}, [dataArray]);
 
 	let dataA = [];
 	useEffect(() => {
 		if (data.length !== 0) {
 			dataA = data?.userDetails?.templateCreated;
-			setDataArray(dataA);
+			setDataArray(dataA.reverse());
 		
 		}
 	}, [data]);
@@ -94,6 +96,7 @@ function TemplatePage() {
 		localStorage.setItem("templateName", name);
 	};
 
+	// console.log("template data",data)
 
 
 	const handleSubmit = (item) => {
@@ -102,7 +105,7 @@ function TemplatePage() {
 		//      questions: item.questions,
 		//      pollStatus:true,
 		//      pollCreatedAt:Date.now(),
-		//      pollEndsAt:Date.now() + 2 * 60 * 30 * 1000
+		//      pollEndsAt:Date.now() + 8 * 60 * 30 * 1000
 		// };
 		// dispatch(postPollData(data,token))
 
@@ -278,7 +281,7 @@ function TemplatePage() {
 									currentPage === number ? "active" : ""
 								}`}
 							>
-								<Button onClick={() => paginate(number)}>{number + 1}</Button>
+								<Button bg={currentPage === number ? 'red.400' : 'grey.400'}  onClick={() => paginate(number)}>{number + 1}</Button>
 							</Box>
 						))}
 

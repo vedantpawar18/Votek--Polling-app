@@ -25,36 +25,47 @@ import Navbar from "../components/Navbar";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { BiSearchAlt } from "react-icons/bi";
 function LivePoll() {
-  const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
+	const dispatch = useDispatch();
+	const [searchTerm, setSearchTerm] = useState("");
+	let token = localStorage.getItem("adminToken");
+	const [postsPerPage, setPostsPerPage] = useState(8);
+	const [currentPage, setCurrentPage] = useState(0);
+	const live = useSelector((store) => store.data.liveData);
+	const pageNumbers = [];
+	for (let i = 0; i < Math.ceil(live.length / postsPerPage); i++) {
+		pageNumbers.push(i);
+	}
+	
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+	const getPageData = () => {
+		const start = currentPage * 8;
+		const end = start + 8;
+		return live.slice(start, end);
+	};
+	const handleNext = () => {
+		setCurrentPage(currentPage + 1);
+	};
+	const handlePrevious = () => {
+		setCurrentPage(currentPage - 1);
+	};
 
-  const [postsPerPage, setPostsPerPage] = useState(12);
-  const [currentPage, setCurrentPage] = useState(0);
-  const live = useSelector((store) => store.data.liveData);
-  const pageNumbers = [];
-  for (let i = 0; i < Math.ceil(live.length / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const getPageData = () => {
-    const start = currentPage * 12;
-    const end = start + 12;
-    return live.slice(start, end);
-  };
-  const handleNext = () => {
-    setCurrentPage(currentPage + 1);
-  };
-  const handlePrevious = () => {
-    setCurrentPage(currentPage - 1);
-  };
 
-  let token = localStorage.getItem("adminToken");
 
-  useEffect(() => {
-    dispatch(getLiveData(token));
-  }, [dispatch, token]);
+	useEffect(() => {
+		dispatch(getLiveData(token));
+	}, [dispatch, token,live]);
 
-  // console.log("live", live);
+	
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>

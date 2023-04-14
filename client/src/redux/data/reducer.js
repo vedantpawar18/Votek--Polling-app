@@ -23,6 +23,9 @@ import {
   STOP_POLL_FAILURE,
   STOP_POLL_REQUEST,
   STOP_POLL_SUCCESS,
+  USER_VOTED_FAILURE,
+  USER_VOTED_REQUEST,
+  USER_VOTED_SUCCESS,
 } from "./action";
 
 const initState = {
@@ -32,6 +35,8 @@ const initState = {
   liveData: [],
   dataDetails: [],
   ended: [],
+  userVoted:[],
+  adminDownload:[]
 };
 
 export const dataReducer = (state = initState, action) => {
@@ -149,7 +154,25 @@ export const dataReducer = (state = initState, action) => {
         isLoading: false,
         isError: false,
       };
-
+      case USER_VOTED_REQUEST:
+        return {
+          ...state,
+          isLoading: true,
+          isError: false,
+        };
+      case USER_VOTED_SUCCESS:
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          userVoted: action.payload,
+        };
+      case USER_VOTED_FAILURE:
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+        };
     case GET_LIVE_DATA_REQUEST:
       return {
         ...state,
@@ -189,7 +212,7 @@ export const dataReducer = (state = initState, action) => {
         isLoading: false,
         isError: false,
       };
-
+    
     default:
       return {
         ...state,

@@ -32,6 +32,10 @@ export const ENDED_POLL_REQUEST = "ENDED_POLL_REQUEST";
 export const ENDED_POLL_SUCCESS = "ENDED_POLL_SUCCESS";
 export const ENDED_POLL_FAILURE = "ENDED_POLL_FAILURE";
 
+export const USER_VOTED_REQUEST = "USER_VOTED_REQUEST";
+export const USER_VOTED_SUCCESS = "USER_VOTED_SUCCESS";
+export const USER_VOTED_FAILURE = "USER_VOTED_FAILURE";
+
 
 
 
@@ -219,6 +223,28 @@ export const endedPollFailure = ()=>{
 
 
 
+export const userVotedRequest = ()=>{
+    return({
+        type:USER_VOTED_REQUEST
+    })
+}
+
+
+export const userVotedSuccess = (data)=>{
+    return({
+        type:USER_VOTED_SUCCESS,
+        payload:data
+    })
+}
+
+
+export const userVotedFailure = ()=>{
+    return({
+        type:USER_VOTED_FAILURE
+    })
+}
+
+
 
 
 
@@ -228,7 +254,7 @@ export const postPollData = (data,token)=>(dispatch)=>{
 dispatch(postPollDataRequest())
     return axios({
         method:"POST",
-        url:"http://localhost:8080/firebase/create-poll",
+        url:"https://votek-backend-production.up.railway.app/firebase/create-poll",
         headers:{
           'Authorization' : `Bearer ${token}`
         },
@@ -251,14 +277,14 @@ export const addTemplateData = (data,token)=>(dispatch)=>{
 dispatch(addTemplateDataRequest())
     return axios({
         method:"POST",
-        url:"http://localhost:8080/template/save-template",
+        url:"https://votek-backend-production.up.railway.app/template/save-template",
         headers:{
           'Authorization' : `Bearer ${token}`
         },
         data
     })
     .then((res)=>{
-   
+    //    console.log("res",res)
         dispatch(addTemplateDataSuccess());
     })
     .catch((error)=>{
@@ -276,7 +302,7 @@ export const getTemplateData = (token)=>(dispatch)=>{
 dispatch(getTemplateDataRequest())
     return axios({
         method:"GET",
-        url:"http://localhost:8080/user/user-details",
+        url:"https://votek-backend-production.up.railway.app/user/user-details",
         headers:{
           'Authorization' : `Bearer ${token}`
         }
@@ -298,7 +324,7 @@ export const getTemplateByIdData = (id,token)=>(dispatch)=>{
 dispatch(getTemplateByIdDataRequest())
     return axios({
         method:"GET",
-        url:`http://localhost:8080/template/get-template/${id}`,
+        url:`https://votek-backend-production.up.railway.app/template/get-template/${id}`,
         headers:{
           'Authorization' : `Bearer ${token}`
         }
@@ -321,7 +347,7 @@ export const getAllData = (token)=>(dispatch)=>{
 dispatch(getAllDataRequest())
     return axios({
         method:"GET",
-        url:"http://localhost:8080/user/user-details",
+        url:"https://votek-backend-production.up.railway.app/user/user-details",
         headers:{
           'Authorization' : `Bearer ${token}`
         }
@@ -339,7 +365,7 @@ export const getLiveData = (token)=>(dispatch)=>{
     dispatch(getLiveDataRequest())
         return axios({
             method:"GET",
-            url:"http://localhost:8080/firebase/live-polls",
+            url:"https://votek-backend-production.up.railway.app/firebase/live-polls",
             headers:{
               'Authorization' : `Bearer ${token}`
             }
@@ -363,7 +389,7 @@ export const getLiveData = (token)=>(dispatch)=>{
         dispatch(stopPollRequest())
             return axios({
                 method:"POST",
-                url:"http://localhost:8080/poll/save-poll",
+                url:"https://votek-backend-production.up.railway.app/poll/save-poll",
                 headers:{
                   'Authorization' : `Bearer ${token}`
                 },
@@ -383,7 +409,7 @@ export const getLiveData = (token)=>(dispatch)=>{
         dispatch(endedPollRequest())
             return axios({
                 method:"GET",
-                url:"http://localhost:8080/poll/ended-polls",
+                url:"https://votek-backend-production.up.railway.app/poll/ended-polls",
                 headers:{
                   'Authorization' : `Bearer ${token}`
                 }
@@ -398,5 +424,26 @@ export const getLiveData = (token)=>(dispatch)=>{
             })
         } 
 
+        export const userVotedData = (data,token)=>(dispatch)=>{
 
-        // /poll/ended-polls
+            dispatch(userVotedRequest())
+                return axios({
+                    method:"POST",
+                    url:"https://votek-backend-production.up.railway.app/poll/polls/votedBy",
+                    headers:{
+                      'Authorization' : `Bearer ${token}`,
+                      'Content-Type': 'application/json'
+                    },
+                    data:JSON.stringify(data)
+                })
+                .then((res)=>{
+                   dispatch(userVotedSuccess(res.data));
+                })
+                .catch((error)=>{
+                 dispatch(userVotedFailure(error))
+                })
+            } 
+
+
+
+         

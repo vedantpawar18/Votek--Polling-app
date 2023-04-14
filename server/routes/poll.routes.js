@@ -71,10 +71,9 @@ pollController.get('/ended-polls',async(req, res) => {
    }
 });
 
-pollController.get('/polls/votedBy', async (req, res) => {
+pollController.post('/polls/votedBy', async (req, res) => {
   try {
     const {pollId, questionId, optionId}= req.body;
-
     const poll = await PollModel.findOne({ pollId: pollId });
     if (!poll) {
       return res.status(404).json({ error: 'Poll not found' });
