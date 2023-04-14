@@ -32,7 +32,8 @@ firebaseController.post("/create-poll", async (req, res) => {
         { email: userToken.email },
         { $push: { pollsCreated: { pollId: pollId } } }
       );
-      const pollUrl = `http://localhost:8080/firebase/live-poll/${pollId}`;
+      
+      const pollUrl = `https://votek.netlify.app/event/${pollId}`;
       const formattedQuestions = questions.map((question) => {
         const questionRef = pollRef.child("questions").push();
         const questionId = questionRef.key;

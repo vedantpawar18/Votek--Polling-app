@@ -77,9 +77,9 @@ pollController.post('/polls/votedBy', async (req, res) => {
     const poll = await PollModel.findOne({ pollId: pollId });
     if (!poll) {
       return res.status(404).json({ error: 'Poll not found' });
-    }
+    } 
     
-    const question = poll.questions.find(q =>q._id.toString() === questionId);
+    const question = poll.questions.find(q =>q._id.toString() === questionId); 
     if (!question) {
       return res.status(404).json({ error: 'Question not found' });
     }
