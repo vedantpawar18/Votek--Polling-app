@@ -28,7 +28,7 @@ const UserVoted = () => {
 
 const data = useSelector((store)=>store.data.userVoted)
 
-// console.log("data",data)
+
     useEffect(()=>{
         let data = {
             pollId:pollId,

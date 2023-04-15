@@ -27,9 +27,10 @@ export const signInAuthSuccess = (auth)=>{
 }
 
 
-export const signInAuthFailure = ()=>{
+export const signInAuthFailure = (err)=>{
     return({
-        type:SIGNIN_AUTH_FAILURE
+        type:SIGNIN_AUTH_FAILURE,
+        payload:err
     })
 }
 
@@ -48,9 +49,10 @@ export const signUpSuccess = (auth)=>{
 }
 
 
-export const signUpFailure = ()=>{
+export const signUpFailure = (err)=>{
     return({
-        type:SIGNUP_AUTH_FAILURE
+        type:SIGNUP_AUTH_FAILURE,
+        payload:err
     })
 }
 
@@ -64,8 +66,9 @@ dispatch(signInAuthRequest())
         data
     })
     .then((res)=>{
+       
         dispatch(signInAuthSuccess(res.data))
-      
+         
         if(res.data.role!=="admin"){
             localStorage.setItem("userToken",res.data.token.primaryToken);
             localStorage.setItem("userName",res.data.fullName);
@@ -78,6 +81,7 @@ dispatch(signInAuthRequest())
         
     })
     .catch((error)=>{
+   
      dispatch(signInAuthFailure(error))
      
     })
@@ -93,7 +97,8 @@ export const signUp = (data)=>(dispatch)=>{
             data
         })
         .then((res)=>{
-            dispatch(signUpRequest(res.data));
+            
+            dispatch(signUpSuccess(res.data));
           
             localStorage.setItem("userToken",res.data.token.primaryToken);
             localStorage.setItem("userName",res.data.fullName);

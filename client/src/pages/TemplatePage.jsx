@@ -33,7 +33,7 @@ import image_1 from "../images/image_1.png";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useDispatch } from "react-redux";
-import { getAllData, postPollData } from "../redux/data/action";
+import { getAllData, getTemplateByIdData, postPollData } from "../redux/data/action";
 import { useSelector } from "react-redux";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
 import { BiSearchAlt } from "react-icons/bi";
@@ -45,12 +45,12 @@ function TemplatePage() {
 
 
 	const data = useSelector((store) => store.data.data) || [];
-	// console.log("data",data)
+
 	const dispatch = useDispatch();
 	const [dataArray, setDataArray] = useState([]);
-
+	const dataById = useSelector((store)=>store.data.dataDetails)||[]
 	const [searchTerm, setSearchTerm] = useState("");
-
+    const [pollName, setPollName] = useState("")
 	const [postsPerPage, setPostsPerPage] = useState(8);
 	const [currentPage, setCurrentPage] = useState(0);
 
@@ -78,7 +78,7 @@ function TemplatePage() {
 
 	useEffect(() => {
 		// dispatch(getTemplateByIdData(token))
-		// console.log("working")
+	
 		dispatch(getAllData(token));
 	
 	}, [dataArray]);
@@ -96,19 +96,14 @@ function TemplatePage() {
 		localStorage.setItem("templateName", name);
 	};
 
-	// console.log("template data",data)
 
+	// useEffect(()=>{
+	// 	dispatch(getTemplateByIdData(id,token))
+	//   },[dispatch,id,token])
 
-	const handleSubmit = (item) => {
-		//   const data = {
-		//      pollName:item.pollName,
-		//      questions: item.questions,
-		//      pollStatus:true,
-		//      pollCreatedAt:Date.now(),
-		//      pollEndsAt:Date.now() + 8 * 60 * 30 * 1000
-		// };
-		// dispatch(postPollData(data,token))
-
+	const handleSubmit = (id) => {
+		dispatch(getTemplateByIdData(id,token))
+		
 		toast({
 			title: "Poll created.",
 			description: "We've created your poll.",
@@ -117,6 +112,21 @@ function TemplatePage() {
 			isClosable: true,
 		});
 	};
+
+
+useEffect(()=>{
+	if(dataById.length!==0){
+		const data = {
+			pollName:pollName,
+			questions: dataById?.template?.questions,
+			pollStatus:true,
+			pollCreatedAt:Date.now(),
+			pollEndsAt:Date.now() + 8 * 60 * 30 * 1000
+	   };
+	   dispatch(postPollData(data,token))
+	}
+},[dataById])
+
 
 	return (
 		<>
@@ -222,6 +232,7 @@ function TemplatePage() {
 												color={"white"}
 												marginLeft={"5px"}
 												onClick={onOpen}
+												
 											>
 												Start poll
 											</Button>
@@ -241,7 +252,7 @@ function TemplatePage() {
 															<Input
 																ref={initialRef}
 																placeholder="Poll name"
-																onChange={"(e)=>setTemplate(e.target.value)"}
+																onChange={(e)=>setPollName(e.target.value)}
 															/>
 														</FormControl>
 													</ModalBody>
@@ -250,7 +261,7 @@ function TemplatePage() {
 														<Button
 															bg={"red.400"}
 															color={"white"}
-															onClick={"handleCreateTemplate"}
+															onClick={()=>handleSubmit(item.templateId)}
 															mr={3}
 														>
 															Start

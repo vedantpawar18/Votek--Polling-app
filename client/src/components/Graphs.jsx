@@ -64,9 +64,13 @@ export default function Graphs(item) {
 		localStorage.setItem("pollId",item?.pollData[0]?.pollId);
 		localStorage.setItem("optionId",oId);
 		localStorage.setItem("questionId",item?.pollData[0]?.questions[0]?._id);
-		
-         navigate('/user-voted')
+		if(!item?.pollData[0]?.pollStatus){
+            navigate('/user-voted')
+        }
+        
     };
+
+
     return (
         <>
             <div id="canvas-container">

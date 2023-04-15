@@ -14,6 +14,7 @@ import {
   Link,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
@@ -27,6 +28,8 @@ import Layout from "../components/Layout";
 
 export default function SignIn() {
   const data = useSelector((store) => store.auth.auth);
+  const error = useSelector((store) => store.auth.error);
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -34,7 +37,7 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const toast = useToast()
   const handleClick = () => {
     let emailCheck = false;
     let passCheck = false;
@@ -73,10 +76,33 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    if (data?.token?.primaryToken) {
-      navigate("/dashboard");
+    if(data?.role==="user"){
+    
+        navigate("/dashboard");
+
+    }else{
+      if (data?.token?.primaryToken) {
+        navigate("/create");
+      }
     }
-  }, [data]);
+
+   
+  }, [data,navigate,error]);
+
+
+useEffect(()=>{
+  if(error?.response?.data?.msg){
+    toast({
+      title: 'Wrong cridentials.',
+      description: "Please check the email and password once.",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
+}
+},[error,toast])
+
+
 
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
