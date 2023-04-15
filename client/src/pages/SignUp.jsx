@@ -13,7 +13,8 @@ import {
     InputRightElement,
     Link,
     Stack,
-    Text
+    Text,
+    useToast
   } from '@chakra-ui/react';
   
 import { useEffect, useState } from 'react';
@@ -35,8 +36,8 @@ import { useNavigate } from 'react-router-dom';
     const data = useSelector((store)=>store.auth.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-
+    const toast = useToast()
+    const error = useSelector((store) => store.auth.error);
 
 const handleClick = ()=>{
   
@@ -80,7 +81,9 @@ if(name.length<3){
             dispatch(signUp(postData))
     
         }else{
-           
+          
+        
+    
         }
         
 }
@@ -93,7 +96,24 @@ useEffect(()=>{
     navigate("/dashboard")
   }
   
-  },[data])
+  },[data,navigate])
+
+
+useEffect(()=>{
+if(error?.response?.data){
+  toast({
+    title: 'Account already exist.',
+    description: "Please login.",
+    status: 'warning',
+    duration: 9000,
+    isClosable: true,
+  })
+}
+  
+},[error,toast])
+
+
+
 
 
     return (

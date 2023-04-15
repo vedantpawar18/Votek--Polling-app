@@ -30,7 +30,7 @@ function LivePoll() {
 	let token = localStorage.getItem("adminToken");
 	const [postsPerPage, setPostsPerPage] = useState(8);
 	const [currentPage, setCurrentPage] = useState(0);
-	const live = useSelector((store) => store.data.liveData);
+	const live = useSelector((store) => store.data.liveData).reverse();
 	const pageNumbers = [];
 	for (let i = 0; i < Math.ceil(live.length / postsPerPage); i++) {
 		pageNumbers.push(i);

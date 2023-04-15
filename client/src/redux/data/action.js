@@ -261,7 +261,7 @@ dispatch(postPollDataRequest())
         data
     })
     .then((res)=>{
-       
+   
         dispatch(postPollDataRequest());
     })
     .catch((error)=>{
@@ -284,7 +284,7 @@ dispatch(addTemplateDataRequest())
         data
     })
     .then((res)=>{
-    //    console.log("res",res)
+
         dispatch(addTemplateDataSuccess());
     })
     .catch((error)=>{

@@ -455,7 +455,7 @@ function CreatePoll() {
           </Box>
         </Flex>
       </Box>
-    </>
+    </Box>
   );
 }
 
