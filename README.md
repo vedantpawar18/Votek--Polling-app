@@ -9,7 +9,7 @@ This app can be used for various purposes such as conducting surveys, gathering 
 
 ```bash
 # Clone repository
-$ git clone https://github.com/masai-builds/Team8.git
+$ git clone https://github.com/masai-builds/Votek
 ```
 Install dependencies via NPM 
 
@@ -71,19 +71,19 @@ Pratik Dutta (EM/Project Guide)
 
 # API :
 ### Users
-- POST user/verify
 - POST user/signup
 - POST auth/signin
-- POST auth/verifyotp
-- POST auth/forget
-- POST auth/reset
+- GET  user/user-details
 
-### Dashboard :
-- GET dashboard/dashboard-details
-- POST dashboard/create-course
-- POST dashboard/user-data-collection
-- POST dashboard/user-applied
-- POST dashboard/notification-medium
+### Admin : 
+- POST firebase/create-poll
+- POST firebase/vote
+- GET  firebase/live-polls
+- GET  firebase/live-poll/:pollId
+- POST poll/save-poll
+- GET  poll/ended-polls
+- POST poll/polls/votedBy
+- POST poll/download/votedby/:pollId/question/:questionId/option/:optionId
 
 # Features :
 - User friendly and responsive web design
