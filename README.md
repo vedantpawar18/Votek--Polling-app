@@ -77,13 +77,16 @@ Pratik Dutta (EM/Project Guide)
 
 ### Admin : 
 - POST firebase/create-poll
-- POST firebase/vote
 - GET  firebase/live-polls
-- GET  firebase/live-poll/:pollId
 - POST poll/save-poll
 - GET  poll/ended-polls
 - POST poll/polls/votedBy
 - POST poll/download/votedby/:pollId/question/:questionId/option/:optionId
+- POST template/save-template
+
+### User : 
+- POST firebase/vote
+- GET  firebase/live-poll/:pollId
 
 # Features :
 - User friendly and responsive web design
