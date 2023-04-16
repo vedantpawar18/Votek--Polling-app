@@ -90,17 +90,15 @@ Pratik Dutta (EM/Project Guide)
 # Features :
 - User friendly and responsive web design
 - Made with mobile first approach
-- Sign Up with email, mobile or password
-- OTP verification while sign Up
-- Google auth for sign UP
-- Sign In with email, mobile or passsword
-- OTP verification while sign In
-- Google auth for sign In
-- User can apply to the course from the dashboard
-- User Form for each user
-- User can attend MSAT exam
-- Based on the scores received user will be informed if passed or failed
-- All the data will be stored at the data base
+- Sign Up with email and password
+- Admins can create three types of polls: poll, multi-select, and rating.
+- After creating a poll, admins can share the poll URL with others via social media, email, or other means.
+- Admins can view real-time data on the number of votes cast for each option.
+- Admins can see who has voted in the poll and which option they selected.
+- Admins can download an Excel sheet with detailed information on all votes cast.
+- Users must log in to the app to vote, ensuring that only authorized users can cast their ballots.
+- Users can select the options they want to vote for and submit their votes.
+- Ensure that the voting system is secure and free from tampering or manipulation.
 
 # Pages : 
 
