@@ -87,6 +87,11 @@ Pratik Dutta (EM/Project Guide)
 - POST poll/download/votedby/:pollId/question/:questionId/option/:optionId
 - POST template/save-template
  
+## To Create a Poll :
+### Sign in as admin :
+### Credentials : 
+- Email: admin@gmail.com
+- Password: 12345678
 
 # Features :
 - User friendly and responsive web design
