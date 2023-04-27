@@ -111,7 +111,7 @@ Pratik Dutta (EM/Project Guide)
 ![votek](https://user-images.githubusercontent.com/101568818/232305888-67235c1a-6f29-4991-a33f-a604a184b783.png)
 
 ## Deployment Link: 
-
+https://votek.netlify.app/
 
 ## Feedback: 
 If you have any feedback, any suggestion please reach out to us at 
