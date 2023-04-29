@@ -109,6 +109,8 @@ Pratik Dutta (EM/Project Guide)
 # Pages : 
 ## Dashboard : 
 ![votek](https://user-images.githubusercontent.com/101568818/232305888-67235c1a-6f29-4991-a33f-a604a184b783.png)
+![screenshot-votek netlify app-2023 04 29-08_58_14](https://user-images.githubusercontent.com/101568818/235281450-89d5638a-a0f7-44de-b98b-eccacd944295.png)
+![screenshot-votek netlify app-2023 04 29-08_58_48](https://user-images.githubusercontent.com/101568818/235281464-9b9586e8-3c20-4b06-aa75-c68c9e84dc28.png)
 
 ## Deployment Link: 
 https://votek.netlify.app/
